@@ -13,7 +13,7 @@ def working():
 
 def make():    
     OOMP_parts_BASE.createAllParts()    
-    OOMP_parts_EDA.matchFootprintsSymbols() ##### adds a symbol or footprint file detailFootprintsOOMP
+    #OOMP_parts_EDA.matchFootprintsSymbols() ##### adds a symbol or footprint file detailFootprintsOOMP
     pass
 
 def harvest():

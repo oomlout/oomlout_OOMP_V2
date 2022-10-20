@@ -8,7 +8,7 @@ from oomBase import *
 def createParts():
     print("    Generating JLCC Parts")
     pass
-    partsFile = OOMP.getDir("collections") +"COLLECTION-PARTL-JLCC-BASIC-01/current.csv"
+    partsFile = "csv/C-JLCC-basicPartList.csv"
 
     contents = oomReadFileToString(partsFile)
 
@@ -105,27 +105,28 @@ def matchColor(part):
 
     return part
 
-
 def matchDesc(part):
     description = part["Description"]
     ###### capacitor    
     if part["oompType"] == "CAPC":
         match = False
-        for test in OOMP.tagDetails:
-            if test["category"] == "desc":
-                if test["name"].replace(" ","") in description and test["name"] != "" and test["name"] != "SMD" and not match:
-                    part["oompDesc"] = test["code"]
-                    match = True
+        for test in OOMP.tagDetails["desc"]:
+            name = OOMP.tagDetails["desc"][test]["name"]
+            code = OOMP.tagDetails["desc"][test]["code"]
+            if name.replace(" ","") in description and name != "" and name != "SMD" and not match:
+                part["oompDesc"] = code
+                match = True
     ###### Resistor    
     if part["oompType"] == "RESE":
         match = False
-        for test in OOMP.tagDetails:
-            if test["category"] == "desc":
-                if "Ohm" in test["name"]:
-                    testString = test["name"].replace(" Ohm","?? ") + part["oompSize"]
-                    if testString in description:
-                        part["oompDesc"] = test["code"]
-                        match = True 
+        for test in OOMP.tagDetails["desc"]:            
+            name = OOMP.tagDetails["desc"][test]["name"]
+            code = OOMP.tagDetails["desc"][test]["code"]
+            if "Ohm" in name:
+                testString = name.replace(" Ohm","?? ") + part["oompSize"]
+                if testString in description:
+                    part["oompDesc"] = code
+                    match = True 
     return part
 
 

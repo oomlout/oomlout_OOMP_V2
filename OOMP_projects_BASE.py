@@ -1,6 +1,4 @@
 import OOMP
-import OOMPproject
-import OOMPprojectParts
 from oomBase import *
 
 import OOMP_projects_partsMatch
@@ -18,6 +16,12 @@ import OOMP_projects_SEED
 import OOMP_projects_SIRB
 import OOMP_projects_SOPA
 import OOMP_projects_SPAR
+
+def preMakeAllProjects():
+    OOMP_projects_SPAR.farmProjects() ###### get repo list
+    OOMP_projects_SPAR.makeBaseProjects() ###### git pulls and makes project
+    OOMP_projects_ADAF.farmProjects() ###### get repo list
+    OOMP_projects_ADAF.makeBaseProjects() ###### git pulls and makes project
 
 def createAllProjects():
     OOMP_projects_IBBC.createProjects()
@@ -37,7 +41,7 @@ def getRepos(user):
         print("        Page: " + str(page) + " current repos: " + str(len(repos)))
         url = "https://api.github.com/users/" + user + "/repos?per_page=100&page=" + str(page)
         response  = urlopen(url)
-        oomDelay(2)
+        oomDelay(5)
         result = json.loads(response.read())
         for item in result:
             try:
@@ -53,74 +57,16 @@ def getRepos(user):
 
 
 def makeProject(d):
-    type = d["oompType"]
-    size = d["oompSize"]
-    color = d["oompColor"]
-    desc = d["oompDesc"]
-    index = d["oompIndex"]
-
-    hexID = d["hexID"]
-
-    oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
-
-    inputFile = "templates/projectsTemplate.py"
-    outputDir = "C:/GH/oomlout_OOMP/oomlout_OOMP_projects/" + oompID + "/"
-    outputFile = outputDir + "details.py"
-
-    print("Making: " + outputFile)
-
-    contents = oomReadFileToString(inputFile)
-    contents = contents.replace("TYPEZZ",type)
-    contents = contents.replace("SIZEZZ",size)
-    contents = contents.replace("COLORZZ",color)
-    contents = contents.replace("DESCZZ",desc)
-    contents = contents.replace("INDEXZZ",index)
-    contents = contents.replace("HEXZZ",hexID)
-
-    repoName =""
-    try:
-        sp = d["gitRepo"].split("/")
-        repoName = sp[len(sp)-1]
-    except:
-        pass
-
-    extraTags = []
-    tagString = ""
-    extraTags.append(["name",d["name"]])
-    try:
-        extraTags.append(["gitRepo",d["gitRepo"]])
-    except:
-        pass
-    extraTags.append(["gitName",repoName])
-    try:
-        extraTags.append(["eagleBoard",d["eagleBoard"]])
-    except:
-        pass
-    try:
-        extraTags.append(["kicadBoard",d["kicadBoard"]])
-    except:
-        pass
-    try:
-        extraTags.append(["eagleSchem",d["eagleSchem"]])
-    except:
-        pass
-    try:
-        extraTags.append(["kicadSchem",d["kicadSchem"]])
-    except:
-        pass
-    for tag in extraTags:
-        tagString = tagString + tag.getPythonLine() + "\n"
-
-    contents = contents.replace("EXTRAZZ",tagString)
-
-    oomWriteToFile(outputFile,contents)
-
+    raise exception("Should no longer be used")
+    
 def makeProjectNew(d):
     type = d["oompType"]
     size = d["oompSize"]
 
-
-    color = str(d["count"]).zfill(4)
+    try:
+        color = str(d["count"]).zfill(4)
+    except:
+        color = str(d["oompIndex"]).zfill(4)
     desc = "STAN"
     index = "01"
     try:
@@ -128,13 +74,20 @@ def makeProjectNew(d):
     except:
         pass
 
+    ind = 0000
+    try:
+        ind = str(d["count"]).zfill(4)
+    except:
+        ind = str(d["oompColor"])
 
-    hexID = "PR" + type[0:2] + str(d["count"])
+    hexID = "PR" + type[0:2] + str(ind)
 
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+    oompSlashes = oompID.replace("-","/")
 
-    inputFile = "templates/projectsTemplate.py"
-    outputDir = OOMP.baseDir + "/oomlout_OOMP_projects/" + oompID + "/"
+    inputFile = "templates/partsTemplate.py"
+    outputDir = OOMP.baseDir + OOMP.getDir("projects") + oompSlashes + "/"
+    oomMakeDir(outputDir)
     outputFile = outputDir + "details.py"
 
     print("Making: " + outputFile)
@@ -164,27 +117,37 @@ def makeProjectNew(d):
 
     contents = contents.replace("EXTRAZZ",tagString)
 
+
+
     oomWriteToFile(outputFile,contents)
 
-def harvestProjects(filter="",exclusions="NONE"):
+def harvestProjects(filter="",exclusions="NONE",easy=False,all=False):
     neverString = "nnmmkjkjoijlknlkzzzz"
     if exclusions == "NONE":
         exclusions= neverString
-    oomLaunchKicad()
-    for project in OOMP.itemsTypes["projects"]:
-        oompID = project.getID()
-        test = project.getTag("gitRepo").value
-        test =  "GO"
+    if not easy:
+        oomLaunchKicad()
+    test = OOMP.items
+    for project in OOMP.itemsTypes["projects"]["items"]:
         skip = ["PROJ-SEED-20054-STAN-01"]
-        if test != "" and oompID not in skip:
-            testID = project.getID()
-            if filter in testID and exclusions not in testID:
-                harvestProject(project,all=True)
-    for part in OOMP.getItems("parts"):
-        part.exportTags("detailsInstancesOomp",["oompInstances"]) 
-   
+        if project not in skip:
+            if filter in project and exclusions not in project:
+                harvestProject(project,all=all,easy=easy)
+    #for part in OOMP.getItems("parts"):
+    #    pass
+        #part.exportTags("detailsInstancesOomp",["oompInstances"]) 
 
-def harvestProject(project,all=False,dict="",overwrite=False):
+def farmProjects(user,code):
+    print("Farming Projects for :" + code)
+    #genFile = "OOMP_projects_" + code + "_gen.py"
+    repos = getRepos(user=user)
+    print("    Found " + str(len(repos)) + " repos")
+    oomMakeDir("json/")
+    filename = "json/oomp_Projects_" + code + "_repoRaw.json"
+    oomWriteToFile(filename,json.dumps(repos))
+
+
+def harvestProject(project,all=False,easy=False,dict="",overwrite=False):
     oompID = project.getID()
     print("Harvesting Project: " + oompID)
 
@@ -192,10 +155,10 @@ def harvestProject(project,all=False,dict="",overwrite=False):
         if dict["all"]:
             all = True
 
-    if all or dict["gitPull"]:
+    if all or easy or dict["gitPull"]:
         pass
         gitPullProject(project)
-    if all or dict["copyBaseFiles"]:
+    if all or easy or  dict["copyBaseFiles"]:
         pass
         copyBaseFilesProject(project)
     if all or dict["harvestEagle"]:        
@@ -208,6 +171,137 @@ def harvestProject(project,all=False,dict="",overwrite=False):
         pass
         OOMP_projects_partsMatch.matchParts(project)
 
+def makeBaseProjects(company,code):
+
+    print("Harvesting " + company + " Projects")
+    repoString = ""
+    filename = "json/oomp_Projects_" + code + "_repoRaw.json"
+    repos = json.loads(oomReadFileToString(filename))
+    projects = []
+    exportFile = "OOMP_projects_" + code + "_generated.py"
+    contents = ""
+    contents = contents + """
+###### THIS FILE IS GENERATED BY OOMP_projects_BASE.py
+import OOMP_projects_BASE
+
+def createProjects():
+    projects = []    
+    
+"""
+    oomWriteToFile(exportFile,contents)
+    for repo in repos:
+        print("    Harvesting: " + repo)
+        outDir = oomGitPullNew(repo,"sourceFiles/git/")  
+        
+        
+        base = {}
+        base["oompType"] = "PROJ"
+        base["oompSize"] = code
+        base["format"] = "eagle"
+        base["github"] = "https://github.com/" + company + "/"
+        d = base.copy()
+        d["repo"] = repo.replace("https://github.com/" + company + "/","").replace(".git","")
+        
+        d = processDir(outDir,d,company,code)
+        if d != None:
+            run = False
+            try:   ###### exit if no count was found (project ID)
+                a = d["count"]
+                run = True
+            except:
+                pass
+            if run:
+                oomAddLineToFile(exportFile,"    projects.append(" + str(d) + ")")
+            #OOMP_projects_BASE.makeProjectNew(d)
+    contents = """
+
+    for d in projects:
+        OOMP_projects_BASE.makeProjectNew(d) 
+    
+    """
+    oomAddLineToFile(exportFile,contents)
+
+def processDir(directory,d,company,code):
+    readmeFile = ""
+    boardFile = ""
+    schematicFile = ""
+    licenseFile = ""
+    index = 0
+
+    ############ Finding Files
+    ###### Test if it has a hardware path
+    if True:
+        files = [f for f in os.listdir(directory)]
+        #print(files)
+        filter = "*.brd"
+        filter = "**/*.brd"
+        files = glob.glob(directory + filter,recursive=True)
+        if len(files) > 0:
+            name = d["repo"].replace("_"," ").replace("-"," ")
+            d["name"] = name 
+            if len(files) > 1:
+                print("    More than one board file found")
+            
+            d["file"] = files[0].replace("sourceFiles/git/" + d["repo"].replace(".git",""),"").replace(".brd","").replace("\\","/")
+            filter = "license.md"
+            files = glob.glob(directory + filter)
+            if len(files) > 0:
+                licenseFile = files[0]
+            filter = "readme.md"
+            files = glob.glob(directory + filter)
+            if len(files) > 0:
+                readmeFile = files[0]
+                extraTags = []
+                if code == "SPAR":
+                    if readmeFile != "":
+                        print("        Found Readme")
+                        readme = oomReadFileToString(readmeFile)
+                        
+                        index = stringBetween(readme,"https://www.sparkfun.com/products/","\\)")
+                        if not index.isnumeric():
+                            index = stringBetween(readme,'href="https://www.sparkfun.com/products/','">')   
+                        if not index.isnumeric():
+                            index = stringBetween(readme,'href="https://www.sparkfun.com/products/','">')   
+                        if not index.isnumeric():
+                            ###### for debugging skipped repositories
+                            c=0    
+                        d["count"] = index
+                        print ("            Index: " + str(index))
+                        
+                        extraTags.append(["sources","All source files from https://github.com/sparkfun/" + name.replace(" ","_") + " (source licence details in srcLicense.md)"])
+                        extraTags.append(["linkBuyPage","https://www.sparkfun.com/products/" + str(index)])
+                if code == "ADAF":
+                    if readmeFile != "":
+                        print("        Found Readme")
+                        readme = oomReadFileToString(readmeFile)
+                        index = stringBetween(readme,'href="http://www.adafruit.com/products/','">')
+                        d["count"] = index
+                        print ("            Index: " + str(index))                        
+                if index != 0 and index != "":
+                    ############ Making OOMP file
+                    oompType = "PROJ"
+                    oompSize = code
+                    oompColor = str(index).zfill(4)
+                    oompDesc = "STAN"
+                    oompIndex = "01" 
+                    hexID = "PRS" + index   
+                    directory = OOMP.getDir("projects") + oompType + "/"  + oompSize + "/"  + oompColor + "/"  + oompDesc + "/"  + oompIndex + "/"
+                    oomMakeDir(directory)  
+                    ############ Moving Files
+                    if readmeFile != "":
+                        oomCopyFile(readmeFile, directory + "srcReadme.md")
+                    if licenseFile != "":    
+                        oomCopyFile(licenseFile, directory + "srcLicense.md")
+                                   
+                return d
+            return None
+        else:
+            print("SKIPING")
+                #delay(1)
+            return None
+
+
+
 def gitPullProject(project):
     print("    Pulling or cloning project ")
     gitRepo = project.getTag("gitRepo").value
@@ -216,7 +310,7 @@ def gitPullProject(project):
         #raise Exception("No git repo for project")
     else:
         pass
-        oomGitPullNew(gitRepo,"sourceFiles/projects/")
+        oomGitPullNew(gitRepo,"sourceFiles/git/")
 
 def copyBaseFilesProject(project):
     print("    Copying Base Files ")

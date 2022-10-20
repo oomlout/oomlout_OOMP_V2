@@ -11,6 +11,7 @@ def createAllParts():
     OOMP_parts_OOML.createParts()
     OOMP_parts_JLCC.createParts()
 
+
 def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dict=""):
     if dict != "":
         type = dict["type"]
@@ -25,10 +26,11 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
             pass
 
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+    oompSlashes = oompID.replace("-","/")
     print("Making part: " + oompID)
 
     inputFile = "templates/partsTemplate.py"
-    outputDir = OOMP.baseDir + OOMP.getDir("parts") + oompID + "/"
+    outputDir = OOMP.baseDir + OOMP.getDir("parts") + oompSlashes + "/"
     oomMakeDir(outputDir)
     outputFile = outputDir + "details.py"
 

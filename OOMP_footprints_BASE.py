@@ -1,5 +1,4 @@
 import OOMP
-import OOMPeda
 from oomBase import *
 
 import OOMP_symbols_BASE
@@ -21,7 +20,7 @@ git = 'oomlout_OOMP_kicad'
 footprintGits[git] = {}
 footprintGits[git]["code"] = git
 footprintGits[git]["url"] = 'https://github.com/oomlout/oomlout_OOMP_kicad'
-footprintGits[git]["name"] = "Oomlouts Footprints"
+footprintGits[git]["name"] = "Oomlout's Footprints"
 footprintGits[git]["description"] = "Oomlout's kicad footprint library."
 ######
 git = 'kicad-footprints'
@@ -31,14 +30,12 @@ footprintGits[git]["url"] = 'https://gitlab.com/kicad/libraries/kicad-footprints
 footprintGits[git]["name"] = "Kicad Default Footprints"
 footprintGits[git]["description"] = "Kicad's default footprint library."
 
-
-
 def gitPull():
     gits= []
-    dir = "sourceFiles/git/kicadStuff/"
+    dir = "sourceFiles/git/kicadFootprints/"
     oomMakeDir(dir)
     for git in footprintGits:
-        oomGitPull(footprintGits[git]["url"],dir)
+        oomGitPullNew(footprintGits[git]["url"],dir)
 
     
 def createAllFootprints():
@@ -94,6 +91,52 @@ def createFootprintLibrary(directory="oomlout_OOMP_kicad/oomlout_OOMP_parts.pret
             else:
                 print("        Skipping")
 
+def makeFootprint(d):
+    type = d["oompType"]
+    size = d["oompSize"]
+    color = d["oompColor"]
+    desc = d["oompDesc"]   
+    index = d["oompIndex"]
+
+    hexID = d["hexID"]
+
+    oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+
+    #print("    Making Footprint")
+    ping()
+
+    oompSlashes = type + "/" + size + "/" + color + "/" + desc + "/" + index + "/"
+
+    inputFile = "templates/partsTemplate.py"
+    outputDir = OOMP.getDir("eda") + oompSlashes
+    outputFile = outputDir + "details.py"
+
+    #print("Making: " + outputFile) n
+
+    contents = oomReadFileToString(inputFile)
+    contents = contents.replace("TYPEZZ",type)
+    contents = contents.replace("SIZEZZ",size)
+    contents = contents.replace("COLORZZ",color)
+    contents = contents.replace("DESCZZ",desc)
+    contents = contents.replace("INDEXZZ",index)
+    contents = contents.replace("HEXZZ",hexID)
+
+    repoName = ""
+
+    skipTags = ["oompType","oompSize","oompColor","oompDesc","oompIndex","FOOTPRINT","hexID"]
+
+    extraTags = []
+    for tag in d:
+        if tag not in skipTags:
+            extraTags.append([tag,d[tag]])        
+    tagString = ""
+    for tag in extraTags:
+        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1]) + "\n"
+
+    contents = contents.replace("EXTRAZZ",tagString)
+
+    oomWriteToFile(outputFile,contents)
+    pass
 
     
 

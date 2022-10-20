@@ -66,7 +66,8 @@ def working():
     single(oompID)
 
 
-
+def preMake():
+    OOMP_projects_BASE.preMakeAllProjects()
 
 def make():
     OOMP_projects_BASE.createAllProjects()

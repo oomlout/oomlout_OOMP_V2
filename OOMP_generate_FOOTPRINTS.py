@@ -1,6 +1,5 @@
 import OOMP_footprints
 import OOMP_footprints_BASE
-import OOMP_base
 import OOMP
 import OOMP_parts
 

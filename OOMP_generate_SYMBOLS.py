@@ -1,10 +1,11 @@
 import OOMP_symbols
+import OOMP_symbols_BASE
 import OOMP_parts
-import OOMP_summaries
 import OOMP
-import OOMP_base
 
 
+#OOMP_symbols_BASE.gitPull()
+OOMP_symbols_BASE.createAllSymbols()
 
 ###### if you change a symbol need to run this before everything is fixed
 def generateChanges():
@@ -23,4 +24,4 @@ def generateChanges():
 
 #OOMP_symbols.harvest()
 
-generateChanges()
+#generateChanges()

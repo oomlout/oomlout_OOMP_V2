@@ -1,10 +1,5 @@
-import collections
 import os
-from pyclbr import readmodule_ex
-import random
-import shutil
 import time
-from wsgiref.handlers import BaseCGIHandler
 import json
 from oomBase import *
 
@@ -12,24 +7,52 @@ import importlib
 
 baseDir = ""
 
-def getPythonLine(part="newPart",tagName="",tagValue=""):  
+def getPythonLine(part="newPart",tagName="",tagValue="",indent="    "):  
     if isinstance(tagValue,dict) or isinstance(tagValue,list) :
-        rv = part + "['" + tagName + "'].append(" + str(tagValue).replace("\\","") + ")\n" 
+        rv = indent + part + "['" + tagName + "'].append(" + str(tagValue).replace("\\","") + ")" 
     else:     
-        rv =  part + "['" + tagName + "'].append('" + str(tagValue) + "')\n"     
+        rv = indent +  part + "['" + tagName + "'].append('" + str(tagValue) + "')"     
     return rv
     
 def preloadItem(newPart):
     for tag in tagNames:
         newPart[tagNames[tag]["code"]] = []
+    return newPart
 
-######  FILENAME AND DIRECTORY ROUTINES
+def getDir(type, base=False):
+    global baseDir
+    rv = ""
+    if base:
+        rv = baseDir
+    for t in repos:    
+        if type.lower() == t:
+            rv = rv + "oomlout_OOMP_" + t + "_V2/"
+    return rv
+
+def setBaseDir(base):
+    global baseDir
+    baseDir = base 
+    baseDir = "C:/GH/oomlout_OOMP_V2/"
+
+def getID(self):
+    return self.getTag("oompID").value
+def getName(self):
+    return self.getTag("name").value
+def getType(self):
+    return self.getTag("oompType").value
+def getHex(self):
+    return self.getTag("hexID").value
+
+
+##############################################################################
+##############################################################################
+##############################################################################
+######  LOADING ROUTINES
 
 ###### file filters
 defaultFilter = ["details.py","details2.py","details3.py"]
 projectsFilter = ["details.py","details2.py","details3.py","detailsPartsOomp.py","detailsPartsRaw.py"]
 partsFilter = ["details.py","details2.py","detailsInstancesOomp.py","detailsFootprintsOomp.py"]
-
 rs = ["parts","eda","kicad","modules","collections","projects"]
 repos = {}
 type = "collections"
@@ -43,16 +66,6 @@ for type in rs:
         repos[type]["fileFilter"] = projectsFilter
     repos[type]["directory"] = "oomlout_OOMP_" + type + "_V2"
 
-
-def getDir(type, base=False):
-    global baseDir
-    rv = ""
-    if base:
-        rv = baseDir
-    for t in repos:    
-        if type.lower() == t:
-            rv = rv + "oomlout_OOMP_" + t + "_V2/"
-    return rv
 
 ###### Loading and pickle
 def loadPickle():
@@ -74,14 +87,16 @@ def makePickle():
     load()
     copyAllFiles()
     importAllFiles()
-    loadItemTypes()        
     exportPickle()
+    loadItemTypes()        
     print(getReport(startTime=start))
     
 def exportPickle(picklePartsFile="sourceFiles/picklePartsOOMP.json"): 
     if picklePartsFile == "":
         picklePartsFile= "sourceFiles/picklePartsOOMP.json"
     oomWriteToFile(picklePartsFile,json.dumps(items))
+
+import keyboard
 
 def copyAllFiles():
     oomMakeDir("sourceFiles\\load\\")
@@ -94,6 +109,7 @@ def copyAllFiles():
             files = glob.glob(directory + "**\\" + filter,recursive=True)
             outFiles = glob.glob(copyDir + "**\\*",recursive=True)
             for file in files:
+
                 inFile = file
                 oompID = inFile.replace(directory,"").replace(filter,"").replace("\\","")
                 outFile = copyDir + makePythonSafe(oompID + filter.replace(".py","")) + ".py"
@@ -116,8 +132,12 @@ def importAllFiles():
         if ".py" in file:
             name = file.replace("\\",".").replace(".py","")
             mod = importlib.import_module(name)
-            importlib.reload(mod)
-    
+            newPart = {}
+            newPart = preloadItem(newPart)
+            newPart = mod.load(newPart)
+            items[newPart["oompID"][0]] = newPart
+            itemsHex[newPart["hexID"][0]] = newPart
+            #importlib.reload(mod)
 
 def makePythonSafe(string):
     rv = string
@@ -125,70 +145,11 @@ def makePythonSafe(string):
     return rv
 
 
-
-
-def loadDirectory(directory,fileFilter=["details.py"],filename="sourceFiles/oompLoad.py",type=""):    
-    directory = "sourceFiles/" + type + "/" 
-    oomMakeDir(directory)    
-    skip = "Pololu_Breakout-16_15.2x20.3mm"
-    for filter in fileFilter:
-        files = glob.glob(directory + "**/" + filter,recursive=True)
-        for file in files:
-            if skip not in file:
-                inFile = file
-                outfile = directory + file.split("\\")[len(file.split("\\"))-1]
-                string = oomReadFileToString(file)
-                f.write(string + "\n")
-            else:
-                pass
-
-
-def makeSingleFile():
-    f = open(filename, "a+")
-    f.write("""
-import OOMP 
-
-defTn = OOMP.tagNames
-
-    
-def preloadItem(newPart,tn=defTn):
-    for tag in tn:
-        newPart[tn[tag]["code"]] = []
-""")
-    f.close()
-
-def loadDirectoryOld(directory,fileFilter=["details.py"],   filename="sourceFiles/oompLoad.py"):    
-    
-    oomMakeDir("sourceFiles/")
-    f = open(filename, "a+")
-    f.write("""
-import OOMP 
-
-defTn = OOMP.tagNames
-
-    
-def preloadItem(newPart,tn=defTn):
-    for tag in tn:
-        newPart[tn[tag]["code"]] = []
-""")
-    testing = 1000000000000000000
-    skip = "Pololu_Breakout-16_15.2x20.3mm"
-    for filter in fileFilter:
-        files = glob.glob(directory + "**/" + filter,recursive=True)
-        for file in files:
-            if skip not in file:
-                string = oomReadFileToString(file)
-                f.write(string + "\n")
-            else:
-                pass
-    f.close()
-
-
 def getReport(startTime=""):
     rv = ""   
     rv = rv + "Number of Items: "+ str(len(items)) + "\n"
     for r in repos:
-        rv = rv + "Number of " + r + ": "+ str(len(itemsTypes[r])) + "\n"
+        rv = rv + "Number of " + r + ": "+ str(len(itemsTypes[r]["items"])) + "\n"
     if startTime != "":
         rv = rv + "Time to execute: " + str(round(time.process_time()-startTime)) + " sec"
     return rv
@@ -200,415 +161,12 @@ def getReport(startTime=""):
 #    details.append(oompDetail(category,code,name,sort,extra1="",#extra2=""))
 
 def getDetailFromCode(category,code):
-    """
-    for x in details:
-        if x.category == category:
-            if x.code == code:
-                return x
-    return oompDetail("","","","")
-    """
-    try:
-        rv = details[category + "-" + code]
-    except KeyError:
-        rv = oompDetail("","","","")
-    return rv
+    pass
 
 def getDetailsCategory(category=""):
-    rv = []
-    for detail in details:
-        if category in detail.category:
-            rv.append(detail)
-    return rv
-
-def getParts():
-    return parts
-
-def getItems(type="",cache=False):
-    global parts, partsFootprints, partsParts, partsNoFootprints, partsProjects, partsTemplates, partsSymbols
-    if type == "load":
-        getItems("footprints",cache=False)
-        getItems("symbols",cache=False)
-        getItems("parts",cache=False)
-        getItems("modules",cache=False)
-        getItems("collectionss",cache=False)
-        getItems("nofootprints",cache=False)
-        getItems("projects",cache=False)
-        getItems("templates",cache=False)        
-    if not cache:
-        rv = parts
-        if type.upper() == "FOOTPRINTS":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-                if t.value == "FOOTPRINT":
-                    rv.append(part)
-            partsFootprints = rv
-        if type.upper() == "MODULES":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-                if t.value == "BLOCK" or t.value == "MODULE" :
-                    rv.append(part)
-            partsSymbols = rv
-        if type.upper() == "COLLECTIONS":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-                if t.value == "COLLECTION":
-                    rv.append(part)
-            partsSymbols = rv
-        if type.upper() == "SYMBOLS":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-                if t.value == "SYMBOL":
-                    rv.append(part)
-            partsSymbols = rv
-        if type.upper() == "PARTS":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-                if t.value == "TEMPLATE" or t.value == "FOOTPRINT" or t.value == "SYMBOL" or t.value == "PROJ"   or t.value == "BLOCK"   or t.value == "MODULE"     or t.value == "COLLECTION"  :
-                    c = "SKIP"
-                else:
-                    rv.append(part)
-            partsParts = rv
-        if type.upper() == "NOFOOTPRINTS":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-                if not t.value == "FOOTPRINT" and not t.value == "TEMPLATE":
-                    rv.append(part)
-                else:
-                    c = "SKIP"
-            partsNoFootprints = rv        
-        if type.upper() == "PROJECTS":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-
-                if t.value == "PROJ":
-                    rv.append(part)
-            partsProjects = rv
-        if type.upper() == "TEMPLATES":
-            rv = []
-            for part in parts:
-                t = part.getTag("oompType")
-                if t == "TEMPLATE":
-                    rv.append(part)                
-            partsTemplates = rv
-    else:
-        rv = parts
-        if type.upper() == "FOOTPRINTS":
-            rv = partsFootprints
-        if type.upper() == "SYMBOLS":
-            rv = partsSymbols
-        if type.upper() == "PARTS":
-            rv = partsParts
-        if type.upper() == "NOFOOTPRINTS":
-            rv = partsNoFootprints
-        if type.upper() == "PROJECTS":
-            rv = partsProjects
-        if type.upper() == "TEMPLATES":
-            rv = partsTemplates
-    return rv
-
-#def getPartByID(part):
-##    print("     Get Part By ID: " + part)
-#    try:
-#        rv = parts[part]
-#    except KeyError:
-#        rv = oompItem()
-#    return rv
-
-#def getPartByHex(hexid):
-##    print("     Get Part By ID: " + part)
-#    for x in parts:
-#        valueTest = x.getTag("hexID").value
-#        if valueTest == hexid:
-#            return x     
-#    return oompItem("")
-
-# def getPartByName(name):
-# ##    print("     Get Part By ID: " + part)
-#     for x in parts:
-#         if x.getTag("name").value == name:
-#             return x     
-#     return oompItem("")    
-
-
-# def getDetailByCode(category, code):    
-# ##    print("     Get Part By ID: " + code)
-#     for x in details:
-#         #print("    Matching: " + x.code + " with -- " + code)
-#         if x.code == code:
-#             return x     
-#     return oompDetail("","","","")
-
-
-def printParts():
-    print("OOMP Parts")
-    for x in parts:
-        b = 0
-        #print("    Part: " + str(x.fullString()))
-        oompID = x.getTag("oompID").value
-        print("Loading: ", oompID)
-
-def getNextIndex():
-    return len(parts) + 1
-        
-
-def getAddTagLine(tagName,value,quotes="single"):
-    if quotes == "single":
-        return 'newPart.addTag("' + tagName + '", "' + value + '")\n'
-    elif quotes == "triple":
-        return 'newPart.addTag("' + tagName + '", """' + value + '""")\n'
-
-
-def getReportOld():
-    rv = ""   
-    rv = rv + "Number of Items: "+ str(len(getItems("all"))) + "\n"
-    rv = rv + "Number of Footprints: "+ str(len(getItems("footprints"))) + "\n"
-    rv = rv + "Number of Parts: "+ str(len(getItems("parts"))) + "\n"
-    rv = rv + "Number of Projects: "+ str(len(getItems("projects"))) + "\n"
-    rv = rv + "Number of Modules: "+ str(len(getItems("modules"))) + "\n"
-    return rv
-
-######  Directory routines
-
-def setBaseDir(base):
-    global baseDir
-    baseDir = base 
-    baseDir = "C:/GH/oomlout_OOMP_V2/"
-
-
-
-def getFileOpening(hexID="",type="",size="",color="",desc="",index=None,name=None):
-    if index == None:
-        index = getNextIndex()
-    rv = ""
-
-    rv = rv + "###### OOMP FILE  ######\n"
-    rv = rv + "\n"
-    rv = rv + "import OOMP\n"
-    rv = rv + "import OOMPtags\n"    
-    rv = rv + "\n"
-    rv = rv + "newPart = OOMP.oompItem()\n"
-    rv = rv + "\n"
-    rv = rv + getAddTagLine("hexID",hexID)
-    rv = rv + getAddTagLine("oompType",type)
-    rv = rv + getAddTagLine("oompSize",size)
-    rv = rv + getAddTagLine("oompColor",color)
-    rv = rv + getAddTagLine("oompDesc",desc)
-    rv = rv + getAddTagLine("oompIndex",index)
-
-    if name != None:
-        rv = rv + getAddTagLine("oompName",name)
-
-    rv = rv + "\n"
-
-    return rv
-
-def getFileEnding():
-    return 'OOMP.parts.append(newPart)' 
-
-
-instanceCount = 0
-
-def getInstanceCount(calc=False):
-    global instanceCount
-    if instanceCount == 0 or calc:
-        instanceCount = 0
-        for part in getItems("PARTS"):
-            instanceCount = instanceCount + len(part.getTags("oompInstances"))
-    return instanceCount
-
-
-class oompDict(dict):
-    def __init__(self,index=None):
-        self.__dict__ = {}     
-
-    def append(self,newPart):
-        oompID = newPart.getTag("oompID").value
-        if oompID == "----":
-            oompID = newPart.getTag("taxaID").value
-        self.__dict__[oompID] = newPart
-
-    def __setitem__(self, key, item):
-        self.__dict__[key] = item
-
-    def __getitem__(self, key):
-        return self.__dict__[key]
-
-    def __iter__(self):
-        return iter(self.values())
-
-    def __repr__(self):
-        return repr(self.__dict__)
-
-    def __len__(self):
-        return len(self.__dict__)
-
-    def __delitem__(self, key):
-        del self.__dict__[key]
-
-    def clear(self):
-        return self.__dict__.clear()
-
-    def copy(self):
-        return self.__dict__.copy()
-
-    def has_key(self, k):
-        return k in self.__dict__
-
-    def update(self, *args, **kwargs):
-        return self.__dict__.update(*args, **kwargs)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()        
-     
-
-class oompDetailDict(dict):
-    def __init__(self,index=None):
-        self.__dict__ = {}
-
-    def append(self,newDetail):
-        detailID = newDetail.category + "-" + newDetail.code
-        self.__dict__[detailID] = newDetail
-
-
-    def __setitem__(self, key, item):
-        self.__dict__[key] = item
-
-    def __getitem__(self, key):
-        return self.__dict__[key]
-
-    def __iter__(self):
-        return iter(self.values())
-
-    def __repr__(self):
-        return repr(self.__dict__)
-
-    def __len__(self):
-        return len(self.__dict__)
-
-    def __delitem__(self, key):
-        del self.__dict__[key]
-
-    def clear(self):
-        return self.__dict__.clear()
-
-    def copy(self):
-        return self.__dict__.copy()
-
-    def has_key(self, k):
-        return k in self.__dict__
-
-    def update(self, *args, **kwargs):
-        return self.__dict__.update(*args, **kwargs)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()
-
-class oompItemDict(dict):
-    def __init__(self,index=None):
-        self.__dict__ = {}
-
-    def append(self,item):
-        detailID = item.name
-        self.__dict__[detailID] = newDetail
-
-
-    def __setitem__(self, key, item):
-        self.__dict__[key] = item
-
-    def __getitem__(self, key):
-        return self.__dict__[key]
-
-    def __iter__(self):
-        return iter(self.values())
-
-    def __repr__(self):
-        return repr(self.__dict__)
-
-    def __len__(self):
-        return len(self.__dict__)
-
-    def __delitem__(self, key):
-        del self.__dict__[key]
-
-    def clear(self):
-        return self.__dict__.clear()
-
-    def copy(self):
-        return self.__dict__.copy()
-
-    def has_key(self, k):
-        return k in self.__dict__
-
-    def update(self, *args, **kwargs):
-        return self.__dict__.update(*args, **kwargs)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()
-
+    pass
 
 class oompItem:
-
-    def __init__(self,index=None):
-        if index == None:
-            index = getNextIndex()
-        self.tags=list()
-        if index == 0:
-            index = len(parts) + 1
-        #self.index=index
-        self.addTag("index", index)
-
-    def __str__(self):
-        rv = ""
-        rv = rv + self.getName()
-        #for x in self.tags:
-        #    rv = rv + "    " + str(x)
-        return rv
-
-    def getID(self):
-        return self.getTag("oompID").value
-    def getName(self):
-        return self.getTag("name").value
-    def getType(self):
-        return self.getTag("oompType").value
-    def getHex(self):
-        return self.getTag("hexID").value
-
-    def fullString(self):
-        rv = ""
-        rv = rv + self.getName() + "\n"
-        for x in self.tags:
-            rv = rv + "" + str(x)
-##            if not isinstance(x.value, list):
-##                rv = rv + "    " + str(x)
-##            else: #tag has a list
-##                rv = rv + "    " + str(x) + "\n"
-##                for y in x.value:
-##                    if isinstance(y, list):
-##                        rv = rv + "    " + str(y) + "\n"
-##                        for c in y:
-##                            rv = rv + "            " + str(c) + "\n"
-##                    else:
-##                        rv = rv + "        " + str(y) + "\n"
-        return rv
-    
-    def getDir(self):  
-        return self.getFolder()
 
     def getFolder(self,style=""):        
         rv = ""
@@ -972,131 +530,6 @@ class oompItem:
         return base + fileExtra
 
 
-    def exportTags(self,filetype,tags):
-        
-        filename = self.getFilename(filetype)
-        oompID = self.getTag("oompID").value
-
-        
-
-        contents = "import OOMP" + "\n"
-        contents = contents + 'newPart = OOMP.getPartByID("' + oompID + '")' + "\n"
-        contents = contents  + '' + '\n'
-        contents2 = ""
-        for tag in tags:
-            values = self.getTags(tag)
-            for value in values:
-                contents2 = contents2 + value.getPythonLine() + '\n'
-        if contents2 != "":
-            print("    Exporting tags to: " + filename)
-            oomWriteToFile(filename,contents+contents2,utf2=True)
-
-
-    ##No longer used    
-    def indexMd(self):
-        oompID = self.getTag("oompID").value
-        name = self.getTag("name").value
-        hexID = self.getTag("hexID").value
-        rv = ""
-        image = ""
-        filename = getDir("parts") + oompID +  "/image_140.jpg"
-        if os.path.isfile(filename):
-            image = "![" + name + "](" + oompID +  "/image_140.jpg)"
-        text = "[" + oompID + " <br> " + name + "](" + oompID + "/)"
-        hex = ""
-        if hexID != "":
-            hex = "[" + hexID + "](" + oompID + "/)"
-        rv = rv + image + "<br>" + text + "<br>" + hex
-        return rv
-
-    def mdLine(self, value):
-        values = value.split(",")
-        identifier = values[1]
-        gitLink = self.getFilename("",resolution="140",relative="github")
-        gitImage = self.getFilename("image",resolution="140",relative="githubRaw")
-        oompID = self.getTag("oompID").value
-        hexID = self.getTag("hexID").value
-        name = self.getTag("name").value
-        rv = "<table><tr>"
-
-        rv = rv + "<td>![" + oompID + "](" + gitImage + ")</td>"
-        rv = rv + "<td>" + identifier + "</td>"
-        rv = rv + "<td>[" + oompID + "<br>" + name + "](" + gitLink + ")</td>"
-        rv = rv + "<td>[" + hexID + "](" + gitLink + ")</td>"
-        
-
-        rv = rv + "</tr></table>"
-        return rv
-
-
-
-
-    ##No longer used
-    def mdPage(self,file):
-        oompID = item.getTag("oompID").value
-        name = item.getTag("name").value
-        with MarkdownGenerator(
-            # By setting enable_write as False, content of the file is written
-            # into buffer at first, instead of writing directly into the file
-            # This enables for example the generation of table of contents
-            filename=filename, enable_write=False
-        ) as doc:
-            header = oompID + ">" + name
-            doc.addHeader(1, header)
-
-            doc.writeTextLine(f'{doc.addBoldedText("This is just a test.")}')
-            doc.addHeader(2, "Second level header.")
-            table = [
-                {"Column1": "col1row1 data", "Column2": "col2row1 data"},
-                {"Column1": "col1row2 data", "Column2": "col2row2 data"},
-            ]
-
-            doc.addTable(dictionary_list=table)
-            doc.writeTextLine("Ending the document....")
-
-    def mdPageOld(self):        
-        oompID = self.getTag("oompID").value
-        name = self.getTag("name").value
-        rv = ""
-        rv = rv + "# " + oompID + " > " + name + "  \n"
-        rv = rv + "![" + name + "](image_600.jpg)  \n"
-        for x in self.tags:
-            rv = rv + "" + x.getMD() + ""
-        return rv
-    
-    def addTag(self,name,value,singleValue=False,noDuplicate=False):
-        skip = False
-        if noDuplicate:
-            tests = self.getTags(name)
-            for test in tests:
-                if value == test.value:
-                    skip = True
-        if not skip:        
-            singleValueTags = ["hexID"]
-            for singleValueTag in singleValueTags:
-                if name == singleValueTag:
-                    singleValue = True
-            if singleValue:
-                workingTag = self.getTag(name)
-                if workingTag.name == name:
-                    workingTag.value = value
-                else:  ## if not already there add a new one
-                    self.tags.append(oompTag(name,value))
-            else:
-                self.tags.append(oompTag(name,value))
-
-    def addTagSupplied(self,name,value,tag):
-        tag.append(oompTag(name,value))
-        return tag
-
-
-    def removeTag(self,name):
-        for x in self.tags:
-            if x.name == name:
-                self.tags.remove(x)
-        pass
-    
-
     def getTag(self,name):
         if name.lower() == "oompid":
             id = ""
@@ -1198,160 +631,7 @@ class oompItem:
                     rv.append(tag)
         return rv
 
-    def getName(self,br=" "):
-        name = self.getTag("oompName").value
-        if name == "":
-            name = self.getTag("name").value
-        return self.getTag("oompID").value + br + name
-
-    
-class oompTag:
-
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
-
-    def __str__(self):
-        if isinstance(self.value, list):
-            rv = "oompTagCC " + self.name + "\n"
-            for x in self.value:
-                rv = rv + "    " + str(x) 
-            return rv
-        elif isinstance(self.value, oompTag):
-            return "     " + self.name + "    \n" + str(self.value) + "\n"
-        else:
-            return "     " + str(self.name) + " : " + str(self.value)+ "\n"
-
-    def getMD(self):
-        if isinstance(self.value, list):
-            rv = "oompTagCC " + self.name + "\n"
-            for x in self.value:
-                rv = rv + "" + str(x) 
-            return rv
-        elif isinstance(self.value, oompTag):
-            return "" + self.name + "  \n" + str(self.value) + "  \n"
-        else:
-            return "" + str(self.name) + " : " + str(self.value)+ "  \n"
-
-    
-
-    def getPythonLineOld(self):
-        v = self.value
-        if "QH" in str(v):
-            pass
-        if isinstance(v,dict) or isinstance(v,list) :
-            rv = "newPart.addTag('" + self.name + "'," + str(self.value).replace("\\","") + ")" 
-            return rv
-        else:
-            rv = "newPart.addTag('" + self.name + "','" + str(self.value).replace("'","").replace('"','').replace("\\","") + "')" 
-            return rv
-
-    def getValue(self):
-        return self.value
-
-class oompDetail:
-
-    def __init__(self, category, code, name, sort="", extra1="", extra2=""):
-        self.category = category
-        self.code = code
-        self.name = name
-        self.sort = sort
-        self.extra1 = extra1
-        self.extra2 = extra2
-
-    def __str__(self):
-        return self.category + "   " + self.code  + "   " + self.name  + "   " + self.sort
-    
-#### import detail lists
-
-
-    
-
-def loadDirectoryOld02(directory,fileFilter=["details.py"]):
-    testing = 1000000000000000000
-    for filter in fileFilter:
-        files = glob.glob(directory + "**/" + filter,recursive=True)
-        for file in files:
-            moduleName = file.replace(".py","").replace("\\",".")
-            #moduleName = subdir.replace("\\",".") + "." + moduleName
-            try:
-                __import__(moduleName)    
-            except:
-                ###### For dealing with folders with a full stop
-                sourceFile =  file
-                destFile = "sourceFiles/temp/" + str(random.randint(0,999999999)) + ".py"
-                moduleName = destFile.replace("\\",".").replace("/",".").replace(".py","")
-                shutil.copyfile(sourceFile,destFile)
-                time.sleep(0.01)
-                __import__(moduleName)   
-                os.remove(destFile) 
-
-
-def loadDirectoryOld(directory,fileFilter="details.py"):
-    testing = 1000000000000000000
-    #testing = 10000
-    #testing = 7000
-    #testing = 5000
-    #testing = 1000
-    skip = ["Pololu_Breakout-16_15.2x20.3mm"]
-    count = 0
-    for subdir, dirs, files in os.walk(directory):
-            if count > testing:
-                print("Breaking " + str(count) + " " + str(testing))
-                break
-            for file in files:
-                count = count + 1
-                if count > testing:
-                    print("Breaking " + str(count) + " " + str(testing))
-                    break
-                if(fileFilter in file):
-                    if skip not in file:
-                        moduleName = file.replace(".py","")
-                        moduleName = subdir.replace("\\",".") + "." + moduleName
-                        ##print("    moduleName: " + moduleName)
-                        #print(".",end="")
-                        try:
-                            __import__(moduleName)    
-                        except:
-                            ###### For dealing with folders with a full stop
-                            sourceFile = subdir + "/" + file
-                            destFile = "sourceFiles/temp/" + str(random.randint(0,999999999)) + ".py"
-                            moduleName = destFile.replace("\\",".").replace("/",".").replace(".py","")
-                            shutil.copyfile(sourceFile,destFile)
-                            time.sleep(0.01)
-                            __import__(moduleName)   
-                            os.remove(destFile) 
-
-
-#### import parts
-
-def reset():
-    global partsFootprints,partsSymbols,partsParts,partsNoFootprints,partsProjects,partsTemplates,details,parts
-    
-    partsFootprints = oompDict()
-    partsSymbols = oompDict()
-    partsParts = oompDict()
-    partsNoFootprints = oompDict()
-    partsProjects = oompDict()
-    partsTemplates = oompDict()
-
-    details = oompDetailDict()
-
-    parts = oompDict()
-
-partsFootprints = oompDict()
-partsSymbols = oompDict()
-partsParts = oompDict()
-partsNoFootprints = oompDict()
-partsProjects = oompDict()
-partsTemplates = oompDict()
-
-details = oompDetailDict()
-
-parts = oompDict()
-
-
-
+        
 def load():
     tagNames = {}
     tagDetails = []
@@ -1367,9 +647,8 @@ def loadItemTypes():
     tests["modules"] = ["BLOCK","MODULE"]
     tests["projects"] = ["PROJECT"]
     tests["parts"]=[]
-    for t in tagDetails:
-        if t["category"] == "type":
-            tests["parts"].append(t["code"])
+    for t in tagDetails["type"]:
+        tests["parts"].append(tagDetails["type"][t]["code"])
     itemsTypes = {}
     for r in repos:
         itemsTypes[r] = {}
@@ -1382,14 +661,10 @@ def loadItemTypes():
                 itemsTypes[t]["items"].append(item)
     pass
 
-
 tagNames = {}
-tagDetails = []
+tagDetails = {}
 items = {}
 itemsHex = {}
 itemsTypes = {}
+
 import OOMP_tag
-
-
-
-pass

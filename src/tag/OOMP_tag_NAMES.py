@@ -30,6 +30,12 @@ def load(tn):
     tn[current]["category"] = "BASE"
     tn[current]["name"] = "OOMP Index"
     tn[current]["description"] = "OOMP Index"
+    current = "oompID"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "BASE"
+    tn[current]["name"] = "Full OOMP ID"
+    tn[current]["description"] = "Full OOMP ID"
     current = "hexID"
     tn[current] = {}
     tn[current]["code"] = current
@@ -37,13 +43,59 @@ def load(tn):
     tn[current]["name"] = "Hex ID (short code)"
     tn[current]["description"] = "Hex ID (short code)"
 
+###### Main ones
+    current = "name"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "MAIN"
+    tn[current]["name"] = "Name"
+    tn[current]["description"] = "Name"
+
+###### Project Ones
+    current = "gitRepo"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PROJECT"
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    current = "gitName"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PROJECT"
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    current = "eagleBoard"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PROJECT"
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    current = "eagleSchem"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PROJECT"
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    current = "kicadBoard"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PROJECT"
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    current = "kicadSchem"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PROJECT"
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+
 ###### Part Numbers
     current = "manufacturerPartNumber"
     tn[current] = {}
     tn[current]["code"] = current
     tn[current]["category"] = "PARTNUMBER"
     tn[current]["name"] = "Part Number (Manufacturer)"
-    tn[current]["description"] = "A part number from a manufacturer. (Fields: code,name,partID,partName)"
+    tn[current]["description"] = "A part number from a manufacturer. (Fields: code,name,partID,partName,partLink)"
     ######
     current = "distributorPartNumber"
     tn[current] = {}
@@ -72,10 +124,16 @@ def load(tn):
     tn[current]["code"] = current
     tn[current]["category"] = "EDA"
     tn[current]["name"] = "Footprint Kicad"
-    tn[current]["description"] = "Extrracted details from a kicad footprint"
+    tn[current]["description"] = "Extracted details from a kicad footprint"
     current = "symbolKicad"
     tn[current] = {}
     tn[current]["code"] = current
     tn[current]["category"] = "EDA"
     tn[current]["name"] = "Symbol Kicad"
     tn[current]["description"] = "An OOMP code for a matching symbol"
+    current = "symbolKicadDetails"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "EDA"
+    tn[current]["name"] = "Symbol Kicad Details"
+    tn[current]["description"] = "Extracted details from a kicad footprint"

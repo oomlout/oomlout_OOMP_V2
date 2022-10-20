@@ -11,6 +11,7 @@ def working():
 
 
 def make():
+    OOMP_symbols_BASE.gitPull()
     OOMP_symbols_BASE.createAllSymbols()
     OOMP_symbols_BASE.createSymbolLibraries()
 

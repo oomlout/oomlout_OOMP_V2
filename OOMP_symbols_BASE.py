@@ -1,12 +1,82 @@
 import OOMP
-import OOMPeda
 from oomBase import *
 
 import OOMP_symbols_KICAD
 from kiutils.symbol import SymbolLib
 
+
+symbolGits = {}
+git = 'oomlout_OOMP_kicad'
+symbolGits[git] = {}
+symbolGits[git]["code"] = git
+symbolGits[git]["url"] = 'https://github.com/oomlout/oomlout_OOMP_kicad'
+symbolGits[git]["name"] = "Oomlout's Symbols"
+symbolGits[git]["description"] = "Oomlout's kicad symbol library."
+######
+git = 'kicad-footprints'
+symbolGits[git] = {}
+symbolGits[git]["code"] = git
+symbolGits[git]["url"] = 'https://gitlab.com/kicad/libraries/kicad-symbols'
+symbolGits[git]["name"] = "Kicad Default Symbols"
+symbolGits[git]["description"] = "Kicad's default symbol library."
+
+def gitPull():
+    gits= []
+    dir = "sourceFiles/git/kicadSymbols/"
+    oomMakeDir(dir)
+    for git in symbolGits:
+        oomGitPullNew(symbolGits[git]["url"],dir)
+
 def createAllSymbols():
     OOMP_symbols_KICAD.createSymbols()
+
+def makeSymbol(d):
+    type = d["oompType"]
+    size = d["oompSize"]
+    color = d["oompColor"]
+    desc = d["oompDesc"]   
+    index = d["oompIndex"]
+
+    hexID = d["hexID"]
+
+    oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+
+    print("Making symbol: " + oompID)
+
+    oompSlashes = type + "/" + size + "/" + color + "/" + desc + "/" + index + "/"
+
+    inputFile = "templates/partsTemplate.py"
+    outputDir = OOMP.baseDir + OOMP.getDir("eda") + oompSlashes
+    oomMakeDir(outputDir)
+    outputFile = outputDir + "details.py"
+
+    #print("Making: " + outputFile)
+    ping()
+
+    contents = oomReadFileToString(inputFile)
+    contents = contents.replace("TYPEZZ",type)
+    contents = contents.replace("SIZEZZ",size)
+    contents = contents.replace("COLORZZ",color)
+    contents = contents.replace("DESCZZ",desc)
+    contents = contents.replace("INDEXZZ",index)
+    contents = contents.replace("HEXZZ",hexID)
+
+    repoName = ""
+
+    skipTags = ["oompType","oompSize","oompColor","oompDesc","oompIndex","SYMBOL","hexID"]
+
+    extraTags = []
+    for tag in d:
+        if tag not in skipTags:
+            extraTags.append([tag,d[tag]])        
+    tagString = ""
+    for tag in extraTags:
+        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1]) + "\n"
+
+    contents = contents.replace("EXTRAZZ",tagString)
+
+    oomWriteToFile(outputFile,contents)
+    pass
 
 def createSymbolLibraries():
     createSymbolLibrary()
