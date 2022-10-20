@@ -1,0 +1,23 @@
+<html>
+<head></head>
+<body></body>
+<script type="text/javascript">
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://certificationapi.oshwa.org/api/projects");
+xhr.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2E5ZTlkMWMyNmJhMDAxOGFkMTIxZiIsImlhdCI6MTY2NDc4NjA3NywiZXhwIjoxNjczNDI2MDc3fQ.fX9-Kp5vVzzW_fNtZjUH6DqxMADTKTNuQPzeGjAmtU8");
+
+xhr.send();
+
+</script>	
+
+
+
+</html>
