@@ -8,8 +8,7 @@ import json
 
 ###### Geto repos
 def farmProjects():
-    OOMP_projects_BASE.farmProjects(user="sparkfun",code="SPAR")
-    OOMP_projects_BASE.farmProjects(user="sparkfunx",code="SPAR")
+    OOMP_projects_BASE.farmProjects(users=["sparkfun","sparkfunx"],code="SPAR")
 
 
 def makeBaseProjects():

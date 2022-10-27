@@ -2,6 +2,8 @@ import OOMP
 from oomBase import *
 
 import OOMP_projects_partsMatch
+import OOMP_projects_partsHarvest_BASE
+import OOMP_json_BASE
 
 import re
 import json
@@ -24,13 +26,13 @@ def preMakeAllProjects():
     OOMP_projects_ADAF.makeBaseProjects() ###### git pulls and makes project
 
 def createAllProjects():
-    OOMP_projects_IBBC.createProjects()
+    #OOMP_projects_IBBC.createProjects()
     OOMP_projects_ADAF.createProjects()    
-    OOMP_projects_DANP.createProjects()    
-    OOMP_projects_ELLA.createProjects()
-    OOMP_projects_SEED.createProjects()
-    OOMP_projects_SIRB.createProjects()
-    OOMP_projects_SOPA.createProjects()
+    #OOMP_projects_DANP.createProjects()    
+    #OOMP_projects_ELLA.createProjects()
+    #OOMP_projects_SEED.createProjects()
+    #OOMP_projects_SIRB.createProjects()
+    #OOMP_projects_SOPA.createProjects()
     OOMP_projects_SPAR.createProjects()
 
 def getRepos(user):
@@ -88,6 +90,7 @@ def makeProjectNew(d):
     inputFile = "templates/partsTemplate.py"
     outputDir = OOMP.baseDir + OOMP.getDir("projects") + oompSlashes + "/"
     oomMakeDir(outputDir)
+    oomMakeDir(outputDir + "src/")
     outputFile = outputDir + "details.py"
 
     print("Making: " + outputFile)
@@ -121,55 +124,55 @@ def makeProjectNew(d):
 
     oomWriteToFile(outputFile,contents)
 
-def harvestProjects(filter="",exclusions="NONE",easy=False,all=False):
+def harvestProjects(filter="",exclusions="NONE",dict = {"all" : False,"easy" : False, "copyBaseFiles" : False,"harvestKicad" : False,"matchParts" : False},overwrite=False):
     neverString = "nnmmkjkjoijlknlkzzzz"
     if exclusions == "NONE":
         exclusions= neverString
-    if not easy:
-        oomLaunchKicad()
     test = OOMP.items
-    for project in OOMP.itemsTypes["projects"]["items"]:
+    for projectID in OOMP.itemsTypes["projects"]["items"]:
         skip = ["PROJ-SEED-20054-STAN-01"]
-        if project not in skip:
-            if filter in project and exclusions not in project:
-                harvestProject(project,all=all,easy=easy)
+        if projectID not in skip:
+            if filter in projectID and exclusions not in projectID:
+                harvestProject(OOMP.items[projectID],dict=dict,overwrite=overwrite)
     #for part in OOMP.getItems("parts"):
     #    pass
         #part.exportTags("detailsInstancesOomp",["oompInstances"]) 
 
-def farmProjects(user,code):
+def farmProjects(users,code):
     print("Farming Projects for :" + code)
     #genFile = "OOMP_projects_" + code + "_gen.py"
-    repos = getRepos(user=user)
+    repos = []
+    for user in users:
+        repos.extend(getRepos(user=user))
     print("    Found " + str(len(repos)) + " repos")
     oomMakeDir("json/")
     filename = "json/oomp_Projects_" + code + "_repoRaw.json"
     oomWriteToFile(filename,json.dumps(repos))
 
 
-def harvestProject(project,all=False,easy=False,dict="",overwrite=False):
-    oompID = project.getID()
+def harvestProject(project,all=False,dict="",overwrite=False):
+    oompID = project["oompID"][0]
     print("Harvesting Project: " + oompID)
 
     if dict != "":
         if dict["all"]:
             all = True
 
-    if all or easy or dict["gitPull"]:
+    if all or dict["easy"] or dict["gitPull"]:
         pass
         gitPullProject(project)
-    if all or easy or  dict["copyBaseFiles"]:
+    if all or dict["easy"] or  dict["copyBaseFiles"]:
         pass
         copyBaseFilesProject(project)
-    if all or dict["harvestEagle"]:        
+    if all or dict["harvestParts"]:
         pass
-        harvestEagleProject(project,overwrite)
-    if all or dict["harvestKicad"]:
-        pass
-        harvestKicadProject(project,overwrite)
+        OOMP_projects_partsHarvest_BASE.harvestParts(project)
     if all or dict["matchParts"]:
         pass
         OOMP_projects_partsMatch.matchParts(project)
+    if all or dict["easy"] or dict["makeJsons"]:
+        pass
+        OOMP_json_BASE.makeJson(project,overwrite)
 
 def makeBaseProjects(company,code):
 
@@ -189,30 +192,32 @@ def createProjects():
     
 """
     oomWriteToFile(exportFile,contents)
+    skips = ['https://github.com/sparkfunX/Arduino.git']
     for repo in repos:
-        print("    Harvesting: " + repo)
-        outDir = oomGitPullNew(repo,"sourceFiles/git/")  
-        
-        
-        base = {}
-        base["oompType"] = "PROJ"
-        base["oompSize"] = code
-        base["format"] = "eagle"
-        base["github"] = "https://github.com/" + company + "/"
-        d = base.copy()
-        d["repo"] = repo.replace("https://github.com/" + company + "/","").replace(".git","")
-        
-        d = processDir(outDir,d,company,code)
-        if d != None:
-            run = False
-            try:   ###### exit if no count was found (project ID)
-                a = d["count"]
-                run = True
-            except:
-                pass
-            if run:
-                oomAddLineToFile(exportFile,"    projects.append(" + str(d) + ")")
-            #OOMP_projects_BASE.makeProjectNew(d)
+        if repo not in skips:
+            print("    Harvesting: " + repo)
+            outDir = oomGitPullNew(repo,"sourceFiles/git/")  
+            
+            
+            base = {}
+            base["oompType"] = "PROJ"
+            base["oompSize"] = code
+            base["format"] = "eagle"
+            base["github"] = "https://github.com/" + company + "/"
+            d = base.copy()
+            d["repo"] = repo.replace("https://github.com/" + company + "/","").replace(".git","")
+            
+            d = processDir(outDir,d,company,code)
+            if d != None:
+                run = False
+                try:   ###### exit if no count was found (project ID)
+                    a = d["count"]
+                    run = True
+                except:
+                    pass
+                if run:
+                    oomAddLineToFile(exportFile,"    projects.append(" + str(d) + ")")
+                #OOMP_projects_BASE.makeProjectNew(d)
     contents = """
 
     for d in projects:
@@ -304,7 +309,7 @@ def processDir(directory,d,company,code):
 
 def gitPullProject(project):
     print("    Pulling or cloning project ")
-    gitRepo = project.getTag("gitRepo").value
+    gitRepo = project["gitRepo"][0]
     if gitRepo == "":
         print("        No Git Repo Found")
         #raise Exception("No git repo for project")
@@ -314,91 +319,16 @@ def gitPullProject(project):
 
 def copyBaseFilesProject(project):
     print("    Copying Base Files ")
-    type = "Board"
-    filename = project.getTag("eagle" + type).value    
-    outFile = project.getFilename(type + "Eagle")
-    outDir = ""
-    inFile = ""
-    if filename != "":
-        inFile = "sourceFiles/git/" + project.getTag("gitName").value + "/" + filename
-    else:
-        filename = project.getTag("kicad" + type).value
-        if filename != "":
-            inFile = "sourceFiles/git/" + project.getTag("gitName").value + "/" + filename
-            outFile = project.getFilename(type + "Kicad")
-            outDir = project.getFilename("dirkicad")
-        else:
-            #raise Exception("No source board file found")
-            print("        No Board File Found")
-    if os.path.exists(inFile):
-        if outDir != "":
-            oomMakeDir(outDir)
-        oomCopyFile(inFile,outFile)
+    for prog in ["kicad", "eagle"]:
+        for type in ["Board","Schem"]:
+            try:
+                filename = project[prog + type][0]
+            except:
+                filename = ""
+            outFile = OOMP.getFileItem(project, prog + type)
+            if filename != "":
+                inFile = "sourceFiles/git/" + project["gitName"][0] + "/" + filename
+                if os.path.exists(inFile):
+                    oomMakeDir(os.path.dirname(outFile))
+                    oomCopyFile(inFile,outFile)
 
-
-    type = "Schem"
-    filename = project.getTag("eagle" + type).value    
-    outFile = project.getFilename(type + "Eagle")
-    outDir = ""
-    if filename != "":
-        inFile = "sourceFiles/git/" + project.getTag("gitName").value + "/" + filename
-    else:
-        filename = project.getTag("kicad" + type).value
-        if filename != "":
-            inFile = "sourceFiles/git/" + project.getTag("gitName").value + "/" + filename
-            outFile = project.getFilename(type + "Kicad")
-            outDir = project.getFilename("dirkicad")
-        else:
-            #raise Exception("No source board file found")
-            print("        No Schematic File Found")
-    if os.path.exists(inFile):
-        if outDir != "":
-            oomMakeDir(outDir)
- 
-  
-        oomCopyFile(inFile,outFile)   
-    
-def harvestEagleProject(project,overwrite=False):
-    print("    Harvesting Eagle Files ")
-    eagleBoardFile = project.getFilename("boardeagle")
-    projectDir = project.getFolder()
-    eagleBoardFileFull = project.getFilename("boardeagle",relative="full")
-    OOMPproject.harvestEagleBoardFile(eagleBoardFile,projectDir,overwrite=overwrite)
-
-    OOMPproject.harvestEagleSchematicFile(eagleBoardFile.replace("boardEagle.brd","schematicEagle.sch"),projectDir,overwrite=overwrite)
-    #oomSendAltKey("x",delay=5)
-    #oomSendAltKey("x",delay=5)
-
-def harvestKicadProject(project,overwrite=False):
-    print("    Harvesting Kicad Files ")
-    ###### Convert to kicad
-    kicadBoardFile = project.getFilename("boardkicad")    
-    kicadSchemFile = project.getFilename("schemkicad")    
-    eagleBoardFile = project.getFilename("boardeagle")
-    eagleSchemFile = project.getFilename("schemeagle")
-    
-    projectDir = project.getFolder()
-    OOMPproject.harvestEagleBoardToKicad(eagleBoardFile,projectDir,overwrite=overwrite)
-    ###### projects that cause errors
-    skips = ["PROJ-ADAF-196-STAN-01","PROJ-ADAF-1980-STAN-01","PROJ-ADAF-2200-STAN-01","PROJ-ADAF-2566-STAN-01","PROJ-ADAF-91-STAN-01","PROJ-ADAF-259-STAN-01","PROJ-ADAF-269-STAN-01","PROJ-ADAF-280-STAN-01","PROJ-ADAF-284-STAN-01","PROJ-ADAF-292-STAN-01","PROJ-ADAF-326-STAN-01","PROJ-ADAF-358-STAN-01","PROJ-ADAF-364-STAN-01","PROJ-ADAF-376-STAN-01","PROJ-ADAF-390-STAN-01","PROJ-ADAF-391-STAN-01","PROJ-ADAF-395-STAN-01","PROJ-ADAF-466-STAN-01","PROJ-ADAF-512-STAN-01","PROJ-ADAF-572-STAN-01","PROJ-ADAF-659-STAN-01","PROJ-ADAF-661-STAN-01","PROJ-ADAF-684-STAN-01","PROJ-ADAF-714-STAN-01","PROJ-ADAF-723-STAN-01","PROJ-ADAF-757-STAN-01","PROJ-ADAF-782-STAN-01","PROJ-ADAF-795-STAN-01","PROJ-ADAF-801-STAN-01","PROJ-ADAF-802-STAN-01","PROJ-ADAF-815-STAN-01","PROJ-ADAF-878-STAN-01","PROJ-ADAF-904-STAN-01","PROJ-SPAR-10103-STAN-01","PROJ-SPAR-10182-STAN-01","PROJ-SPAR-10406-STAN-01","PROJ-SPAR-10507-STAN-01","PROJ-SPAR-10547-STAN-01","PROJ-SPAR-10618-STAN-01","PROJ-SPAR-10701-STAN-01","PROJ-SPAR-10864-STAN-01","PROJ-SPAR-10878-STAN-01","PROJ-SPAR-10888-STAN-01","PROJ-SPAR-10889-STAN-01","PROJ-SPAR-10899-STAN-01","PROJ-SPAR-10901-STAN-01","PROJ-SPAR-10914-STAN-01","PROJ-SPAR-10920-STAN-01","PROJ-SPAR-10930-STAN-01","PROJ-SPAR-10936-STAN-01","PROJ-SPAR-10940-STAN-01","PROJ-SPAR-10941-STAN-01","PROJ-SPAR-10967-STAN-01","PROJ-SPAR-10968-STAN-01","PROJ-SPAR-10995-STAN-01","PROJ-SPAR-11007-STAN-01","PROJ-SPAR-11008-STAN-01","PROJ-SPAR-11013-STAN-01","PROJ-SPAR-11018-STAN-01","PROJ-SPAR-11028-STAN-01","PROJ-SPAR-11040-STAN-01","PROJ-SPAR-11043-STAN-01","PROJ-SPAR-12081-STAN-01","PROJ-SPAR-544-STAN-01","PROJ-SPAR-716-STAN-01","PROJ-SPAR-9110-STAN-01","PROJ-SPAR-9266-STAN-01","PROJ-SPAR-9267-STAN-01","PROJ-SPAR-9346-STAN-01","PROJ-SPAR-9363-STAN-01","PROJ-SPAR-9607-STAN-01","PROJ-SPAR-9612-STAN-01","PROJ-SPAR-9814-STAN-01","PROJ-SPAR-9947-STAN-01","PROJ-SPAR-9954-STAN-01","PROJ-SPAR-9964-STAN-01","PROJ-SPAR-9981-STAN-01","PROJ-DANP-0002-STAN-V0A","PROJ-DANP-0002-STAN-V1A","PROJ-DANP-0002-STAN-V25","PROJ-DANP-0002-STAN-V2A","PROJ-DANP-0002-STAN-V3","PROJ-DANP-0002-STAN-V35C","PROJ-DANP-0002-STAN-V36A","PROJ-DANP-0002-STAN-V4E"]
-    if not project.getID() in skips:
-        OOMPproject.harvestEagleSchemToKicad(eagleSchemFile,projectDir,overwrite=overwrite)
-    ###### get files out
-    #  of kicad
-    OOMPproject.harvestKicadBoardFile(kicadBoardFile,projectDir,overwrite=overwrite)
-
-    OOMPproject.harvestKicadSchemFile(kicadSchemFile,projectDir,overwrite=overwrite)
-    ###### interactive BOM
-    OOMPproject.makeInteractiveHtmlBom(project,overwrite)
-    ###### currently broken for kicad files
-    if os.path.exists(eagleBoardFile):
-        OOMPproject.makeInteractiveHtmlBomImages(project,overwrite)
-    OOMPprojectParts.harvestParts(project,overwrite=overwrite)
-    ###### now standalone
-    #OOMP_projects_partsMatch.matchParts(project)
-    skips = ["PROJ-ADAF-391-STAN-01","PROJ-ADAF-4991-STAN-01","PROJ-ADAF-3501-STAN-01","PROJ-ADAF-5100-STAN-01","PROJ-ADAF-723-STAN-01","PROJ-SPAR-10402-STAN-01","PROJ-SPAR-10412-STAN-01","PROJ-SPAR-11013-STAN-01","PROJ-SPAR-11259-STAN-01","PROJ-SPAR-11260-STAN-01","PROJ-SPAR-12634-STAN-01","PROJ-SPAR-13328-STAN-01","PROJ-SPAR-14130-STAN-01","PROJ-SPAR-16653-STAN-01","PROJ-SPAR-9565-STAN-01"]
-    if not project.getID() in skips:
-        OOMPproject.renderPcbDraw(project,overwrite)
-    if False:
-        for part in OOMP.getItems("parts"):
-                part.exportTags("detailsInstancesOomp",["oompInstances"]) 

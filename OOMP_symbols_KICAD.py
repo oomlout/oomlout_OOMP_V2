@@ -58,14 +58,15 @@ Property(key='Value', value='14529', id=1, position=Position(X=-7.62, Y=-21.59, 
             if len(pins) > 0:
                 break
 
-        for pin in pins:
-            #print(pin)
-            d["kicadSymbolPin" + pin.number + "Name"] = pin.name 
-            d["kicadSymbolPin" + pin.number + "ElectricalType"] = pin.name 
-            d["kicadSymbolPin" + pin.number + "Position"] = '"' + pin.position + '"' 
-            d["kicadSymbolPin" + pin.number + "Length"] = '"' +  pin.length  + '"'
+            for pin in pins:
+                #print(pin)
+                d["kicadSymbolPin" + pin.number + "Name"] = pin.name 
+                d["kicadSymbolPin" + pin.number + "ElectricalType"] = pin.name 
+                d["kicadSymbolPin" + pin.number + "Position"] = '"' + pin.position + '"' 
+                d["kicadSymbolPin" + pin.number + "Length"] = '"' +  pin.length  + '"'
     except:
-        print("        Unable to capture pins")
+        pass
+        #print("        Unable to capture pins")
 
 
 

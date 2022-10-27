@@ -12,7 +12,7 @@ def working():
 #working()
 
 def make():
-    OOMP_collections_BASE.generateCollections()
+    OOMP_collections_BASE.makeAllCollections()
 
-def harvest():
-    OOMP_collections_BASE.generatCollectionsPages()
+def create():
+    OOMP_collections_BASE.createAllCollections()

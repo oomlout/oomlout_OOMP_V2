@@ -13,7 +13,7 @@ symbolGits[git]["url"] = 'https://github.com/oomlout/oomlout_OOMP_kicad'
 symbolGits[git]["name"] = "Oomlout's Symbols"
 symbolGits[git]["description"] = "Oomlout's kicad symbol library."
 ######
-git = 'kicad-footprints'
+git = 'kicad-symbols'
 symbolGits[git] = {}
 symbolGits[git]["code"] = git
 symbolGits[git]["url"] = 'https://gitlab.com/kicad/libraries/kicad-symbols'
@@ -37,11 +37,14 @@ def makeSymbol(d):
     desc = d["oompDesc"]   
     index = d["oompIndex"]
 
+    d["name"] = desc + " : " + index
+
     hexID = d["hexID"]
 
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
 
-    print("Making symbol: " + oompID)
+    #print("Making symbol: " + oompID)
+    ping()
 
     oompSlashes = type + "/" + size + "/" + color + "/" + desc + "/" + index + "/"
 

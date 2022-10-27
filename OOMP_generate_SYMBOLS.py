@@ -20,7 +20,7 @@ def generateChanges():
 #OOMP_base.makePickle()
 #OOMP_base.loadPickle()
 
-#OOMP_symbols.make()
+OOMP_symbols.make()
 
 #OOMP_symbols.harvest()
 

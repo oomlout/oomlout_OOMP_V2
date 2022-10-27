@@ -11,26 +11,25 @@ import OOMP_projects_partsMatch_Special
 
 
 def matchParts(project):
-    global PART, VALUE, DEVICE, PACAKGE, DESC, BOM
     print("    Matching Parts")
     ###### remove tags before starting
-    for c in range(0,100):
-        project.removeTag("oompParts")
-    parts = project.getTags("rawParts")
+    project["oompParts"] = [{}]
+    try:
+        parts = project["rawParts"][0]["eagleBom"]
+    except:
+        try:
+            parts = project["rawParts"][0]["kicadBom"]
+        except:
+            parts = []
     for part in parts:
-        part = part.value.split(",")
         oompPart = matchPart(project,part)
         if not "SKIP-" in oompPart:
-            project.addTag("oompParts", part[PART] + "," + oompPart)
+            project["oompParts"][0][part["Part"]] = oompPart
 
-
-    project.exportTags("detailsPartsOomp",["oompParts"])    
+    
+    OOMP.exportTagsItem(project,"detailsPartsOomp",["oompParts"])    
 
 def matchPart(project,part):
-    for x in range(0,len(part)):
-        part[x] = part[x].replace('"','')
-
-
     oompType = OOMP_projects_partsMatch_Type.matchType(project,part)
     oompSize = OOMP_projects_partsMatch_Size.matchSize(project,part,oompType=oompType)
     oompColor = OOMP_projects_partsMatch_Color.matchColor(project,part,oompType=oompType,oompSize=oompSize)
@@ -43,12 +42,6 @@ def matchPart(project,part):
         rv = OOMP_projects_partsMatch_Special.matchSpecial(project,part,oompType=oompType,oompSize=oompSize,oompColor=oompColor,oompDesc=oompDesc,oompID=rv)  
     return rv
 
-PART = 0
-VALUE = 1
-DEVICE = 2
-PACKAGE = 3
-DESC = 4
-BOM = 5
 
 
 
@@ -56,28 +49,28 @@ def getUseful(part,name):
     global PART, VALUE, DEVICE, PACAKAGE, DESC, BOM
     rv = ""
     if name == "partLetter":
-        rv = re.sub(r'\d+', '', part[PART])
+        rv = re.sub(r'\d+', '', part["Part"])
     if name == "packageNumber":
-        rv = re.sub(r'\D+', '', part[PACKAGE])
+        rv = re.sub(r'\D+', '', part["Package"])
     if name == "valueNumber":
-        rv = re.sub(r'[a-zA-Z]+', '', part[VALUE])    ######  Maintains full stop for decimal
+        rv = re.sub(r'[a-zA-Z]+', '', part["Value"])    ######  Maintains full stop for decimal
 
     return rv
 
 def loadPartDict(part,project):
     global PART, VALUE, DEVICE, PACAKAGE, DESC, BOM
     rv = {}
-    part[VALUE] = part[VALUE].replace("Ã\x82Âµ","U") ###### unicode micro fix
-    rv["PART"] = part[PART]
+    part["Value"] = part["Value"].replace("Ã\x82Âµ","U") ###### unicode micro fix
+    rv["PART"] = part["Part"]
     rv["PARTLETTER"] = getUseful(part,"partLetter")
-    rv["VALUE"] = part[VALUE]
+    rv["VALUE"] = part["Value"]
     rv["VALUENUMBER"] = getUseful(part,"valueNumber")
-    rv["DEVICE"] = part[DEVICE]
-    rv["PACKAGE"] = part[PACKAGE]    
+    rv["DEVICE"] = part["Device"]
+    rv["PACKAGE"] = part["Package"]    
     rv["PACKAGENUMBER"] = getUseful(part,"packageNumber")
-    rv["DESC"] = part[DESC]
-    rv["BOM"] = part[BOM]
-    rv["OWNER"] = project.getTag("oompSize").value
+    rv["DESC"] = part["Description"]
+    rv["BOM"] = part["BOM"]
+    rv["OWNER"] = project["oompSize"][0]
 
     full = ""
     for c in part:
@@ -91,8 +84,8 @@ def loadPartDict(part,project):
 
 def loadProjectDict(project):
     rv = {}
-    rv["OWNER"] = project.getTag("oompSize").value
-    rv["INDEX"] = project.getTag("oompColor").value
+    rv["OWNER"] = project["oompSize"][0]
+    rv["INDEX"] = project["oompColor"][0]
     
 
     return rv

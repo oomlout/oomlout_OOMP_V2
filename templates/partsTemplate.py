@@ -1,7 +1,7 @@
 
 ######  Auto translated oomp file
 
-def load(newPart):
+def load(newPart,it):
     oType = "TYPEZZ"
     oSize = "SIZEZZ"
     oColor = "COLORZZ"
@@ -21,9 +21,6 @@ EXTRAZZ
 
     ######  Common
     newPart['hexID'].append(hexID)
-
-    ######  Housekeeping
-    #OOMPtags.addTags(newPart,oompId)
 
     return newPart
 

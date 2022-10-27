@@ -1,6 +1,7 @@
 import OOMP
 
 import OOMP_parts_BASE
+import OOMP_parts_INSTANCES
 
 import OOMP_parts_EDA
 
@@ -15,6 +16,9 @@ def make():
     OOMP_parts_BASE.createAllParts()    
     #OOMP_parts_EDA.matchFootprintsSymbols() ##### adds a symbol or footprint file detailFootprintsOOMP
     pass
+
+def create():
+    OOMP_parts_INSTANCES.loadInstances()
 
 def harvest():
     pass

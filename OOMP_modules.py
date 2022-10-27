@@ -7,14 +7,16 @@ OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
 
 
 def working():
-    OOMP_modules_BASE.createAllModules()
+    OOMP_modules_BASE.createModules()
     #OOMP_modules_BASE.harvestModules()
 
 #working()
 
 def make():
-    OOMP_modules_BASE.createAllModules()
+    OOMP_modules_BASE.makeAllModules()
 
+def create():
+    pass
 def harvest():
-    OOMP_modules_BASE.harvestModules()
+    pass
 

@@ -6,7 +6,7 @@ import OOMP_parts
 
 #OOMP_footprints.make()
 #OOMP_footprints_BASE.gitPull()
-OOMP_footprints_BASE.createAllFootprints()
+#OOMP_footprints_BASE.createAllFootprints()
 #OOMP_footprints_BASE.createFootprintLibraries()  
 
 ###### old
@@ -22,10 +22,15 @@ def generateChanges():
     OOMP_summaries.document(filter="parts")
 
 
-#OOMP_base.makePickle()
+OOMP.makePickle()
 #OOMP_base.loadPickle()
 
 #OOMP_footprints.make()
+if False:
+    OOMP_footprints_BASE.gitPull()
+    OOMP_footprints_BASE.createAllFootprints()  
+    #OOMP_footprints_BASE.createFootprintLibraries()  
+
 
 #OOMP_footprints.harvest()
 

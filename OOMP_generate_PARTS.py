@@ -1,6 +1,6 @@
 import OOMP
 import OOMP_parts
-
+import OOMP_parts_INSTANCES
 
 
 #OOMP.makePickle()   ###### make no changes 40 seconds 1600 items
@@ -10,11 +10,16 @@ import OOMP_parts
                     ############  From blank 
 #OOMP.loadPickle()
 
-OOMP_parts.make()
+#OOMP_parts.make()
 
 #OOMP_parts.harvest()
 
 
 items = OOMP.items
 #item = items["HEAD-I01-X-PI2X03-01"]
+
+OOMP.makePickle()
+#OOMP.loadPickle()
+OOMP_parts_INSTANCES.loadAllInstances()
+
 pass

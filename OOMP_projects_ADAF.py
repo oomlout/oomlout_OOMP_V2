@@ -4,7 +4,7 @@ import OOMP_projects_ADAF_generated
 
 
 def farmProjects():
-    OOMP_projects_BASE.farmProjects(user="adafruit",code="ADAF")
+    OOMP_projects_BASE.farmProjects(users=["adafruit"],code="ADAF")
 
 def makeBaseProjects():
     OOMP_projects_BASE.makeBaseProjects(company="adafruit",code="ADAF")

@@ -98,6 +98,8 @@ def makeFootprint(d):
     desc = d["oompDesc"]   
     index = d["oompIndex"]
 
+    d["name"] = desc + " : " + index
+
     hexID = d["hexID"]
 
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index

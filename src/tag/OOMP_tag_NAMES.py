@@ -44,13 +44,35 @@ def load(tn):
     tn[current]["description"] = "Hex ID (short code)"
 
 ###### Main ones
+    category = "MAIN"
     current = "name"
     tn[current] = {}
     tn[current]["code"] = current
-    tn[current]["category"] = "MAIN"
-    tn[current]["name"] = "Name"
-    tn[current]["description"] = "Name"
+    tn[current]["category"] = category
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    current = "description"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = category
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    current = "code"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = category
+    tn[current]["name"] = current
+    tn[current]["description"] = current
 
+###### Collection Ones
+    category = "COLLECTION"
+    current = "collection"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = category
+    tn[current]["name"] = current
+    tn[current]["description"] = current
+    
 ###### Project Ones
     current = "gitRepo"
     tn[current] = {}
@@ -137,3 +159,24 @@ def load(tn):
     tn[current]["category"] = "EDA"
     tn[current]["name"] = "Symbol Kicad Details"
     tn[current]["description"] = "Extracted details from a kicad footprint"
+
+######  Parts
+    current = "oompParts"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PARTS"
+    tn[current]["name"] = "OOMP Parts List"
+    tn[current]["description"] = "List of OOMP matched parts (Designator,OOMPID)"
+    current = "oompInstances"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PARTS"
+    tn[current]["name"] = "OOMP Instances"
+    tn[current]["description"] = "List of OOMP projects the part is in (Designator,Project)"
+    current = "rawParts"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "PARTS"
+    tn[current]["name"] = "Parts as pulled from a BOM"
+    tn[current]["description"] = "List of OOMP matched parts (eagleBom,kicadBom)(each entry in BOM has Part,Value,Device,Package,Description,BOM)"
+    
