@@ -14,7 +14,7 @@ oomlout_OOMP_projects_V2/
 # This is where footprint and symbol files are stored (https://github.com/oomlout/oomlout_OOMP_kicad)
 oomlout_OOMP_kicad_V2/
 
-oomlout_OOMP_collections/
+oomlout_OOMP_collections_V2/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
