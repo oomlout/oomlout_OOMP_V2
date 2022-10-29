@@ -3286,8 +3286,8 @@ def load(td):
 
     td['size']['JSTSH'] = {}
     td['size']['JSTSH']['code'] = 'JSTSH'
-    td['size']['JSTSH']['name'] = 'JST XH (1 mm)'
-    td['size']['JSTSH']['description'] = 'JST XH (1 mm)'
+    td['size']['JSTSH']['name'] = 'JST SH (1 mm)'
+    td['size']['JSTSH']['description'] = 'JST SH (1 mm)'
 
     td['size']['ADAF'] = {}
     td['size']['ADAF']['code'] = 'ADAF'

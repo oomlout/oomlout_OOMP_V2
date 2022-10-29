@@ -12,16 +12,49 @@ runParts = False
 runProjects = False
 runSymbols = False
 
+makePickle2 = False
+
 runCSV = False
-runHarvest = False
+runHarvestProjects = False
 runMatching = False
+runInstances = False
 runMigrating = False
 runImages = False
-runSummaries = True
+runJson = False
+runSummaries = False
+
+
+
+###### run subset
+OOMP.loadPickle()
+if True:    
+    items = OOMP.items
+else:
+    #items = OOMP.itemsTypes["parts"]["items"]
+    items = OOMP.itemsTypes["projects"]["items"]
 
 ###### gui ones
 convertToKicad=False
 harvestKicad=False
+
+##### All
+makePickle = False
+if True:    
+    runCollections = False
+    runFootprints = runModules =runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runSummaries = True
+##### Make Parts, make pickle, make csv etc
+if False:
+    runParts = makePickle2 = runCSV = runInstances = runMigrating = runImages = runJson =runSummaries = True
+    items = OOMP.itemsTypes["parts"]["items"]
+##### Make Projects, make pickle, make csv etc
+if False:
+    runProjects =  makePickle =  runImages = False
+    makePickle2 = runCSV = runHarvestProjects = runMatching = runMigrating =  runJson = runSummaries = True
+    
+    items = OOMP.itemsTypes["projects"]["items"]
+
+
+
 
 ########################################
 ######  Make Pickle
@@ -109,6 +142,11 @@ if runSymbols:
 
 
 
+########################################
+######  Make Pickle
+if makePickle2:
+    print("Making pickle")
+    OOMP.makePickle()
 
 
 
@@ -125,7 +163,7 @@ if runCSV:
     
     #OOMP_csv.make()
     OOMP_csv_BASE.makeCSVSummaries()
-    for item in OOMP.items:
+    for item in items:
         OOMP_csv_BASE.makeCSVFile(OOMP.items[item])
 
 #######################################
@@ -133,7 +171,7 @@ if runCSV:
 
 import OOMP_projects_partsHarvest_BASE
 
-if runHarvest:
+if runHarvestProjects:
     print("Running Harvest Parts")
     OOMP.loadPickle()
     
@@ -141,6 +179,7 @@ if runHarvest:
         OOMP_projects_partsHarvest_BASE.harvestParts(OOMP.items[itemID])
     for itemID in OOMP.itemsTypes["modules"]["items"]:
         OOMP_projects_partsHarvest_BASE.harvestParts(OOMP.items[itemID])  
+    OOMP.makePickle()        
 
 
 #######################################
@@ -156,6 +195,17 @@ if runMatching:
         OOMP_projects_partsMatch.matchParts(OOMP.items[itemID])
     #for itemID in OOMP.itemsTypes["modules"]["items"]:
         #OOMP_projects_partsMatch.matchParts(OOMP.items[itemID])
+    OOMP.makePickle()        
+
+#######################################
+######  MATCH INSTANCES
+
+import OOMP_parts_INSTANCES
+
+if runInstances:
+    print("Running Instances")
+    OOMP.loadPickle()    
+    OOMP_parts_INSTANCES.loadAllInstances()
 
 
 #######################################
@@ -165,7 +215,7 @@ import OOMP_migrate_BASE
 
 if runMigrating:
     OOMP.loadPickle()
-    for item in OOMP.items:
+    for item in items:
     #for item in OOMP.itemsTypes["projects"]["items"]:
         OOMP_migrate_BASE.migrateFiles(OOMP.items[item])
 
@@ -177,15 +227,30 @@ if runImages:
     OOMP_images_BASE.generateAllResolutions()
 
 #######################################
+######  JSON
+import OOMP_json_BASE
+if runJson:
+    OOMP.loadPickle()
+    
+    
+    for item in items:
+        OOMP_json_BASE.makeJson(OOMP.items[item],overwrite=True)
+
+#######################################
 ######  SUMMARIES
 import OOMP_summaries_BASE
+import OOMP_summaries_INDEXES
 if runSummaries:
-    #OOMP.makePickle()
-    OOMP.loadPickle()
-    for item in OOMP.items:
-    #for item in OOMP.itemsTypes["projects"]["items"]:
-        OOMP_summaries_BASE.createSummary(OOMP.items[item],overwrite=True)
+    OOMP.makePickle()
 
+    #OOMP.loadPickle()
+    
+    
+    
+    for item in items:
+        OOMP_summaries_BASE.createSummary(OOMP.items[item],overwrite=True)
+    OOMP_summaries_INDEXES.generatePartsIndex()
+    OOMP_summaries_INDEXES.generateCollectionsIndex()
 
 
 

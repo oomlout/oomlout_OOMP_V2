@@ -49,7 +49,7 @@ import OOMP_projects_partsHarvest_BASE
 itemID = "PROJ-ADAF-1032-STAN-01"
 item = OOMP.items[itemID]
 
-#OOMP_projects_partsHarvest_BASE.harvestParts(item)
+OOMP_projects_partsHarvest_BASE.harvestParts(item)
 
 import OOMP_projects_partsMatch
 OOMP_projects_partsMatch.matchParts(item)

@@ -18,6 +18,11 @@ def load(fn):
     fn[current]["filename"] = "detailsPartsOomp.py"
     fn[current]["type"] = cType
     fn[current]["generated"] = True
+    current = "detailsInstancesOomp"
+    fn[current] = {}
+    fn[current]["filename"] = "detailsInstancesOomp.py"
+    fn[current]["type"] = cType
+    fn[current]["generated"] = True
 
     
     current = ""

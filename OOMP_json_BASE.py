@@ -19,7 +19,9 @@ def makeJson(item,overwrite):
         ###### FILES
     oompFiles = {}
     for file in OOMP.filenames:
-        testFile = OOMP.getFileItem(item,file)
+        skips  =["BASE","IMAGE","EDA"]
+        if file not in skips:
+            testFile = OOMP.getFileItem(item,file)
         if os.path.exists(testFile):
             oompFiles[file] = [testFile]
     workingItem["oompFiles"] = oompFiles

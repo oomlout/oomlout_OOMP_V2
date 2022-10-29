@@ -4,6 +4,9 @@ import math
 from mdutils.mdutils import MdUtils
 from oomBase import *
 
+import OOMP_summaries_PAGES
+import OOMP_summaries_INDEXES
+
 def createSummary(item,overwrite=False):
     #print("    Making Summary")
     generateReadme(item,overwrite)
@@ -18,18 +21,16 @@ def generateReadme(item,overwrite=False):
         addMainImage(item,rFile)
         ###### Summary        
         addSummary(item,rFile)
-        """
+        
         ######  Specific items
-        type = item.getType()
-        if type== "FOOTPRINT":
-            generateReadmeFootprint(item, mdFile)
-        elif type== "PROJ" or  type== "MODULE" or  type== "BLOCK"  :
-            generateReadmeProject(item, mdFile)
-        elif type== "SYMBOL":
-            generateReadmeProject(item, mdFile)
+        type = OOMP.getType(item)
+        if type== "eda":
+            OOMP_summaries_PAGES.generateReadmeFootprint(item, rFile)
+        elif type== "projects" or  type== "modules"  :
+            OOMP_summaries_PAGES.generateReadmeProject(item, rFile)
         else:
-            generateReadmePart(item, mdFile)                
-        """
+            OOMP_summaries_PAGES.generateReadmePart(item, rFile)                
+        
         ###### Images  
         addImages(item,rFile)             
         ###### Tags
@@ -42,26 +43,8 @@ def generateReadme(item,overwrite=False):
 ######  Collections
 
 def generateCollectionsIndex(): 
-    print("Generating Collection Index")  
-    filename = OOMP.getDir("collections") + "/COLLECTION.md"
+    OOMP_summaries_INDEXES.generateCollectionsIndex()
     
-    rFile = newReadme(filename)
-    addHeader(rFile, title="Collections", level=1)
-    
-    parts = ["Collections"]
-    for collectionID in OOMP.itemsTypes["collections"]["items"]:
-        collection = OOMP.items[collectionID]
-        name = collection["name"][0]
-        description = collection["description"][0]    
-        entry = ""
-        entry = entry + getLink(text = name,link = OOMP.getFileItem(collection,"collection",relative="flat")) + "  <br>"
-        entry = entry + description + ""
-        
-        parts.append(entry)
-    addDisplayTable(rFile,parts,1,align="left")   
-    
-    saveReadme(rFile)
-
 def generateCollectionPage(collection):    
     oompID = collection["oompID"][0]  
     
@@ -160,6 +143,8 @@ def addTags(item,mdFile):
     #mdFile.new_list(tags)        
     addDisplayTable(mdFile,tags,3,align="left")
 
+def addToc(mdFile):
+   mdFile.new_table_of_contents(table_title='Contents', depth=2) 
 
 ###### md helpers
 def newReadme(filename):
@@ -181,14 +166,24 @@ def addLine(mdFile,line):
 ###### GET 
 
 def getLink(text,link):
-    return "[" + text + "](" + link + ")"
+    if link != "":
+        if text != None:
+            return "[" + text + "](" + link + ")"
+        
+        else:
+            return text
+    else:
+        return text
 
-def getImageItem(item,image,resolution="140"):
-    link = OOMP.getFileItem(item,image,relative="github")
+def getImageItem(item,image,resolution="140",link=True):
+    lin = OOMP.getFileItem(item,image,relative="github")
     imageOut = getImage(OOMP.getFileItem(item,image,resolution=resolution,relative="githubRaw"))
     if ".svg" in imageOut:
         imageOut = getImage(OOMP.getFileItem(item,image,resolution=resolution,relative="githubRaw",extension="png"))
-    return getLink(imageOut,link)
+    if link:
+        return getLink(imageOut,lin)
+    else:        
+        return imageOut
 
 def getImage(image,alt=""):
     return "![" + alt + "](" + image + ")"

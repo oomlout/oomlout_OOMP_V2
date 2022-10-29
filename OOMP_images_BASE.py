@@ -6,8 +6,7 @@ import glob
 from oomBase import *                
 
 def generateAllResolutions(overwrite=False):
-    skips = ["_140","_450","_600","sourceFiles"]        
-
+    skips = ["_140","_450","_600","sourceFiles"]  
     types = [".jpg", ".png"]
     files = []
     for type in types:

@@ -16,7 +16,7 @@ def harvestParts(item,overwrite=False):
     if os.path.exists(bomFile):
         parts = oomReadFileToString(bomFile)
         parts = parts.split("\n")
-        item["rawParts"].append({})
+        item["rawParts"] = [{}]
         item["rawParts"][0]["kicadBom"] = []
         item["rawParts"][0]["eagleBom"] = []
         ###### remove tags before starting

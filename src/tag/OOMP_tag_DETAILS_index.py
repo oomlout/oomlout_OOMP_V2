@@ -9,6 +9,11 @@ def load(td):
     td['index']['67']['name'] = '1%'
     td['index']['67']['description'] = '1%'
 
+    td['index']['01'] = {}
+    td['index']['01']['code'] = '01'
+    td['index']['01']['name'] = ''
+    td['index']['01']['description'] = ''
+
     td['index']['65'] = {}
     td['index']['65']['code'] = '65'
     td['index']['65']['name'] = '5%'
@@ -2434,3 +2439,10 @@ def load(td):
     td['index']['SHRO']['name'] = 'Shrouded (IDC)'
     td['index']['SHRO']['description'] = 'Shrouded (IDC)'
 
+
+    ####### New ones
+    current = "VADJ"
+    td['index'][current] = {}
+    td['index'][current]['code'] = 'VADJ'
+    td['index'][current]['name'] = 'Adjustable Voltage'
+    td['index'][current]['description'] = 'Adjustable Voltage'

@@ -24,6 +24,9 @@ def preloadItem(newPart):
         newPart[tagNames[tag]["code"]] = []
     return newPart
 
+def getNameDisplay(item,br="\n"):
+    return getDisplayName(item,br=br)
+
 def getDisplayName(item,br="\n"):
     try:
         name = item["name"][0]
@@ -61,20 +64,23 @@ def getDirItem(item,relative):
     return extraFront + rv
 
 def getFileItem(item,file,resolution="",extension="",relative=""):
-    resolution = str(resolution)
-    rv = filenames[file]["filename"]
-    if "&&res&&" in rv:
-        if resolution != "":
-            rv = rv.replace("&&res&&","_" + resolution)
-        else:
-            rv = rv.replace("&&res&&","")
-    if "&&ext&&" in rv:
-        if extension != "":
-            rv = rv.replace("&&ext&&",extension)
-        else:
-            rv = rv.replace("&&ext&&",filenames[file]["defaultExtension"])
-    rv = getDirItem(item,relative) + rv
-    return rv
+    if item != "":
+        resolution = str(resolution)
+        rv = filenames[file]["filename"]
+        if "&&res&&" in rv:
+            if resolution != "":
+                rv = rv.replace("&&res&&","_" + resolution)
+            else:
+                rv = rv.replace("&&res&&","")
+        if "&&ext&&" in rv:
+            if extension != "":
+                rv = rv.replace("&&ext&&",extension)
+            else:
+                rv = rv.replace("&&ext&&",filenames[file]["defaultExtension"])
+        rv = getDirItem(item,relative) + rv
+        return rv
+    else:
+        return ""
 
 def getImagesItem(item,resolution=""):
     images = []
@@ -99,17 +105,20 @@ def getName(item):
     return name
 
 def getType(item):
-    tests = {}
-    tests["collections"] = ["COLLECTION"]
-    tests["eda"] = ["FOOTPRINT","SYMBOL"]
-    tests["modules"] = ["BLOCK","MODULE"]
-    tests["projects"] = ["PROJ"]
-    rv = "parts"
-    oompType = item["oompType"][0]
-    for t in tests:
-        if oompType in tests[t]:
-            rv = t
-    return rv
+    if item != "":
+        tests = {}
+        tests["collections"] = ["COLLECTION"]
+        tests["eda"] = ["FOOTPRINT","SYMBOL"]
+        tests["modules"] = ["BLOCK","MODULE"]
+        tests["projects"] = ["PROJ"]
+        rv = "parts"
+        oompType = item["oompType"][0]
+        for t in tests:
+            if oompType in tests[t]:
+                rv = t
+        return rv
+    else:
+        return ""
 
 def setBaseDir(base):
     global baseDir

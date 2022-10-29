@@ -18,8 +18,8 @@ import OOMP_parts_INSTANCES
 items = OOMP.items
 #item = items["HEAD-I01-X-PI2X03-01"]
 
-OOMP.makePickle()
-#OOMP.loadPickle()
+#OOMP.makePickle()
+OOMP.loadPickle()
 OOMP_parts_INSTANCES.loadAllInstances()
 
 pass

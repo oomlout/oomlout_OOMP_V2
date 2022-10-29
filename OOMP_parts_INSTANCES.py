@@ -8,7 +8,7 @@ def loadAllInstances():
     for project in OOMP.itemsTypes["projects"]["items"]:
         loadInstances(OOMP.items[project])
     for partID in OOMP.itemsTypes["parts"]["items"]: ###### reset oomp instances
-        OOMP.exportTagsItem(OOMP.parts[partID],"detailsoompInstances",["oompInstances"])
+        OOMP.exportTagsItem(OOMP.items[partID],"detailsInstancesOomp",["oompInstances"])
 
 def loadInstances(project):
     oompID = project["oompID"][0]
@@ -19,7 +19,8 @@ def loadInstances(project):
             p["PROJECT"] = project["oompID"][0]
             p["ID"] = part
             try:
-                oompPart = OOMP.parts[parts[part]]
-                OOMP.parts[parts[part]].append(p)
+                oompPart = OOMP.items[parts[part]]
+                OOMP.items[parts[part]]["oompInstances"].append(p)
+                pass
             except:
-                print("        loadInstances: part not in OOMP " + parts[part])
+                print("        loadInstances: part not in OOMP, " + parts[part])
