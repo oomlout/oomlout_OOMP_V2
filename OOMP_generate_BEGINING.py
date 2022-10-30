@@ -3,54 +3,63 @@ import OOMP
 import time
 
 startTime= time.time()
+mode = "all"
+#mode = "regular"
+#mode = "parts"
+#mode = "projects"
+#mode = "regular"
+#mode = "none"
 
-makePickle = False
-runCollections = False
-runFootprints = False
-runModules = False
-runParts = False
-runProjects = False
-runSymbols = False
-
-makePickle2 = False
-
-runCSV = False
-runHarvestProjects = False
-runMatching = False
-runInstances = False
-runMigrating = False
-runImages = False
-runJson = False
-runSummaries = False
-
-
-
-###### run subset
+###### Setting Base Level
 OOMP.loadPickle()
-if True:    
-    items = OOMP.items
-else:
-    #items = OOMP.itemsTypes["parts"]["items"]
-    items = OOMP.itemsTypes["projects"]["items"]
+items = OOMP.items
+makePickle = runCollections = runFootprints = runModules = runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runSummaries = False
 
 ###### gui ones
 convertToKicad=False
 harvestKicad=False
 
+if mode == "regular":
+    makePickle = False
+    runCollections = False
+    runFootprints = False
+    runModules = False
+    runParts = True
+    runProjects = False
+    runSymbols = False
+
+    makePickle2 = False
+
+    runCSV = False
+    runHarvestProjects = False
+    runMatching = False
+    runInstances = False
+    runMigrating = False
+    runImages = False
+    runJson = False
+    runSummaries = False
+
+
+###### run subset
+
+
+    #items = OOMP.itemsTypes["parts"]["items"]
+
+
+
 ##### All
-makePickle = False
-if True:    
+#makePickle = False
+if mode == "all":    
     runCollections = False
     runFootprints = runModules =runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runSummaries = True
 ##### Make Parts, make pickle, make csv etc
-if False:
-    runParts = makePickle2 = runCSV = runInstances = runMigrating = runImages = runJson =runSummaries = True
+if mode == "parts":
+    runParts = makePickle = makePickle2 = runCSV = runInstances = runMigrating = runImages = runJson =runSummaries = True
     items = OOMP.itemsTypes["parts"]["items"]
 ##### Make Projects, make pickle, make csv etc
-if False:
+if mode == "projects":
     runProjects =  makePickle =  runImages = False
-    makePickle2 = runCSV = runHarvestProjects = runMatching = runMigrating =  runJson = runSummaries = True
-    
+    makePickle2 = runCSV = runHarvestProjects = runMatching = runMigrating =  runJson = runSummaries = True    
     items = OOMP.itemsTypes["projects"]["items"]
 
 
@@ -107,7 +116,7 @@ import OOMP_parts_EDA
 #OOMP_parts.make()
 if runParts:
     OOMP_parts_BASE.createAllParts()    
-    #OOMP_parts_EDA.matchFootprintsSymbols() ##### adds a symbol or footprint file detailFootprintsOOMP    
+    OOMP_parts_EDA.matchFootprintsSymbols() ##### adds a symbol or footprint file detailFootprintsOOMP    
 
 ########################################
 ######  PROJECTS
@@ -193,8 +202,7 @@ if runMatching:
     
     for itemID in OOMP.itemsTypes["projects"]["items"]:
         OOMP_projects_partsMatch.matchParts(OOMP.items[itemID])
-    #for itemID in OOMP.itemsTypes["modules"]["items"]:
-        #OOMP_projects_partsMatch.matchParts(OOMP.items[itemID])
+    OOMP_projects_partsMatch.partReport()    
     OOMP.makePickle()        
 
 #######################################

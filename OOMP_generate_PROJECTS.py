@@ -42,17 +42,22 @@ overwrite = True
 
 OOMP.loadPickle()
 
-#OOMP_projects_BASE.harvestProjects(dict = dict,overwrite=overwrite) ###### the things that don't need a gui
+#OOMP_projects_ BASE.harvestProjects(dict = dict,overwrite=overwrite) ###### the things that don't need a gui
 
 import OOMP_projects_partsHarvest_BASE
 
 itemID = "PROJ-ADAF-1032-STAN-01"
 item = OOMP.items[itemID]
 
-OOMP_projects_partsHarvest_BASE.harvestParts(item)
+#OOMP_projects_partsHarvest_BASE.harvestParts(item)
 
 import OOMP_projects_partsMatch
-OOMP_projects_partsMatch.matchParts(item)
+#OOMP_projects_partsMatch.matchParts(item)
+for itemID in OOMP.itemsTypes["projects"]["items"]:
+        OOMP_projects_partsMatch.matchParts(OOMP.items[itemID])
+    
+
+OOMP_projects_partsMatch.partReport()
 
 
 ###### Base Projects

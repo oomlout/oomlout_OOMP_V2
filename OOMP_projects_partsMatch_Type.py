@@ -52,6 +52,8 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     ###### HEADER
     if "HEADER" in partDict["DEVICE"].upper():
         rv = "HEAD"
+    if "pin connector" in partDict["DESC"].upper():
+        rv = "HEAD"
     if "HEADER" in partDict["DESC"].upper():
         rv = "HEAD"
     if partDict["PARTLETTER"].upper() == "JP":
@@ -60,6 +62,10 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     if "STEMMA_I2C" in partDict["VALUE"].upper():
         rv = "HEAD"
     if "QWIIC_CONNECTOR" in partDict["VALUE"].upper() or "QWIIC RIGHT" in partDict["VALUE"].upper():
+        rv = "HEAD"   
+    if "JSTPH" in partDict["VALUE"].upper() or "JST PH" in partDict["VALUE"].upper() or "JST_2MM" in partDict["DEVICE"].upper():
+        rv = "HEAD"        
+    if "JST_XH" in partDict["VALUE"].upper():
         rv = "HEAD"        
 
     ###### LED
@@ -87,10 +93,10 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
 
     ######Resistor
     if partDict["PARTLETTER"] == "R" or partDict["PART"] == "R-PROG2":
-        if "RESPACK_4X0603" in partDict["PACKAGE"]:
+        if "RESPACK_4X0603" in partDict["PACKAGE"] or "RPACK" in partDict["PACKAGE"] :
             return "RESA"
         else:
-            return "RESE"
+            rv = "RESE"
 
 
 
@@ -100,6 +106,7 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     options.append("MIC5205")
     options.append("LP298XS")
     options.append("AP2112K")
+    options.append("AP2112-3.3")
     for option in options:
         if option in partDict["VALUE"] or option in partDict["DEVICE"]:
             return "VREG"
@@ -112,7 +119,14 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     for l in list:
         if l in partDict["BOM"]:
             rv = "SKIP"
-
+    ###### PART (Designator)
+    list = []
+    list.append("DNP")
+    list.append("U$")
+    list.append("TP")
+    for l in list:
+        if l in partDict["PART"]:
+            rv = "SKIP"
     ###### VALUE
     list = []
     list.append("ALLIGATOR")
@@ -121,7 +135,7 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     list.append("FIDUCIAL")
     list.append("FRAME")
     list.append("GATOR")
-    list.append("JUMPER-SMT")
+    list.append("JUMPER")
     list.append("LOGO")
     list.append("M01SNAP") 
     list.append("MOUSE-BITE")  
@@ -141,14 +155,29 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     list.append("TEST-POINT")
     list.append("TPTP20R")
     list.append("TP_")
+    list.append("SPECIAL_INSTRUCTIONS")
+    list.append("KAILH")
+    list.append("FEATHERWING")
+    list.append("DNP")
+    list.append("TPTP")
+    list.append("MOUNT-HOLE")
     for l in list:
         if l in partDict["VALUE"]:
             rv = "SKIP"
     ###### DEVICE
     list = []
-    list.append("JUMPER-PAD")
+    list.append("ALLIGATOR")
+    list.append("JUMPER")
     list.append("SOLDERJUMPER")
     list.append("TESTPOINT")
+    list.append("TEST-POINT")
+    list.append("TPB")
+    list.append("SEWTAP")
+    list.append("SJ")
+    list.append("FRAME-LETTER")
+    list.append("3-STRIP")
+    list.append("12-STRIP")
+    list.append("HEADER-1X1-SMD_MASKHELD_2X2MM")
     for l in list:
         if l in partDict["DEVICE"]:
             rv = "SKIP"            

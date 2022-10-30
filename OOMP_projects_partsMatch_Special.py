@@ -10,12 +10,16 @@ def matchSpecial(project,part,oompType="",oompSize="",oompColor="",oompDesc="",o
     list.append([["MOMENTARY-SWITCH-SPST-LED-PTH-12MM"],"BUTA-12-X-LEDS-01"])
     ###### HEAD
         ###### QWIIC Connector
-    list.append([["JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal"],"HEAD-JSTSH-X-PI04-RS"])
-    list.append([["STEMMA_I2C"],"HEAD-JSTSH-X-PI04-RS"])
-    list.append([["QWIIC"],"HEAD-JSTSH-X-PI04-RS"])    
+    list.append([["JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal","STEMMA_I2C","QWIIC","I2C_STANDARDJS-1MM"],"HEAD-JSTSH-X-PI04-RS"])
+        ###### ISP Programmer
+    list.append([["AVR_SPI_PRG"],"HEAD-JSTSH-X-PI04-RS"])      
+        ###### Raspberry Pi  
+    list.append([["RASPBERRYPI_BPLUS_BONNET_THMSMT"],"HEAD-I01-X-PI2X20-01"])      
+        
     ###### MCUU
         ###### ATTINY
-    list.append([["ATTINY84","SO14"],"HEAD-JSTSH-X-PI04-RS"])        
+        ###### TODO ADD SIZE differentiation
+    list.append([["ATTINY84"],"MCUU-SC14-84-ATTINY-01"])        
     ###### SENS
         ###### ADXL345
     list.append([["ADXL345"],"SENS-LG14-X-K345-01"])
@@ -24,9 +28,10 @@ def matchSpecial(project,part,oompType="",oompSize="",oompColor="",oompDesc="",o
 
     for l in list:
         #if l[0].upper() in partDict["FULL"].upper():
-        include = False
-        if all(x in partDict["FULL"] for x in l[0]):
-            oompID = l[1]
+        include = False        
+        for x in l[0]:
+            if x in partDict["FULL"]:
+                oompID = l[1]
 
 
     return oompID

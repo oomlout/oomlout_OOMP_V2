@@ -4,9 +4,10 @@ import OOMP_parts_BASE
 
 import OOMP_parts_DIOD
 import OOMP_parts_HEAD
+import OOMP_parts_LEDS
 import OOMP_parts_MCUU
 import OOMP_parts_VREG
-
+import OOMP_parts_MOSN
 
 
 def createParts():    
@@ -27,25 +28,24 @@ def createParts():
     ######  HEAD
     if True:
         OOMP_parts_HEAD.addParts() 
+    
+    ##############################
+    ######  LEDS
+    if True:
+        OOMP_parts_LEDS.addParts() 
 
     ##############################
     ######  MCUU
     if True:
         OOMP_parts_MCUU.addParts()
 
-
     ##############################
     ######  MOSN
     if True:
-        type = "MOSN";size = "T252";color = "X";desc = "K4184";index = "01";hexID = "MN2524184A"
-        oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
-        datasheet = "sourceDatasheets/" + oompID + ".pdf"
-        extraTags = []
-        extraTags.append(["footprintKicad","FOOTPRINT-kicad-kicad-footprints-Package_TO_SOT_SMD-TO-252-3_TabPin2"])     
-        extraTags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Device-Q_NMOS_GDS"])            
-        d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-        OOMP_parts_BASE.makePart(dict = d) 
+        OOMP_parts_MOSN.addParts()
 
+
+    
     ##############################
     ######  REFU
     if True:

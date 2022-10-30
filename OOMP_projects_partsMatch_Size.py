@@ -6,7 +6,7 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     rv= "UNMATCHED"
 
     ######direct replacments
-    tests = ["0805","0603","0402","1206"]
+    tests = ["0805","0603","0402","1206","1210"]
     for test in tests:
         if partDict["PACKAGENUMBER"] == test:
         #if test in partDict["PACKAGE"]:
@@ -44,9 +44,14 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
                 return "UNMATCHED"
         if "STEMMA_I2C" in partDict["VALUE"].upper():
             rv = "01"
-        if "QWIIC_CONNECTOR" in partDict["VALUE"].upper() or "QWIIC RIGHT" in partDict["VALUE"].upper():
+        elif "QWIIC_CONNECTOR" in partDict["VALUE"].upper() or "QWIIC RIGHT" in partDict["VALUE"].upper():
             rv = "01"                
-        return "I01"
+        elif "JSTPH" in partDict["VALUE"].upper() or "JST PH" in partDict["VALUE"].upper() or "JST-2MM" in partDict["VALUE"].upper():    
+            rv = "JSTPH"             
+        elif "JST_XH" in partDict["VALUE"].upper():    
+            rv = "JSTXH"
+        else:
+            rv= "I01"
 
 
 
@@ -58,6 +63,13 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     ######Pairs        
     ######  PACKAGE
     pairs = []
+
+    ###### Abnormal Adafruit ones
+    pairs.append(["0805_10MGAP","0805"])
+
+    ###### Abnormal Sparkfun ones
+    pairs.append(["0603@1","0603"])
+    pairs.append(["0603-RES@1","0603"])
     ###### Kicad surface mounts
     pairs.append(["0603_1608Metric","0603"])
     pairs.append(["0805_2012Metric","0805"])
@@ -74,15 +86,20 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     pairs.append(["SOT363","SO363"])
     pairs.append(["SOT23-5L","SO235"])
     pairs.append(["2121","2121"])
+    pairs.append(["SK6805_1515","1515"])
     pairs.append(["2020","2020"])
     pairs.append(["3535","3535"])
+    pairs.append(["2812B_4020","4020"])
     pairs.append(["4.6X2.8","4628"])
     pairs.append(["5050","5050"])
     pairs.append(["EVQ-Q2","6060"])
     pairs.append(["RESPACK_4X0603","06038"])
+    pairs.append(["LED5MM","05"])
+    pairs.append(["LED3MM","03"])
     for pair in pairs:
         if pair[0] in partDict["PACKAGE"]:
             return pair[1]
+    
     ######  DEVICE
     pairs = []
     pairs.append(["5050","5050"])

@@ -159,6 +159,18 @@ def load(tn):
     tn[current]["category"] = "EDA"
     tn[current]["name"] = "Symbol Kicad Details"
     tn[current]["description"] = "Extracted details from a kicad footprint"
+    current = "symbolEagle"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "EDA"
+    tn[current]["name"] = "Symbol Eagle"
+    tn[current]["description"] = ""
+    current = "symbolEagleDetails"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "EDA"
+    tn[current]["name"] = "Symbol Eagle Details"
+    tn[current]["description"] = ""
 
 ######  Parts
     current = "oompParts"

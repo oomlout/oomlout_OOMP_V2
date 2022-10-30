@@ -52,8 +52,15 @@ def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
         list.append(["0.1UF","NF100"])
         list.append([".22UF","NF220"])
         list.append(["0.22UF","NF220"])
+        list.append(["1.0UF","UF1"])
+        list.append(["1UF/25V","UF1"])
+        list.append(["4.7UF/50V","UF47D"])
+        list.append(["10UF/25V","UF10"])
+        list.append(["10UF/10V","UF10"])
+        list.append(["10UF/16V","UF10"])
         list.append(["47UF","UF47"])
         list.append(["2U2","UF22D"])
+        list.append(["2200PF","NF22D"])
 
 
 
@@ -84,6 +91,10 @@ def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
                 return "UNMATCHED"
         for x in range(1,40):
             if "1X" + str(x).zfill(2) in partDict["PACKAGE"].upper():
+                return "PI" + str(x).zfill(2)
+            if str(x) + "PIN" in partDict["DEVICE"].upper():
+                return "PI" + str(x).zfill(2)
+            if "JST-" + str(x) in partDict["PACKAGE"].upper():
                 return "PI" + str(x).zfill(2)
             if "2X" + str(x).zfill(2) in partDict["PACKAGE"].upper():    
                 return "PI2X" + str(x).zfill(2)
@@ -134,16 +145,30 @@ def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
                     twoDig = int(x)
                     return "O" + str(twoDig) + "6"    + extra
         list = []
+        list.append(["470 (0603)","O471"])
         list.append(["1.0K","O102"])
+        list.append(["0OHM","O000"])
+        list.append(["0 OHM","O000"])
+        list.append(["10OHM","O100"])
+        list.append(["27OHM","O100"])
+        list.append(["1KOHM","O000"])
+        list.append(["1.0 K","O102"])
+        list.append(["1.5K","O102"])
+        list.append(["1.8K","O102"])
+        list.append(["2.0K","O202"])
         list.append(["2.2K","O222"])
+        list.append(["3.3K","O332"])
         list.append(["3.9K","O392"])
         list.append(["4.7K","O472"])
         list.append(["5.1K","O472"])
+        list.append(["5.6K","O562"])
+        list.append(["75K","O753"])
+        list.append(["1Meg","O105"])
         for l in list:
             if partDict["VALUE"].upper() == l[0]:
                 return l[1] + extra
-
-
+        if partDict["VALUE"] == 0:
+            rv = "O000"
     ######Pairs   
     # ####### VALUE     
     pairs = []
@@ -157,6 +182,7 @@ def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     pairs.append(["MIC5205","KMIC5205"])
     pairs.append(["LP298XS","KLP298XS"])
     pairs.append(["AP2112K","KAP2112K"])
+    pairs.append(["AP2112-3.3","KAP2112K"])
     pairs.append(["MMZ1608B121C","O121"])
     
     for pair in pairs:
@@ -168,12 +194,19 @@ def matchDesc(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     # ####### PACKAGE     
     pairs = []
     pairs.append(["1X2-3.5MM","PI02"])
+    pairs.append(["1X02-3.5MM","PI02"])
     pairs.append(["1X3-3.5MM","PI03"])
+    pairs.append(["1X03-3.5MM","PI03"])
     pairs.append(["1X4-3.5MM","PI04"])
+    pairs.append(["1X04-3.5MM","PI04"])
     pairs.append(["1X5-3.5MM","PI05"])
+    pairs.append(["1X05-3.5MM","PI05"])
     pairs.append(["1X6-3.5MM","PI06"])
+    pairs.append(["1X06-3.5MM","PI06"])
     pairs.append(["1X7-3.5MM","PI07"])
+    pairs.append(["1X07-3.5MM","PI07"])
     pairs.append(["1X8-3.5MM","PI08"])
+    pairs.append(["1X08-3.5MM","PI08"])
     pairs.append(["SCREWTERMINAL-3.5MM-2","PI02"])
     pairs.append(["SCREWTERMINAL-3.5MM-3","PI03"])
     pairs.append(["SCREWTERMINAL-3.5MM-4","PI04"])

@@ -62,6 +62,8 @@ def matchPart(part):
     part = matchColor(part)
     part = matchDesc(part)
     part = matchIndex(part)
+    part = matchSpecial(part)
+
 
     part = extraTags(part)
 
@@ -152,6 +154,40 @@ def matchIndex(part):
 
     return part
 
+def matchSpecial(part):
+    pass
+    lcscPart = part["LCSC Part"]
+    newDict  = {"oompType" : "","oompSize" : "","oompColor" : "","oompDesc" : "","oompIndex" : ""}
+    tests = []
+    ###### LEDS
+        ######  0603
+    newDict = {"oompType" : "LEDS","oompSize" : "0603","oompColor" : "","oompDesc" : "STAN","oompIndex" : "01"}
+    dic = newDict.copy(); dic["oompColor"] = "W";tests.append(["C2290", dic])
+    dic = newDict.copy(); dic["oompColor"] = "G";tests.append(["C72043", dic])
+    dic = newDict.copy(); dic["oompColor"] = "R";tests.append(["C2286", dic])
+    dic = newDict.copy(); dic["oompColor"] = "Y";tests.append(["C72038", dic])
+    dic = newDict.copy(); dic["oompColor"] = "L";tests.append(["C72038", dic])
+        ######  0805
+    newDict = {"oompType" : "LEDS","oompSize" : "0805","oompColor" : "","oompDesc" : "STAN","oompIndex" : "01"}
+    dic = newDict.copy(); dic["oompColor"] = "W";tests.append(["C34499", dic])
+    dic = newDict.copy(); dic["oompColor"] = "R";tests.append(["C84256", dic])
+    dic = newDict.copy(); dic["oompColor"] = "Y";tests.append(["C2296", dic])
+    
+
+
+
+    for test in tests:
+        if test[0] == lcscPart:
+            for tag in test[1]:
+                part[tag] = test[1][tag]
+            pass
+
+
+
+
+
+    return part
+
 def extraTags(part):
     part["extraTags"] = []
 
@@ -166,6 +202,7 @@ def getHexID(oompID):
     
     list = []
     list.append(["CAPC-","C"])
+    list.append(["LEDS-","L"])
     list.append(["RESE-","R"])
     ######size
     list.append(["0201-","2"])
@@ -173,13 +210,18 @@ def getHexID(oompID):
     list.append(["0603-","6"])
     list.append(["0805-","8"])
     list.append(["1206-","12"])
-    ######color
-    list.append(["X-",""])
+    list.append(["03-","3"])
+    list.append(["05-","5"])
+
+    
     ######desc
         ###### CAPC
     list.append(["PF","P"])
     list.append(["NF","N"])
     list.append(["UF","U"])
+
+    list.append(["STAN",""])
+
 
     ######index          
     if "CAPC" in oompID:  
@@ -189,7 +231,17 @@ def getHexID(oompID):
     list.append(["-D",""])
     list.append(["-01",""])
         
-    
+     ######color
+    list.append(["X-",""])
+    list.append(["R-","R"])
+    list.append(["O-","O"])
+    list.append(["Y-","Y"])
+    list.append(["G-","G"])
+    list.append(["L-","L"])
+    list.append(["V-","V"])
+    list.append(["B-","B"])
+    list.append(["P-","P"])   
+    list.append(["W-","W"])   
 
     for l in list:
         oompID = oompID.replace(l[0],l[1])

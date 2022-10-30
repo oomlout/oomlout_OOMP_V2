@@ -40,7 +40,7 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
             datasheet = dict["datasheet"]
         except:
             pass
-    if datasheet != "":
+    if datasheet != "" and datasheet != " " :
         if "http" in datasheet:
             if True:   
                 download_url = datasheet

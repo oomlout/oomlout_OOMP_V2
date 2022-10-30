@@ -35,7 +35,7 @@ def generateReadme(item,overwrite=False):
         addImages(item,rFile)             
         ###### Tags
         addTags(item,rFile)
-        
+        addToc(rFile)
         #print("Writing Readme: " + oompID)
         saveReadme(rFile)
 
@@ -76,7 +76,8 @@ def addMainImage(item,mdFile):
         mainImage = ""
         ###### see which images exist
         for image in mainImageTree:
-            if(os.path.exists(OOMP.getFileItem(item,image,resolution="450", relative=""))):
+            imageFile = OOMP.getFileItem(item,image,resolution="450", relative="")
+            if(os.path.exists(imageFile)):
                 mainImage = OOMP.getFileItem(item,image,resolution="450", relative="flat")
                 imageList.append(image)
         if mainImage != "":        
@@ -126,6 +127,8 @@ def addTags(item,mdFile):
     for tagName in OOMP.tagNames:
         try:
             tag = item[tagName][0]
+            if len(item[tagName]) > 1:
+                tag = str(item[tagName]).replace("[","").replace("]","")
         except:
             tag = ""
         if tag != "":
