@@ -2,22 +2,54 @@ import OOMP
 import OOMP_projects_BASE
 
 def createProjects():
-    ind = 0
-    d = {}
-    d["oompType"] = "PROJ"
-    d["oompSize"] = "SOPA"
-    d["oompDesc"] = "STAN"
-        
+    projects = []
+    
+    count = 1
+    base = {}
+    base["oompSize"] = "SOPA"
+    base["format"] = "kicad"
+    base["github"] = "https://github.com/solderparty/"
+    base["oompIndex"] = "01"    ###### default to rev 01
 
     #############################################################
     #############################################################    
-    rev = "1"
-    style = "kicad"
-    #style = "eagle"
-    name = "RP2040 Stamp"
-    filename = "rp2040_stamp"
-    d["gitRepo"] = "https://github.com/solderparty/rp2040_stamp_hw"
-      
+
+    projectStrings = []
+    projectStrings.append("rp2040_stamp_hw")
+    projectStrings.append(["bbq20kbd_hw","bbq20_keyboard"])
+    projectStrings.append("rp2040_stamp_carrier_hw")
+    projectStrings.append("keyboard_featherwing_hw")
+    projectStrings.append("type-c_plug_cp2102")
+    projectStrings.append("type-c_plug_lipo")
+    projectStrings.append("rp2040_stamp_photolight_hw")
+    projectStrings.append("rp2040_stamp_macropad_hw")
+    projectStrings.append("rp2040_stamp_console_hw")
+    projectStrings.append(["rp2040_stamp_round_carrier_hw","rp2040_stamp_round"])
+    projectStrings.append(["pmod_to_qwiic_adapter","pmod_to_qwiic"])
+    projectStrings.append("rp2040_stamp_jig_hw")
+
+
+
+    #############################################################
+    for item in projectStrings:
+        if isinstance(item, list):
+            repo = item[0]
+            file = item[1]
+        else:
+            repo = item
+            file = item
+
+        d = base.copy()    
+        d["repo"] = repo
+        d["file"] = file.replace("_hw","")    
+        d["name"] = file.replace("_hw","").replace("_"," ").capitalize
+        d["count"] = count; count = count + 1
+        projects.append(d)
+
+    for d in projects:
+        OOMP_projects_BASE.makeProjectNew(d)
+
+    """
     #### Massaging of details
     if True:
         ind = ind + 1
@@ -109,4 +141,4 @@ def createProjects():
             d["kicadSchem"] = d["kicadBoard"].replace(".kicad_pcb",".kicad_sch")
             
     OOMP_projects_BASE.makeProject(d)
-
+    """

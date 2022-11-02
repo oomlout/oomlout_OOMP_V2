@@ -12,11 +12,13 @@ def createProjects():
     d["hexID"] = "PRE1"
 
     d["name"] = "Zig A Zig Ah"
-    d["gitRepo"] = "https://github.com/electrolama/zig-a-zig-ah"
-    d["eagleBoard"] = "zzh/Revision A/zzh.brd"
-    d["eagleSchem"] = "zzh/Revision A/zzh.sch"
+    d["format"] = "eagle"
 
-    OOMP_projects_BASE.makeProject(d)
+    d["github"] = "https://github.com/electrolama/"
+    d["repo"] = "zig-a-zig-ah"
+    d["file"] = "zzh/Revision A/zzh"
+
+    OOMP_projects_BASE.makeProjectNew(d)
 
     ind = 2
     rev = "A"
@@ -24,10 +26,11 @@ def createProjects():
     d["oompIndex"] = rev.zfill(2)
     d["hexID"] = "PRE" + str(ind)
     d["name"] = "Zoe Rev " + rev
-    d["gitRepo"] = "https://github.com/electrolama/zoe"
-    d["eagleBoard"] = "/Revision " + rev +"/pi-zigbee-poe-rtc.brd"
-    d["eagleSchem"] = d["eagleBoard"].replace(".brd",".sch")
-    OOMP_projects_BASE.makeProject(d)
+    d["format"] = "eagle"
+    d["github"] = "https://github.com/electrolama/"
+    d["repo"] = "zoe"
+    d["file"] = "/Revision " + rev +"/pi-zigbee-poe-rtc"
+    OOMP_projects_BASE.makeProjectNew(d)
 
     ind = ind
     rev = "B"
@@ -35,10 +38,11 @@ def createProjects():
     d["oompIndex"] = rev.zfill(2)
     d["hexID"] = "PRE" + str(ind)
     d["name"] = "Zoe Rev " + rev
-    d["gitRepo"] = "https://github.com/electrolama/zoe"
-    d["eagleBoard"] = "/Revision " + rev +"/pi-zigbee-poe-rtc.brd"
-    d["eagleSchem"] = d["eagleBoard"].replace(".brd",".sch")
-    OOMP_projects_BASE.makeProject(d)
+    d["format"] = "eagle"
+    d["github"] = "https://github.com/electrolama/"
+    d["repo"] = "zoe"
+    d["file"] = "/Revision " + rev +"/pi-zigbee-poe-rtc"
+    OOMP_projects_BASE.makeProjectNew(d)
 
     ind = ind
     rev = "C"
@@ -46,10 +50,11 @@ def createProjects():
     d["oompIndex"] = rev.zfill(2)
     d["hexID"] = "PRE" + str(ind)
     d["name"] = "Zoe Rev " + rev
-    d["gitRepo"] = "https://github.com/electrolama/zoe"
-    d["eagleBoard"] = "/Revision " + rev +"/pi-zigbee-poe-rtc.brd"
-    d["eagleSchem"] = d["eagleBoard"].replace(".brd",".sch")
-    OOMP_projects_BASE.makeProject(d)
+    d["format"] = "eagle"
+    d["github"] = "https://github.com/electrolama/"
+    d["repo"] = "zoe"
+    d["file"] = "/Revision " + rev +"/pi-zigbee-poe-rtc"
+    OOMP_projects_BASE.makeProjectNew(d)
 
     d["oompIndex"] = "01"
 

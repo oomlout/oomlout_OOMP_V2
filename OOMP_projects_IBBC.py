@@ -6,7 +6,7 @@ def createProjects():
 
     count = 1
     base = {}
-    base["oompType"] = "PROJ"
+    #base["oompType"] = "PROJ"
     base["oompSize"] = "IBBC"
     base["format"] = "kicad"
     

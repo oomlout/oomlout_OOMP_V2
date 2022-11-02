@@ -141,9 +141,10 @@ def createSymbolLibrary(templateFile="templates/oomlout_OOMP_partsTEMPLATE.kicad
     symLib.to_file(outFile)
 
 def getDesc(part):
-    hexID = part.getHex()
+    """
+    hexID = part["hexID"][0]
     desc = "hexID: " + hexID + ";"
-    tags = part.getTags("oplPartNumber")
+    tags = part[oplPartNumber]
     if len(tags) > 0:
         for tag in tags:
             desc = desc + "PARTL " + tag.value["code"] + ";" + tag.value["partID"] + ";"
@@ -158,4 +159,5 @@ def getDesc(part):
                 desc = desc + "MANUF " + tag.value["code"] + ";" + tag.value["partID"] + ";"                            
             else:
                 desc = desc + "MANUF " + "C-XXXX" + ";" + tag.value + ";"                            
-    return desc
+    """
+    return ""

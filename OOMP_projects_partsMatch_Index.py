@@ -33,7 +33,6 @@ def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oom
     list.append(["CAPT-1206-X-UF47D",v])
     list.append(["CAPT-2917-X-UF470",v])
     v = "V10"
-    list.append(["CAPC-0402-X-NF100",v])
     list.append(["CAPC-0402-X-UF1",v])
     list.append(["CAPC-0603-X-UF10",v])
     list.append(["CAPC-0603-X-UF22D",v])
@@ -61,7 +60,6 @@ def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oom
     list.append(["CAPT-2312-X-UF47",v])
 
     v = "V25"
-    list.append(["CAPC-0402-X-NF100",v])
     list.append(["CAPC-0402-X-NF47",v])
     list.append(["CAPC-0603-X-NF220",v])
     list.append(["CAPC-0603-X-UF1",v])

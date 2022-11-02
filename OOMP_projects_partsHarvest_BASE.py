@@ -14,7 +14,7 @@ def harvestParts(item,overwrite=False):
     bomFile = OOMP.getFileItem(item,"eagleBOM")
 
     if os.path.exists(bomFile):
-        parts = oomReadFileToString(bomFile)
+        parts = oomReadFileToString(bomFile,encoding="utf-8")
         parts = parts.split("\n")
         item["rawParts"] = [{}]
         item["rawParts"][0]["kicadBom"] = []
@@ -27,11 +27,11 @@ def harvestParts(item,overwrite=False):
                 part = part.replace('"','').replace("'","")
                 values = part.split(";")
                 line = {}
-                line["Part"] = values[0]
-                line["Value"] = values[1]
-                line["Device"] = values[2]
-                line["Package"] = values[3]
-                line["Description"] = values[4]
+                line["Part"] = values[0].replace("�","u")
+                line["Value"] = values[1].replace("�","u")
+                line["Device"] = values[2].replace("�","u")
+                line["Package"] = values[3].replace("�","u")
+                line["Description"] = values[4].replace("�","u")
                 line["BOM"] = values[5]
                 item["rawParts"][0]["eagleBom"].append(line)
     bomFile = OOMP.getFileItem(item,"kicadBOM")
@@ -56,6 +56,8 @@ def harvestParts(item,overwrite=False):
                     line["Package"] = values[2]
                     line["Description"] = values[5]
                     line["BOM"] = ""
+                    if len(item["rawParts"]) == 0:
+                        item["rawParts"].append({"kicadBom" : [], "eagleBom" : []})
                     item["rawParts"][0]["kicadBom"].append(line)
     OOMP.exportTagsItem(item,"detailspartsRaw",["rawParts"])
 

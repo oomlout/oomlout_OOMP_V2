@@ -14,7 +14,7 @@ def generateCollectionsIndex():
         name = collection["name"][0]
         description = collection["description"][0]    
         entry = ""
-        entry = entry + osb.getLink(text = name,link = OOMP.getFileItem(collection,"collection",relative="flat")) + "  <br>"
+        entry = entry + osb.getLink(text = name,link = OOMP.getFileItem(collection,"collection",relative="noDir")) + "  <br>"
         entry = entry + description + ""
         
         parts.append(entry)

@@ -1,3 +1,6 @@
+from oomBase import *
+import OOMP
+
 ###### kicad mousepoints
 X = 0
 Y = 0
@@ -33,19 +36,19 @@ def harvestFootprint(footprint,all=False,copySourceFiles=False,harvestFootprintI
 def harvestKicadFootprint(footprint,overwrite=False):
     print("    Harvesting files")
 
-    oompID = footprint.getID()
-    oompFileName = footprint.getFilename("image",relative="full")
-    oompFileName3D = footprint.getFilename("kicadPcb3d",relative="full")
-    oompFileName3Dfront = footprint.getFilename("kicadPcb3dFront",relative="full")
-    oompFileName3Dback = footprint.getFilename("kicadPcb3dBack",relative="full")
-    footprintFilename = footprint.getFilename("kicadFootprint",relative="full")
+    oompID = footprint["oompID"][0]
+    oompFileName = OOMP.getFileItem(footprint,"image",relative="full")
+    oompFileName3D = OOMP.getFileItem(footprint,"kicadPcb3d",relative="full")
+    oompFileName3Dfront = OOMP.getFileItem(footprint,"kicadPcb3dFront",relative="full")
+    oompFileName3Dback = OOMP.getFileItem(footprint,"kicadPcb3dBack",relative="full")
+    footprintFilename = OOMP.getFileItem(footprint,"kicadFootprint",relative="full")
 
     #if overwrite or not os.path.isfile(oompFileName) :
     if overwrite or not os.path.isfile(oompFileName3D) :
         shortDelay = 1
         longDelay = 3
-        footprintName = footprint.getTag("oompLibrary").value
-        footprintDir = footprint.getTag("oompFootprintName").value
+        footprintName = footprint["oompIndex"][0]
+        footprintDir = footprint["oompDesc"][0]
         print("Capturing :" + str(footprint))
         oomMouseClick(pos=kicadActive)
         oomDelay(shortDelay)
@@ -73,6 +76,7 @@ def harvestKicadFootprint(footprint,overwrite=False):
             oomSendEnter(delay=1)
             oomSend("y",2)
         #### Export Footprint
+        oomMouseClick(pos=kicadFootprintFilter)
         file = footprintFilename.replace("/","\\")
         if not os.path.exists(file):        
             oomSendAltKey("f",2)
@@ -88,25 +92,27 @@ def harvestKicadFootprint(footprint,overwrite=False):
         oomSendEnter(delay=5)
         oomSendWindowsKey("up")
         ##### raytracing
-        if "_BALL" not in oompID.upper() and "_FLG" not in oompID.upper():
-            oomSendAltKey("p",1)
-            oomSendEnter(2)
-            oomDelay(10)
+        #if "_BALL" not in oompID.upper() and "_FLG" not in oompID.upper():
+        #    oomSendAltKey("p",1)
+        #    oomSendEnter(2)
+        #    oomDelay(10)
         #### front
         oomSendAltKey("f",2)
         oomSendEnter(delay=1)
         oomSend(oompFileName3Dfront.replace("/","\\"),3)
         oomSendEnter(delay=1)
         oomSend("y",2)
-        oomSend("r",2)       
-        #### back
         oomMouseClick(pos=[595,60],delay=5)
+        oomMouseClick(pos=[818,536],delay=5) ###### click middle
+        oomSend("Z",2)       
+        #### back        
         oomDelay(10)
         oomSendAltKey("f",2)
         oomSendEnter(delay=1)
         oomSend(oompFileName3Dback.replace("/","\\"),3)
         oomSendEnter(delay=1)
-        oomSend("y",2)        
+        oomSend("y",2)  
+        oomMouseClick(pos=[818,536],delay=5) ###### click middle
         oomSend("r",2)       
         #### ortho
         #oomMouseClick(pos=[595,60],delay=5)  
@@ -122,11 +128,13 @@ def harvestKicadFootprint(footprint,overwrite=False):
         #     oomSendAltKey("v",delay=0.5)
         #     oomSendDown(9,delay=1)  
         #     oomSendEnter(delay=1)      
+        oomMouseClick(pos=[818,536],delay=5) ###### click middle
         oomSendAltKey("f",2)
         oomSendEnter(delay=1)
         oomSend(oompFileName3D.replace("/","\\"),3)
         oomSendEnter(delay=1)
         oomSend("y",2)
+        oomMouseClick(pos=[818,536],delay=5) ###### click middle
         ##### close
         oomSendAltKey("f",delay=1)
         oomSendUp(delay=1)

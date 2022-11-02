@@ -3284,6 +3284,11 @@ def load(td):
     td['size']['JSTXH']['name'] = 'JST XH (2.5 mm)'
     td['size']['JSTXH']['description'] = 'JST XH (2.5 mm)'
 
+    td['size']['JSTPH'] = {}
+    td['size']['JSTPH']['code'] = 'JSTPH'
+    td['size']['JSTPH']['name'] = 'JST PH (2 mm)'
+    td['size']['JSTPH']['description'] = 'JST PH (2 mm)'
+
     td['size']['JSTSH'] = {}
     td['size']['JSTSH']['code'] = 'JSTSH'
     td['size']['JSTSH']['name'] = 'JST SH (1 mm)'

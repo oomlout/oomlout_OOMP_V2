@@ -3,17 +3,19 @@ import OOMP
 import time
 
 startTime= time.time()
-mode = "all"
-#mode = "regular"
+#mode = "all"
+#mode = "allUsed" ##### no JSON, and csv
+#mode = "afterCreate"
+
 #mode = "parts"
 #mode = "projects"
-#mode = "regular"
+mode = "regular"
 #mode = "none"
-
+#mode = "regular"
 ###### Setting Base Level
 OOMP.loadPickle()
 items = OOMP.items
-makePickle = runCollections = runFootprints = runModules = runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runSummaries = False
+makePickle = runCollections = runFootprints = runModules = runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = loadPartNumbers = runPartNumbers = runImages = runJson = runLabels = runSummaries = False
 
 ###### gui ones
 convertToKicad=False
@@ -24,7 +26,7 @@ if mode == "regular":
     runCollections = False
     runFootprints = False
     runModules = False
-    runParts = True
+    runParts = False
     runProjects = False
     runSymbols = False
 
@@ -35,12 +37,21 @@ if mode == "regular":
     runMatching = False
     runInstances = False
     runMigrating = False
+    loadPartNumbers = False
+    runPartNumbers = False
     runImages = False
     runJson = False
+    runLabels = False
     runSummaries = False
+    ###### gui ones
+    convertToKicad=False
+    harvestKicad=True
 
 
-###### run subset
+
+#
+# #
+# y#### run subset
 
 
     #items = OOMP.itemsTypes["parts"]["items"]
@@ -50,11 +61,18 @@ if mode == "regular":
 ##### All
 #makePickle = False
 if mode == "all":    
-    runCollections = False
-    runFootprints = runModules =runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runSummaries = True
+    makePickle = runCollections = runFootprints = runModules = runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = loadPartNumbers = runPartNumbers = runImages = runJson = runLabels = runSummaries = True
+if mode == "allUsed":    
+    runJson = runLabels = runCSV = runProjects = False
+    makePickle = runCollections = runFootprints = runModules = runParts = runSymbols = makePickle2 = runHarvestProjects = runMatching = runInstances = runMigrating = runPartNumbers =loadPartNumbers =  runImages =  runSummaries = True
+
+if mode == "afterCreate":    
+    runCollections = runFootprints = runModules =runParts = runProjects = runSymbols = False
+    makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runLabels = runSummaries = True
+
 ##### Make Parts, make pickle, make csv etc
 if mode == "parts":
-    runParts = makePickle = makePickle2 = runCSV = runInstances = runMigrating = runImages = runJson =runSummaries = True
+    runParts = makePickle = makePickle2 = runCSV = runInstances = runMigrating = runImages = runJson = runLabels = runSummaries = True
     items = OOMP.itemsTypes["parts"]["items"]
 ##### Make Projects, make pickle, make csv etc
 if mode == "projects":
@@ -82,8 +100,8 @@ if runCollections:
     OOMP.loadPickle()
     OOMP_collections_BASE.makeAllCollections()
     #OOMP_collections.create()
-    #OOMP.makePickle()
-    #OOMP_collections_BASE.createAllCollections()
+    OOMP.makePickle()
+    OOMP_collections_BASE.createAllCollections()
 
 
 ########################################
@@ -94,7 +112,7 @@ import OOMP_footprints_BASE
 if runFootprints:
     OOMP_footprints_BASE.gitPull()
     OOMP_footprints_BASE.createAllFootprints()
-    #OOMP_footprints_BASE.createFootprintLibraries()
+    OOMP_footprints_BASE.createFootprintLibraries()
 
 ########################################
 ######  MODULES
@@ -121,21 +139,28 @@ if runParts:
 ########################################
 ######  PROJECTS
 import OOMP_projects
+import OOMP_projects_BASE
 import OOMP_projects_SPAR
 import OOMP_projects_ADAF
 ###### projects
 #OOMP_projects.preMake():
 #OOMP_projects_BASE.preMakeAllProjects()
 if runProjects:
-        OOMP_projects_SPAR.farmProjects() ###### get repo list
-        OOMP_projects_SPAR.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
-        OOMP_projects_SPAR.createProjects()
+        #OOMP_projects_SPAR.farmProjects() ###### get repo list
+        #OOMP_projects_SPAR.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
+        #OOMP_projects_SPAR.createProjects()
         
-        OOMP_projects_ADAF.farmProjects() ###### get repo list
-        OOMP_projects_ADAF.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
-        OOMP_projects_ADAF.createProjects()
+        #OOMP_projects_ADAF.farmProjects() ###### get repo list
+        #OOMP_projects_ADAF.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
+        #OOMP_projects_ADAF.createProjects()
 #OOMP_projects.make()
-#OOMP_projects_BASE.createAllProjects()
+    OOMP_projects_BASE.createAllProjects()
+    OOMP.makePickle()
+    for projectID in OOMP.itemsTypes["projects"]["items"]:
+        skip = ["PROJ-SEED-20054-STAN-01"]
+        if projectID not in skip:
+            OOMP_projects_BASE.harvestProject(OOMP.items[projectID],dict=dict)
+    
 
 
 ########################################
@@ -228,6 +253,24 @@ if runMigrating:
         OOMP_migrate_BASE.migrateFiles(OOMP.items[item])
 
 #######################################
+######  PARTNUMBERS
+
+import OOMP_partNumbers_BASE
+if loadPartNumbers:
+    print("Loading MPN and DPN part numbers")
+    OOMP_partNumbers_BASE.loadPartNumbers()
+    OOMP_partNumbers_BASE.dictToCsv()
+    OOMP_partNumbers_BASE.savePickle()
+  
+if runPartNumbers:
+    print("Running MPN and DPN part numbers")
+    OOMP.loadPickle()
+    OOMP_partNumbers_BASE.loadPickle()
+    for item in OOMP.itemsTypes["parts"]["items"]:
+        OOMP_partNumbers_BASE.loadMpnDpn(OOMP.items[item])
+    OOMP.makePickle()        
+
+#######################################
 ######  IMAGES
 import OOMP_images_BASE
 
@@ -243,6 +286,16 @@ if runJson:
     
     for item in items:
         OOMP_json_BASE.makeJson(OOMP.items[item],overwrite=True)
+
+#######################################
+######  LABELS
+import OOMP_labels_BASE
+if runLabels:
+    OOMP.loadPickle()   
+    
+    overwrite = False
+    for item in OOMP.itemsTypes["parts"]["items"]:
+        OOMP_labels_BASE.generateLabels(OOMP.items[item],overwrite)
 
 #######################################
 ######  SUMMARIES
@@ -270,12 +323,15 @@ if runSummaries:
 #######################################
 ######  EAGLE CONVERT TO KICAD
 import OOMP_kicad_BASE
+    
 if convertToKicad:
+    print("Converting kicad files")
     OOMP_kicad_BASE.convertAllEagleToKicad(overwrite=False)
 
 #######################################
 ######  HARVESTING KICAD
 if harvestKicad:
+    print("Harvesting Kicad Files")
     OOMP_kicad_BASE.harvestAllKicad(overwrite=False)
 
 

@@ -14,6 +14,9 @@ import OOMP_projects_ADAF
 import OOMP_projects_DANP
 import OOMP_projects_ELLA
 import OOMP_projects_IBBC
+import OOMP_projects_HYDR
+import OOMP_projects_OSOB
+import OOMP_projects_PDP7
 import OOMP_projects_SEED
 import OOMP_projects_SIRB
 import OOMP_projects_SOPA
@@ -26,14 +29,15 @@ def preMakeAllProjects():
     OOMP_projects_ADAF.makeBaseProjects() ###### git pulls and makes project
 
 def createAllProjects():
-    #OOMP_projects_IBBC.createProjects()
-    OOMP_projects_ADAF.createProjects()    
-    #OOMP_projects_DANP.createProjects()    
-    #OOMP_projects_ELLA.createProjects()
+    OOMP_projects_IBBC.createProjects()
+    #OOMP_projects_ADAF.createProjects()    
+    OOMP_projects_DANP.createProjects()    
+    OOMP_projects_ELLA.createProjects()
+    OOMP_projects_PDP7.createProjects()
     #OOMP_projects_SEED.createProjects()
-    #OOMP_projects_SIRB.createProjects()
-    #OOMP_projects_SOPA.createProjects()
-    OOMP_projects_SPAR.createProjects()
+    OOMP_projects_SIRB.createProjects()
+    OOMP_projects_SOPA.createProjects()
+    #OOMP_projects_SPAR.createProjects()
 
 def getRepos(user):
     print("    Farming repos for: " + user)
@@ -61,8 +65,18 @@ def getRepos(user):
 def makeProject(d):
     raise exception("Should no longer be used")
     
+#### Per Company:
+#   oompSize:  Company Code
+#   format:     kicad or eagle
+#   github:       base git address
+#   #### Per Project
+#       name:       Project Name
+#       repo:       Repo name
+#       file:       file name within the repo (no need for suffix)       
+#       oompIndex:  Version code
+#       count:      project ID
 def makeProjectNew(d):
-    type = d["oompType"]
+    type = "PROJ"
     size = d["oompSize"]
 
     try:

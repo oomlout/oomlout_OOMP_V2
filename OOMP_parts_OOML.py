@@ -85,9 +85,9 @@ def createParts():
             for desc in resistorSmall:
                 hexID = "RA" + size.replace("06038","6").replace("12068","12") + desc.replace("O","")
                 desc = desc + "X4"            
-            extraTags = []
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
+                extraTags = []
+                d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+                OOMP_parts_BASE.makePart(dict = d)
     ##############################
     ######  SENS
     if True:

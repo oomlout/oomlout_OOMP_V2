@@ -117,14 +117,14 @@ def load(tn):
     tn[current]["code"] = current
     tn[current]["category"] = "PARTNUMBER"
     tn[current]["name"] = "Part Number (Manufacturer)"
-    tn[current]["description"] = "A part number from a manufacturer. (Fields: code,name,partID,partName,partLink)"
+    tn[current]["description"] = "A part number from a manufacturer. (Fields: MPNKEY,MANUFACTURER,MANUCODE,MPN,LINK,OOMPID)"
     ######
     current = "distributorPartNumber"
     tn[current] = {}
     tn[current]["code"] = current
     tn[current]["category"] = "PARTNUMBER"
     tn[current]["name"] = "Part Number (Distributor)"
-    tn[current]["description"] = "A part number from a distributor. (Fields:  (Fields: code,name,partID,partName)"
+    tn[current]["description"] = "A part number from a distributor. (Fields: DPNKEY,DISTRIBUTOR,DISTRCODE,MPN,LINK,OOMPID)"
     ######
     current = "oplPartNumber"
     tn[current] = {}
@@ -142,6 +142,18 @@ def load(tn):
     tn[current]["name"] = "Footprint Kicad"
     tn[current]["description"] = "An OOMP code for a matching footprint"
     current = "footprintKicadDetails"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "EDA"
+    tn[current]["name"] = "Footprint Kicad"
+    tn[current]["description"] = "Extracted details from a kicad footprint"
+    current = "footprintEagle"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "EDA"
+    tn[current]["name"] = "Footprint Eagle"
+    tn[current]["description"] = "An OOMP code for a matching footprint"
+    current = "footprintEagleDetails"
     tn[current] = {}
     tn[current]["code"] = current
     tn[current]["category"] = "EDA"

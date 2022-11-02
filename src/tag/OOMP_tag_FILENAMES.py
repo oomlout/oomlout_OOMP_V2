@@ -28,6 +28,11 @@ def load(fn):
     fn[current]["filename"] = "detailsFootprintsOomp.py"
     fn[current]["type"] = cType
     fn[current]["generated"] = True
+    current = "detailspartNumbers"
+    fn[current] = {}
+    fn[current]["filename"] = "detailsPartNumbers.py"
+    fn[current]["type"] = cType
+    fn[current]["generated"] = True
 
 
 
@@ -40,6 +45,11 @@ def load(fn):
     current = "readme"
     fn[current] = {}
     fn[current]["filename"] = "README.md"
+    fn[current]["type"] = cType
+    fn[current]["generated"] = True
+    current = "mpnList"
+    fn[current] = {}
+    fn[current]["filename"] = "MPNLIST.md"
     fn[current]["type"] = cType
     fn[current]["generated"] = True
     current = "collection"
@@ -204,6 +214,12 @@ def load(fn):
     fn[current]["defaultExtension"] = "kicad_sch"
     fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/kicad/" + "schematicKicad" + ".kicad_sch"]
     fn[current]["generated"] = False
+    current = "kicadFootprint"
+    fn[current] = {}
+    fn[current]["filename"] = "footprint.&&ext&&"
+    fn[current]["defaultExtension"] = "kicad_mod"
+    fn[current]["generated"] = False
+    
 
     ###### generated eagle files
     current = "eagleBOM"
@@ -239,7 +255,13 @@ def load(fn):
     fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/kicad/kicadBoardBom.csv"]
     fn[current]["generated"] = False
     
-
+    ###### labels
+    current = "labelInventory"
+    fn[current] = {}
+    fn[current]["filename"] = "/" + current + ".&&ext&&"
+    fn[current]["defaultExtension"] = "pdf"
+    fn[current]["generated"] = True
+    
 
     fn[cType] = []
     for file in fn:

@@ -2,7 +2,7 @@ import OOMP
 
 from oomBase import *
 
-
+import csv
 
 
 
@@ -13,26 +13,38 @@ def getCSVdetails(type="code"):
     return headings
 
 def getCSVHead():
-    contents = ""
+    contents = []
     headings = getCSVdetails(type="name")
     for head in headings:
-            contents = contents + head + ";"
+            contents.append(head)
     return contents 
 
 def getCSVLine(item):
-    contents = ""
+    contents = []
     headings = getCSVdetails(type="code")
     for head in headings:
         extra = ""
         try:
-            extra = '"' + str(item[head][0]) + '"'
+            extra = '' + str(item[head][0]) + ''
         except:
-            extra = ""
-        contents = contents + extra + ";"            
+            extra = ''
+        contents.append(extra)
     return contents 
 
 
 def makeCSVSummaries():
+    for type in OOMP.typesNames:
+        print("    Making CSV Summary for: " + type)
+        filename = OOMP.getDir(type) + "/details" + type.capitalize() + ".csv"
+        f = open(filename, "w+", encoding='utf-8')
+        fcsv = csv.writer(f, delimiter=';', quotechar='"', lineterminator='\n', quoting=csv.QUOTE_MINIMAL)
+        #fcsv.writerow(["OOMP Summary file for " + type.capitalize() ])
+        fcsv.writerow(getCSVHead())
+        for itemID in OOMP.itemsTypes[type]["items"]:
+            fcsv.writerow(getCSVLine(OOMP.items[itemID]))
+        f.close
+
+def makeCSVSummariesOld():
     for type in OOMP.typesNames:
         print("    Making CSV Summary for: " + type)
         filename = OOMP.getDir(type) + "/details" + type.capitalize() + ".csv"
@@ -48,8 +60,11 @@ def makeCSVSummaries():
 def makeCSVFile(item):
     ping()
     filename = OOMP.getFileItem(item,"csv")
-    contents = "CSV Line for;" + item["oompID"][0] + ";" + item["name"][0] + "\n"
-    contents = contents + getCSVHead() + "\n"
-    contents = contents + getCSVLine(item)
-    oomWriteToFile(filename,contents)
     
+    f = open(filename, "w+", encoding='utf-8')
+    fcsv = csv.writer(f, delimiter=';', quotechar='"', lineterminator='\n',quoting=csv.QUOTE_MINIMAL)
+    #fcsv.writerow(["CSV Line for;" + item["oompID"][0] + ";" + item["name"][0]])
+    fcsv.writerow(getCSVHead())
+    fcsv.writerow(getCSVLine(item))
+    f.close
+

@@ -12,7 +12,7 @@ def matchSpecial(project,part,oompType="",oompSize="",oompColor="",oompDesc="",o
         ###### QWIIC Connector
     list.append([["JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal","STEMMA_I2C","QWIIC","I2C_STANDARDJS-1MM"],"HEAD-JSTSH-X-PI04-RS"])
         ###### ISP Programmer
-    list.append([["AVR_SPI_PRG"],"HEAD-JSTSH-X-PI04-RS"])      
+    list.append([["AVR_SPI_PRG"],"HEAD-I01-X-PI2X03-01"])      
         ###### Raspberry Pi  
     list.append([["RASPBERRYPI_BPLUS_BONNET_THMSMT"],"HEAD-I01-X-PI2X20-01"])      
         

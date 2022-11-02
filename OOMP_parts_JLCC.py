@@ -93,9 +93,14 @@ def matchSize(part):
     list.append(["603","0603"])
     list.append(["805","0805"])
     list.append(["1206","1206"])
+    list.append(["0201","0201"])    
+    list.append(["0402","0402"])
+    list.append(["0603","0603"])
+    list.append(["0805","0805"])
+    list.append(["1206","1206"])
 
     for l in list:
-        if size == l[0]:
+        if size in l[0]:
             part["oompSize"] = l[1]
 
     return part
@@ -129,6 +134,15 @@ def matchDesc(part):
                 if testString in description:
                     part["oompDesc"] = code
                     match = True 
+                testString = name.replace(" Ohm","¦¸ ") + part["oompSize"]
+                if testString in description:
+                    part["oompDesc"] = code
+                    match = True 
+                testString = name.replace(" Ohm","Ω ") + part["oompSize"]
+                if testString in description:
+                    part["oompDesc"] = code
+                    match = True 
+                    #'200mA 1 450mΩ 600Ω@100MHz ±25% 0603  Ferrite Beads ROHS'
     return part
 
 

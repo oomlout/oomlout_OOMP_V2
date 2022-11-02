@@ -10,36 +10,34 @@ import os
 from kiutils.footprint import Footprint
 
 def createFootprints():
-    print("Creating Kicad Footprints")
+    print("Creating Eagle Footprints")
     #owners = ["digikey-kicad-library"]
     for git in OOMP_footprints_BASE.footprintGits:
-        if OOMP_footprints_BASE.footprintGits[git]["type"] == "kicad":
+        if OOMP_footprints_BASE.footprintGits[git]["type"] == "eagle":
             owner = OOMP_footprints_BASE.footprintGits[git]["code"]
             print("    Creating for: " + owner)
             print("        Getting Names")
-            footprints = getKicadFootprintNames(owner)        
+            footprints = getEagleFootprintNames(owner)        
             print("        Making Footprints")
             for footprint in footprints: 
                 d = {}
                 d["oompType"] =  "FOOTPRINT"
-                d["oompSize"] =  "kicad"
+                d["oompSize"] =  "eagle"
                 d["oompColor"] =  owner
                 d["oompDesc"] =  footprint[0]
-                d["FOOTPRINT"] = footprint[1]
-                loadFootprintDict(d)            
+                d["oompIndex"] =  footprint[1]
+                d["name"] =  footprint[1]
+                d["FOOTPRINT"] = footprint
+                oompID = d["oompType"] + "-" + d["oompSize"] + "-" + d["oompColor"] + "-" + d["oompDesc"] + "-" + d["oompIndex"]
+                d["hexID"] = OOMP_hex_FOOTPRINTS.getFootprintHex(oompID)
+                #loadFootprintDict(d)            
                 ###### Make required folders
                 if True:
-                    directory = OOMP.getDir("eda") + "FOOTPRINT/kicad/" +owner
+                    directory = OOMP.getDir("eda") + "FOOTPRINT/eagle/" +owner
                     oomMakeDir(directory)
-                    directory = OOMP.getDir("eda") + "FOOTPRINT/kicad/" + owner + "/" + footprint[0]
+                    directory = OOMP.getDir("eda") + "FOOTPRINT/eagle/" + owner + "/" + footprint[0]
                     oomMakeDir(directory)
                 ###### Copy source footprint to OOMP directory
-                if True:
-                    sourceFootprint = "sourceFiles/git/kicadFootprints/" + owner + "/" + footprint[0] + ".pretty/" + d["oompIndex"] +".kicad_mod"
-                    destDir = OOMP.getDir("eda") + "FOOTPRINT/kicad/" + owner + "/" + footprint[0] + "/" +  d["oompIndex"] + "/"
-                    oomMakeDir(destDir)
-                    destFile = destDir + "footprint.kicad_mod"
-                    oomCopyFile(sourceFootprint,destFile)
                 OOMP_footprints_BASE.makeFootprint(d)
         
 
@@ -92,6 +90,21 @@ def loadFootprintDict(originalDict):
 
 
     return originalDict
+
+def getEagleFootprintNames(owner):
+    footprints = []
+    directory = "sourceFiles/git/eagleFootprints/" + owner
+    files = glob.glob(directory + "**\\*.lbr",recursive=True)
+    for file in files:        
+        f = open(file, encoding='utf-8',mode="r")
+        fileContents = f.read()
+        lines = fileContents.splitlines()
+        for line in lines:
+            if "<package name=" in line:
+                footprint = stringBetween(line,'<package name="','"').replace('"',"").replace("/","_")
+                fileToken = os.path.basename(file).replace(".lbr","")
+                footprints.append([fileToken,footprint])
+    return footprints
 
 def getKicadFootprintNames(owner):
     directory = "sourceFiles/git/kicadFootprints/" + owner + "/"    

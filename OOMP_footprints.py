@@ -18,7 +18,7 @@ def working():
 
     #OOMP_footprints_BASE.harvestAllFootprints()
 
-    #OOMP_footprints_BASE.createFootprintLibraries()
+    OOMP_footprints_BASE.createFootprintLibraries()
 
 
 

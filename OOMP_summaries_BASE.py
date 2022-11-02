@@ -128,7 +128,7 @@ def addTags(item,mdFile):
         try:
             tag = item[tagName][0]
             if len(item[tagName]) > 1:
-                tag = str(item[tagName]).replace("[","").replace("]","")
+                tag = str(item[tagName]).replace("[","").replace("]","").replace("'","").replace('"',"")
         except:
             tag = ""
         if tag != "":

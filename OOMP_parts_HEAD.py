@@ -28,7 +28,7 @@ def addParts():
         #datasheet = "sourceDatasheets/HEAD-I01-X-PI03-SM.pdf"
         datasheet = ""
         
-        for x in range(1,20+1):
+        for x in range(2,20+1):
             desc = "PI2X" + str(x).zfill(2)
             hexID = "H2X" + str(x) + "SM"
             extraTags = []
@@ -53,7 +53,7 @@ def addParts():
         type = "HEAD";size = "I01";color = "X";desc = "PI2X10";index = "SHRO";hexID = "H2X10SH"
         datasheet="sourceDatasheets/HEAD-I01-X-PI2X03-01.pdf"
 
-        for x in range(1,20+1):
+        for x in range(2,20+1):
             desc = "PI2X" + str(x).zfill(2)
             hexID = "H2X" + str(x) + "SH"
             extraTags = []
@@ -64,7 +64,7 @@ def addParts():
         type = "HEAD";size = "I01";color = "X";desc = "";index = "01";hexID = ""
         datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-01.pdf"
         
-        for x in range(1,20+1):
+        for x in range(2,20+1):
             desc = "PI2X" + str(x).zfill(2)
             hexID = "H2X" + str(x) + ""
             extraTags = []
@@ -76,7 +76,7 @@ def addParts():
         type = "HEAD";size = "I01";color = "X";desc = "";index = "SM";hexID = ""
         datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-SM.pdf"
         
-        for x in range(1,20+1):
+        for x in range(2,20+1):
             desc = "PI2X" + str(x).zfill(2)
             hexID = "H2X" + str(x) + "SM"
             extraTags = []

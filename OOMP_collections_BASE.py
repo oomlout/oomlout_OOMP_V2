@@ -28,12 +28,12 @@ def makeAllCollections():
     d["collection"]["items"] = []
     for projectID in OOMP.itemsTypes["projects"]["items"]:
         project = OOMP.items[projectID]
-        parts = project["oompParts"]
+        parts = project["oompParts"][0]
         if len(parts) > 0:
             skip = False
             for part in parts:
-                if "HEAD-JSTSH-X-PI04-RS" in part.value and not skip:
-                    d["collection"]["items"].append(project.getID())
+                if "HEAD-JSTSH-X-PI04-RS" in parts[part] and not skip:
+                    d["collection"]["items"].append(projectID)
                     skip = True                
     collections.append(d.copy())
     ###### JLC Parts Library

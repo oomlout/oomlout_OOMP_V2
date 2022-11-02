@@ -11,6 +11,8 @@ OOMP.loadPickle()
 itemID = "PROJ-ADAF-1032-STAN-01"
 itemID = "LEDS-0603-R-STAN-01"
 #itemID = "RESE-0603-X-O100-01"
+#itemID = "HEAD-JSTSH-X-PI04-SM"
+itemID = "CAPC-0805-X-NF100-V50"
 item = OOMP.items[itemID]
 OOMP_summaries_BASE.createSummary(item,overwrite=True)
 

@@ -92,12 +92,14 @@ def harvestAllKicad(overwrite=False):
     print("     Getting glob of files")
     files = glob.glob("**\\" + filter,recursive=True)
     for file in files:
+        print("Harvesrting Kicad Board: " + file)
         harvestKicadBoard(file,overwrite=overwrite)    
     print("Harvesting all Kicad Schematics")
     filter = "kicadBoard.kicad_sch"
     print("     Getting glob of files")
     files = glob.glob("**\\" + filter,recursive=True)
     for file in files:
+        print("Harvesting Kicad Schem: " + file)
         harvestKicadSchem(file,overwrite=overwrite) 
 
 def harvestKicadBoard(filename="",overwrite=False):    

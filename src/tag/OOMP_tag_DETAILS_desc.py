@@ -3144,25 +3144,12 @@ def load(td):
     td['desc']['O001D']['name'] = '0.1 Ohm'
     td['desc']['O001D']['description'] = '0.1 Ohm'
 
-    td['desc']['O103X4'] = {}
-    td['desc']['O103X4']['code'] = 'O103X4'
-    td['desc']['O103X4']['name'] = '10k Ohm (x4)'
-    td['desc']['O103X4']['description'] = '10k Ohm (x4)'
-
-    td['desc']['O220X4'] = {}
-    td['desc']['O220X4']['code'] = 'O220X4'
-    td['desc']['O220X4']['name'] = '22 Ohm (x4)'
-    td['desc']['O220X4']['description'] = '22 Ohm (x4)'
-
-    td['desc']['O102X4'] = {}
-    td['desc']['O102X4']['code'] = 'O102X4'
-    td['desc']['O102X4']['name'] = '1k Ohm (x4)'
-    td['desc']['O102X4']['description'] = '1k Ohm (x4)'
-
-    td['desc']['O472X4'] = {}
-    td['desc']['O472X4']['code'] = 'O472X4'
-    td['desc']['O472X4']['name'] = '4.7k Ohm (x4)'
-    td['desc']['O472X4']['description'] = '4.7k Ohm (x4)'
+    keys = [['O102X4','1k Ohm (x4)'],['O103X4','10k Ohm (x4)'],['O220X4','220 Ohm (x4)'],['O222X4','2.2k Ohm (x4)'],['O472X4','4.7k Ohm (x4)']]
+    for key in keys:
+        td['desc'][key[0]] = {}
+        td['desc'][key[0]]['code'] = key[0]
+        td['desc'][key[0]]['name'] = key[1]
+        td['desc'][key[0]]['description'] = td['desc'][key[0]]['name']
 
     td['desc']['O000'] = {}
     td['desc']['O000']['code'] = 'O000'

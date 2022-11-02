@@ -47,7 +47,8 @@ def getDir(type, base=False):
 def getDirItem(item,relative):
     extraFront = ""
     extraBack = ""
-    
+    if relative.lower() == "full":
+        extraFront = baseDir
     if relative.lower() == "github":
         extraFront = "https://github.com/oomlout/"
         extraBack = "tree/main/"
@@ -56,13 +57,16 @@ def getDirItem(item,relative):
         extraBack = "main/"
     rv = ""
     if relative != "flat":
-        rv = getDir(getType(item))
+        rv = ""
+        if relative != "noDir":
+            rv = getDir(getType(item))
+        rv = extraFront + rv + extraBack
         rv = rv + item["oompType"][0] + "/" +  item["oompSize"][0] + "/" + item["oompColor"][0] + "/" +  item["oompDesc"][0] + "/" +  item["oompIndex"][0] + "/"
-        rv = rv + extraBack
+        
     
 
 
-    return extraFront + rv
+    return rv
 
 def getFileItem(item,file,resolution="",extension="",relative=""):
     if item != "":
@@ -142,7 +146,7 @@ def setBaseDir(base):
 ###### file filters
 defaultFilter = ["details.py","details2.py","details3.py"]
 projectsFilter = ["details.py","details2.py","details3.py","detailsPartsOomp.py","detailsPartsRaw.py"]
-partsFilter = ["details.py","details2.py","detailsInstancesOomp.py","detailsFootprintsOomp.py"]
+partsFilter = ["details.py","details2.py","detailsInstancesOomp.py","detailsFootprintsOomp.py","detailsPartNumbers.py"]
 rs = ["parts","eda","kicad","modules","collections","projects"]
 typesNames = rs
 repos = {}
@@ -307,10 +311,11 @@ def exportTagsItem(item,filetype,tags):
         contents = "def load(newPart,it):" + "\n"
         contents2 = ""
         for tag in tags:
-            contents2 = contents2 + getPythonLineItems(part="it",partID=oompID,tagName=tag) + '\n'
+            if len(item[tag]) > 0:
+                contents2 = contents2 + getPythonLineItems(part="it",partID=oompID,tagName=tag) + '\n'
         if contents2 != "":
             print("    Exporting tags to: " + filename)
-            oomWriteToFile(filename,contents+contents2)
+            oomWriteToFileUtf(filename,contents+contents2)
 
 
 
@@ -478,6 +483,6 @@ def getExclusionList():
     rv.append("kicad-footprints\\Valve")
     rv.append("kicad-footprints\\Varistor")
 
-    rv = [""]
+    #rv = ["A NEVER STRING &&&&&(((*&"]
 
     return rv

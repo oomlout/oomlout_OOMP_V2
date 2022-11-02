@@ -4,14 +4,17 @@ from oomBase import *
 import OOMP_symbols_BASE
 
 import OOMP_footprints_KICAD
+import OOMP_footprints_EAGLE
 
 from kiutils.footprint import Footprint
 
 footprintGits = {}
 #####
 git = 'digikey-kicad-library'
+
 footprintGits[git] = {}
 footprintGits[git]["code"] = git
+footprintGits[git]["type"] = "kicad"
 footprintGits[git]["url"] = 'https://github.com/Digi-Key/digikey-kicad-library'
 footprintGits[git]["name"] = "Digikey's Footprints"
 footprintGits[git]["description"] = "Digikey's kicad footprint library."
@@ -19,6 +22,7 @@ footprintGits[git]["description"] = "Digikey's kicad footprint library."
 git = 'oomlout_OOMP_kicad'
 footprintGits[git] = {}
 footprintGits[git]["code"] = git
+footprintGits[git]["type"] = "kicad"
 footprintGits[git]["url"] = 'https://github.com/oomlout/oomlout_OOMP_kicad'
 footprintGits[git]["name"] = "Oomlout's Footprints"
 footprintGits[git]["description"] = "Oomlout's kicad footprint library."
@@ -26,19 +30,40 @@ footprintGits[git]["description"] = "Oomlout's kicad footprint library."
 git = 'kicad-footprints'
 footprintGits[git] = {}
 footprintGits[git]["code"] = git
+footprintGits[git]["type"] = "kicad"
 footprintGits[git]["url"] = 'https://gitlab.com/kicad/libraries/kicad-footprints'
 footprintGits[git]["name"] = "Kicad Default Footprints"
 footprintGits[git]["description"] = "Kicad's default footprint library."
 
+############  Eagle Footprints
+######
+git = 'Adafruit-Eagle-Library'
+footprintGits[git] = {}
+footprintGits[git]["code"] = git
+footprintGits[git]["type"] = "eagle"
+footprintGits[git]["url"] = 'https://github.com/adafruit/Adafruit-Eagle-Library'
+footprintGits[git]["name"] = "Adafruit's Eagle Footprints"
+footprintGits[git]["description"] = "Adafruit's footprint library."
+
 def gitPull():
     gits= []
-    dir = "sourceFiles/git/kicadFootprints/"
-    oomMakeDir(dir)
-    for git in footprintGits:
+    
+    
+    
+    for git in footprintGits:        
+        dir = "sourceFiles/git/" + footprintGits[git]["type"] + "Footprints/"
+        oomMakeDir(dir)
         oomGitPullNew(footprintGits[git]["url"],dir)
 
+import os
+
+def harvest3DModel(item):
+    footprintFile = OOMP.getFileItem(item,"kicadFootprint")
+    if os.path.exist(footprintFile):
+        pass
     
 def createAllFootprints():
+    OOMP_footprints_EAGLE.createFootprints()
     OOMP_footprints_KICAD.createFootprints()
 
 def harvestAllFootprints():
@@ -46,51 +71,57 @@ def harvestAllFootprints():
 
 def createFootprintLibraries():
     createFootprintLibrary()
-    createFootprintLibrary(directory="oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic.pretty/",style="JLCC")
+    createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_JLCC_Basic.pretty/",style="JLCC")
 
-def createFootprintLibrary(directory="oomlout_OOMP_kicad/oomlout_OOMP_parts.pretty/",style=""):
+def createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_parts.pretty/",style=""):
     outDir = directory
     print("    Creating foortprint library: " + outDir)
     oomMakeDir(outDir)
-    for part in OOMP.getItems("parts"):
-        oompID = part.getID()
-        hexID = part.getHex()
-        footprints = part.getTags("footprintKicad")        
+    for partID in OOMP.itemsTypes["parts"]["items"]:
+        part = OOMP.items[partID]
+        oompID = part["oompID"][0]
+        hexID = part["hexID"][0]
+        footprints = part["footprintKicad"]
         if len(footprints) > 0:
             print("    Writing footprint:" + oompID)
-            footprint = OOMP.getPartByID(footprints[0].value)
-            footprintID = footprint.getID()
-            include = False
-            extra= ""
-            if style == "":
-                include = True
-                extra = "-" + hexID
-            elif style == "JLCC":
-                    opl = part.getTags("oplPartNumber")
-                    for o in opl:
-                        if o.value["code"] == "C-JLCC":
-                            extra = "-" + hexID +"-" + o.value["partID"]
-                            include = True 
-                        
-                        
-            if footprintID != "----" and include:
-                footprintFile = footprint.getFilename("kicadFootprint")
-                outFile = outDir + oompID + extra + ".kicad_mod"
-                footIn = Footprint().from_file(footprintFile)
-                footIn.description = OOMP_symbols_BASE.getDesc(part) + " " + footIn.description
-                footIn.libraryLink = oompID + extra
-                ###### change the name on the board
-                for item in footIn.graphicItems:
-                    try:
-                        if item.type == "value":
-                            item.text = hexID
-                    except:
-                        pass
-                footIn.to_file(outFile)
-                pass
-            else:
-                print("        Skipping")
-
+            try:
+                footprint = OOMP.items[footprints[0]]
+                footprintID = footprint
+                include = False
+                extra= ""
+                if style == "":
+                    include = True
+                    extra = "-" + hexID
+                elif style == "JLCC":
+                        opl = part["oplPartNumber"]
+                        for o in opl:
+                            if o["code"] == "C-JLCC":
+                                extra = "-" + hexID +"-" + o["partID"]
+                                include = True 
+                            
+                            
+                if footprintID != "----" and include:
+                    footprintFile = OOMP.getFileItem(footprint,"kicadFootprint")
+                    outFile = outDir + oompID + extra + ".kicad_mod"
+                    footIn = Footprint().from_file(footprintFile)
+                    ###### description not currently generated
+                    footIn.description = OOMP_symbols_BASE.getDesc(part) + " " + footIn.description
+                    footIn.libraryLink = oompID + extra
+                    ###### change the name on the board
+                    for item in footIn.graphicItems:
+                        try:
+                            if item.type == "reference":
+                                item.text = hexID + "REF**"
+                            if item.type == "value":
+                                item.text = hexID
+                        except:
+                            pass
+                    footIn.to_file(outFile)
+                    pass
+                else:
+                    print("        Skipping")
+            except KeyError:
+                print("Footprint not found" + oompID)
 def makeFootprint(d):
     type = d["oompType"]
     size = d["oompSize"]
