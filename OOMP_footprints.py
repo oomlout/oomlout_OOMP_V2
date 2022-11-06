@@ -1,48 +1,48 @@
 import OOMP
 import OOMP_footprints_BASE
-import OOMP_footprints_KICAD
+name = "OOMP_projects_BASE"
 
+import OOMP_automation_KICAD_footprints
 
-
-def working():
-    pass
-    OOMP.loadParts("pickle")
-    print(OOMP.getReport())
-    #OOMP_footprints_BASE.gitPull()
-
-    #OOMP_footprints_BASE.gitFullPull()
-
-
-    #OOMP_footprints_BASE.createAllFootprints()
-    #OOMP.loadParts("all")
-
-    #OOMP_footprints_BASE.harvestAllFootprints()
-
+def makeAll(overwrite=False):
+    print("Make all for: " + name)
+    OOMP_footprints_BASE.gitPull()
+    OOMP_footprints_BASE.createAllFootprints()
     OOMP_footprints_BASE.createFootprintLibraries()
+    for itemID in OOMP.itemsTypes["projects"]["items"]:
+        item = OOMP.items[itemID]
+        make(item,overwrite)
 
-
-
-    ###### SINGLE
-    #id = "FOOTPRINT-kicad-kicad-footprints-LED_THT-LED_Rectangular_W3.9mm_H1.8mm"
-    #footprint = OOMP.getPartByID(id)
-
-    #def harvestFootprint(footprint,all=False,copySourceFiles=False,harvestFootprintImages=False,
-    #OOMP_footprints_KICAD.harvestFootprint(footprint,all=True)
-
-def refreshFull():
-    OOMP.loadParts("all")
-    OOMP_footprints_BASE.gitPull()
-    OOMP_footprints_BASE.createAllFootprints()    
-    OOMP.loadParts("all")    
-    OOMP_footprints_BASE.harvestAllFootprints()
-
-def make():
+def make(item,overwrite=False):    
     pass
-    OOMP_footprints_BASE.gitPull()
-    OOMP_footprints_BASE.createAllFootprints()  
-    OOMP_footprints_BASE.createFootprintLibraries()  
 
-def harvest():
-    OOMP_footprints_BASE.harvestAllFootprints()
+def createAll(overwrite=False):
+    print("Create all for: " + name)
+    for itemID in OOMP.itemsTypes["projects"]["items"]:
+        create(item,overwrite)
 
+def create(item,overwrite=False):
+    pass
+
+def generateAll(overwrite=False):
+    print("Generate all for: " + name)
+    #for itemID in OOMP.items:
+    for itemID in OOMP.itemsTypes["projects"]["items"]:
+        item = OOMP.items[itemID]
+        generate(item,overwrite)
     
+
+def generate(item,overwrite=False):
+    pass
+
+def harvestAll(overwrite=False):
+    print("Harvest all for: " + name)
+    #for itemID in OOMP.items:
+    for itemID in OOMP.itemsTypes["eda"]["items"]:
+        item = OOMP.items[itemID]
+        harvest(item,overwrite)
+
+def harvest(item,overwrite=False):
+    type = item["oompType"][0]
+    if type == "FOOTPRINT":
+        OOMP_automation_KICAD_footprints.harvestKicadFootprint(item)

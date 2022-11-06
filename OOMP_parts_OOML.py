@@ -8,6 +8,7 @@ import OOMP_parts_LEDS
 import OOMP_parts_MCUU
 import OOMP_parts_VREG
 import OOMP_parts_MOSN
+import OOMP_parts_RESE
 
 
 def createParts():    
@@ -88,6 +89,12 @@ def createParts():
                 extraTags = []
                 d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
                 OOMP_parts_BASE.makePart(dict = d)
+    ##############################
+    ######  RESE
+    if True:
+        OOMP_parts_RESE.addParts()
+
+
     ##############################
     ######  SENS
     if True:

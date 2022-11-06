@@ -25,7 +25,7 @@ def addParts():
     datasheet = "sourceDatasheets/VREG-SO223-X-KLD1117-01.pdf"
     extraTags = []
     list = ["SO223","SO8","DPAK","T220"]
-    list2 = ["V12D","V18D","V25D","V33D","V5"]
+    list2 = ["V12D","V18D","V25D","V33D","V5","ADJ"]
     for l in list:
         size = l
         for ll in list2:

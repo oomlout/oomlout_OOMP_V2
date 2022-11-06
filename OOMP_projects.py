@@ -1,78 +1,57 @@
 import OOMP
 import OOMP_projects_BASE
+name = "OOMP_projects_BASE"
+import OOMP_projects_SPAR
+import OOMP_projects_ADAF
 
-OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
-#OOMP.loadParts("pickle")
+import OOMP_projects_partsHarvest_BASE
+import OOMP_projects_partsMatch
 
-#print(OOMP.getReport())
+import OOMP_projects_partsMatch_Special
 
-companies = {}
+import OOMP_kicad_BASE
 
+def makeAll(overwrite=False):
+    OOMP_projects_SPAR.farmProjects() ###### get repo list
+    OOMP_projects_ADAF.farmProjects() ###### get repo list
+    #for itemID in OOMP.items:
+ 
+    for itemID in OOMP.itemsTypes["projects"]["items"]:
+        item = OOMP.items[itemID]
+        make(item,overwrite)
 
-comps = ["SPAR","ADAF","OOML","DANP","ELLA","IBBC","SEED","SIRB","SOPA","SPAR"]
-companies = {}
-for comp in comps:
-    companies[comp] = {}
-    companies[comp]["code"] = comp
+def make(item,overwrite=False):    
+        OOMP_projects_BASE.gitPullProject(item)
+        OOMP_projects_BASE.copyBaseFilesProject(item)
 
-#OOMP.loadParts("nofootprints")
-#import oomlout_OOMP_projects.test
-
-
-def create():
-    make()
-
-def all(filter="",exclusions="NONE"):
-    OOMP_projects_BASE.harvestProjects()
-    OOMP.loadParts("all")
-    OOMP_projects_BASE.harvestProjects()
-    OOMP.loadParts("all")
-    OOMP_projects_BASE.harvestProjects()
-
-
-def single(oompid):
-    d = {"all" :False,
-        "gitPull" : False,
-        "copyBaseFiles" : False,
-        "harvestEagle" : False,
-        "harvestKicad" : False,
-        "matchParts" : True,
-    }
-    overwrite = True
-
-    #overwrite = False
-    project = OOMP.getPartByID(oompid)
-    testID = project.getID()
-    if testID != "----":
-        #OOMP_projects_BASE.harvestProject(project,overwrite=overwrite, dict={"all" : True} )
-        OOMP_projects_BASE.harvestProject(project,dict=d,overwrite=overwrite)
-    else:
-        print("No Project Found")
-
-def working():
-
-    #create()
-
-    #OOMP.loadParts("projects")
-    #OOMP.loadParts("nofootprints")
-
-    #filter = ""
-    #filter = "DANP"  
-    #exclusions = "NONE" ## not working yet
-    #exclusions = "ADAF" ## not working yet
-    #all(filter,exclusions)
-
-    oompID="PROJ-SPAR-15932-STAN-01"
-    single(oompID)
-
-
-def preMake():
-    OOMP_projects_BASE.preMakeAllProjects()
-
-def make():
+def createAll(overwrite=False):
     OOMP_projects_BASE.createAllProjects()
 
-def harvest():    
-    OOMP_projects_BASE.harvestProjects()
+def create(item,overwrite=False):
+    pass
 
+def generateAll(overwrite=False):
+    print("Generate all for: " + name)
+    #for itemID in OOMP.items:
+    OOMP_projects_partsMatch_Special.loadMatches()
+    for itemID in OOMP.itemsTypes["projects"]["items"]:
+        item = OOMP.items[itemID]
+        generate(item,overwrite)
+    OOMP_projects_partsMatch.partReport()
 
+def generate(item,overwrite=False):
+    OOMP_projects_partsHarvest_BASE.harvestParts(item)
+    OOMP_projects_partsMatch.matchParts(item)
+
+def harvestAll(overwrite=False):
+    OOMP_kicad_BASE.convertAllEagleToKicad(overwrite=False)
+    OOMP_kicad_BASE.harvestAllKicad(overwrite=False)
+    
+    print("Harvest all for: " + name)
+    for itemID in OOMP.items:
+    #for item in OOMP.itemsTypes["parts"]["items"]:
+        item = OOMP.items[itemID]
+        harvest(item,overwrite)
+
+def harvest(item,overwrite=False):
+    pass

@@ -101,7 +101,7 @@ def getEagleFootprintNames(owner):
         lines = fileContents.splitlines()
         for line in lines:
             if "<package name=" in line:
-                footprint = stringBetween(line,'<package name="','"').replace('"',"").replace("/","_")
+                footprint = stringBetween(line,'<package name="','"').replace('"',"").replace("/","_").replace(":","_")
                 fileToken = os.path.basename(file).replace(".lbr","")
                 footprints.append([fileToken,footprint])
     return footprints

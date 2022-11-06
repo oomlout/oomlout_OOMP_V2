@@ -2,10 +2,13 @@ import OOMP
 import os
 import json
 
-def makeJson(item,overwrite):
+from oomBase import *
+
+def makeJson(item,overwrite,short=False):
     oompID = item["oompID"][0]
     basicJson = OOMP.getFileItem(item,"jsonBasic")
-    print("        JSON for: " + oompID)
+    #print("        JSON for: " + oompID)
+    ping(1000)
     jsonFile = basicJson
     if not "TEMPLATE" in oompID and (not os.path.isfile(jsonFile) or overwrite):
         jsonText = json.dumps(item,default=lambda o: o.__dict__, sort_keys=True, indent=4)
@@ -16,6 +19,11 @@ def makeJson(item,overwrite):
     fullJson = OOMP.getFileItem(item,"jsonFull")
     jsonFile = fullJson
     workingItem = item.copy()
+    if short: ###### remove blank entries
+        w2 = workingItem.copy()
+        for tag in w2:
+            if len(workingItem[tag]) == 0:
+                del workingItem[tag]
         ###### FILES
     oompFiles = {}
     for file in OOMP.filenames:

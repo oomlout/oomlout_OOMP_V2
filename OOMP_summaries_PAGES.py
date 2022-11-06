@@ -7,6 +7,9 @@ from oomBase import *
 def generateReadmeFootprint(item, mdFile):
     pass
 
+def generateReadmeCollection(item, mdFile):
+    addCollectionList
+
 def generateReadmePart(item, mdFile):
     addFootprintList(item,mdFile)
     addSymbolList(item,mdFile)
@@ -21,6 +24,27 @@ def generateReadmeProject(item, mdFile):
         
         
 ######  Helpers
+
+###### COLLECTIONS
+def addCollectionList(collection,mdFile):    
+    oompID = collection["oompID"][0]  
+    
+    name = collection["name"][0]
+    description = collection["description"][0]
+    rFile = mdFile
+    
+    print("    Generating collection page for: " + oompID) 
+
+    osb.addHeader(rFile,title="Items in Collection",level=2)
+    osb.addLine(rFile,description)
+    
+    items = []
+    for itemID in collection["collection"][0]["items"]:
+        item = OOMP.items[itemID]
+        string = osb.getPictureLink(item,resolution="140",link="")
+        items.append(string)
+    osb.addDisplayTable(rFile,items,4)
+    
 
 ###### PARTS
 def addFootprintList(item,mdFile):
@@ -57,7 +81,44 @@ def addFootprintList(item,mdFile):
     except IndexError:
         print("       Skipping because it's a block")
 
-def addMPNList(item,mdFile):   
+def addMPNList(item,mdFile): 
+    osb.addHeader(mdFile, level=2, title='Distributor Searches')
+    osb.addLine(mdFile, "Links to search for this item (using OOMP name) at various distributors")          
+    ###### search links
+    linkText = ""
+    mpn = item["name"][0].replace(" ","+").replace("(","").replace(")","")
+    ###### Aliexpress
+    linkStart = "https://www.aliexpress.com/wholesale?SearchText=1117"
+    link = linkStart + mpn
+    text = "(Aliexpress) "
+    linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
+    ###### AVNET
+    linkStart = "https://www.avnet.com/shop/us/search/"
+    link = linkStart + mpn
+    text = "(Avnet) "
+    linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
+    ###### Digikey
+    linkStart = "https://www.digikey.co.uk/en/products/result?s="
+    link = linkStart + mpn
+    text = "(Digikey) "
+    linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
+    ###### LCSC
+    linkStart = "https://www.lcsc.com/search?q="
+    link = linkStart + mpn
+    text = "(LCSC) "
+    linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
+    ###### Farnell
+    linkStart = "https://uk.farnell.com/search?st="
+    link = linkStart + mpn
+    text = "(Farnell) "
+    linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
+    ###### Mouser
+    linkStart = "https://www.mouser.com/c/?q="
+    link = linkStart + mpn
+    text = "(Mouser) "
+    linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
+    osb.addLine(mdFile, linkText)
+
     ###### make extra file
     oompID = item["oompID"][0]
     ping()
@@ -72,7 +133,7 @@ def addMPNList(item,mdFile):
         osb.addHeader(rFile,level=1,title="MPN Summary For: " + hexID + " > " + name)
         tags = ["MPN","Direct Links","Search Links"]
         thingName = "manufacturerPartNumber"
-        things = item[thingName]
+        things = OOMP.getTag(item,thingName)
         for thing in things:
             mpn = thing["MPN"]
             text = thing["MANUFACTURER"] + "<br>" + mpn
@@ -141,40 +202,43 @@ def addMPNList(item,mdFile):
                                     includes.append(thing)
         tags = ["MPN","Direct Links","Search Links"]
         for thing in includes:
-            mpn = thing["MPN"]
-            text = thing["MANUFACTURER"] + "<br>" + mpn
-            tags.append(text)
-            ###### direct links
-            linkText = ""
-            tags.append(linkText)
-            ###### search links
-            linkText = ""
-            ###### AVNET
-            linkStart = "https://www.avnet.com/shop/us/search/"
-            link = linkStart + mpn
-            text = "(AV) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### Digikey
-            linkStart = "https://www.digikey.co.uk/products/en?keywords="
-            link = linkStart + mpn
-            text = "(DK) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### LCSC
-            linkStart = "https://www.lcsc.com/search?q="
-            link = linkStart + mpn
-            text = "(LCSC) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### Farnell
-            linkStart = "https://uk.farnell.com/search?st="
-            link = linkStart + mpn
-            text = "(FA) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### Mouser
-            linkStart = "https://www.mouser.com/c/?q="
-            link = linkStart + mpn
-            text = "(MO) "
-            linkText = linkText + osb.getLink(text,link)
-            tags.append(linkText)                   
+            try: 
+                mpn = thing["MPN"]
+                text = thing["MANUFACTURER"] + "<br>" + mpn
+                tags.append(text)
+                ###### direct links
+                linkText = ""
+                tags.append(linkText)
+                ###### search links
+                linkText = ""
+                ###### AVNET
+                linkStart = "https://www.avnet.com/shop/us/search/"
+                link = linkStart + mpn
+                text = "(AV) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### Digikey
+                linkStart = "https://www.digikey.co.uk/products/en?keywords="
+                link = linkStart + mpn
+                text = "(DK) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### LCSC
+                linkStart = "https://www.lcsc.com/search?q="
+                link = linkStart + mpn
+                text = "(LCSC) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### Farnell
+                linkStart = "https://uk.farnell.com/search?st="
+                link = linkStart + mpn
+                text = "(FA) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### Mouser
+                linkStart = "https://www.mouser.com/c/?q="
+                link = linkStart + mpn
+                text = "(MO) "
+                linkText = linkText + osb.getLink(text,link)
+                tags.append(linkText)                   
+            except KeyError:
+                pass ###### skip over if no MPN
         if len(tags) > 2:            
             osb.addHeader(mdFile, level=2, title='MPNs')
             link = OOMP.getFileItem(item,"mpnList",relative="flat")
@@ -278,20 +342,20 @@ def addOOMPPartsList(item,mdFile):
         uniqueParts = []
         
         for part in oompParts:
-            if oompParts[part] not in uniqueParts:
+            if oompParts[part]["OOMPID"] not in uniqueParts:
                 uniqueParts.append(oompParts[part])
         for partID in uniqueParts:
             try:
-                part = OOMP.items[partID]
+                part = OOMP.items[partID["OOMPID"]]
                 link = OOMP.getFileItem(part,"",relative="github")
             except KeyError:
                 part= ""
                 link = ""
             image= osb.getImageItem(part,"image",link=False)
-            text= partID
+            text= partID["OOMPID"]
             designators = ""
             for testPart in oompParts:
-                if oompParts[testPart] == partID:
+                if oompParts[testPart] == partID["OOMPID"]:
                     designators = designators + testPart + ","
             tags.append(osb.getLink(image,link))
             tags.append(osb.getLink(text,link))

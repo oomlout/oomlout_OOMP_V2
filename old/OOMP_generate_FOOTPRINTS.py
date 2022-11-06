@@ -6,10 +6,10 @@ import OOMP_automation_KICAD_footprints
 
 
 #OOMP.makePickle()
-OOMP.loadPickle()
+#OOMP.loadPickle()
 #OOMP_footprints.make()
 #OOMP_footprints_BASE.gitPull()
-#OOMP_footprints_BASE.createAllFootprints()
+OOMP_footprints_BASE.createAllFootprints()
 #OOMP_footprints_BASE.createFootprintLibraries()  
 
 
@@ -51,7 +51,7 @@ OOMP.loadPickle()
 itemID = "FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-1X01"
 item = OOMP.items[itemID]
 
-OOMP_automation_KICAD_footprints.harvestKicadFootprint(item)
+#OOMP_automation_KICAD_footprints.harvestKicadFootprint(item)
 
 #OOMP_footprints.harvest()
 

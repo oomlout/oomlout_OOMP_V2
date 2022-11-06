@@ -97,7 +97,7 @@ def load(fn):
     current = "imagePng"
     fn[current] = {}
     fn[current]["filename"] = "image&&res&&.&&ext&&"
-    fn[current]["filenameV1"] = ["oomlout_OOMP_eda/&&oompID&&/image.png"]
+    
     fn[current]["defaultExtension"] = "png"
     fn[current]["type"] = cType
     fn[current]["generated"] = False
@@ -120,13 +120,13 @@ def load(fn):
     current = "eagleImage"
     fn[current] = {}
     fn[current]["filename"] = current + "&&res&&.png"
-    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png","oomlout_OOMP_eda/&&oompID&&/" + current + ".png"]
+    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png"]
     fn[current]["type"] = cType
     fn[current]["generated"] = False
     current = "eagleSchemImage"
     fn[current] = {}
     fn[current]["filename"] = current + "&&res&&.png"
-    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png","oomlout_OOMP_eda/&&oompID&&/" + current + ".png"]
+    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png"]
     fn[current]["type"] = cType
     fn[current]["generated"] = False
     
@@ -134,19 +134,19 @@ def load(fn):
     current = "kicadPcb3dFront"
     fn[current] = {}
     fn[current]["filename"] = "kicadPcb3dFront&&res&&.png"
-    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png","oomlout_OOMP_eda/&&oompID&&/" + current + ".png"]
+    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png"]
     fn[current]["type"] = cType
     fn[current]["generated"] = False
     current = "kicadPcb3dBack"
     fn[current] = {}
     fn[current]["filename"] = "kicadPcb3dBack&&res&&.png"
-    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png","oomlout_OOMP_eda/&&oompID&&/" + current + ".png"]
+    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png"]
     fn[current]["type"] = cType
     fn[current]["generated"] = False
     current = "kicadPcb3d"    
     fn[current] = {}
     fn[current]["filename"] = "kicadPcb3d&&res&&.png"
-    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png","oomlout_OOMP_eda/&&oompID&&/" + current + ".png"]
+    fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".png"]
     fn[current]["type"] = cType
     fn[current]["generated"] = False
     current = "bomBack"    
@@ -180,6 +180,12 @@ def load(fn):
     fn[current]["filename"] = current + "&&res&&.&&ext&&"
     fn[current]["defaultExtension"] = "svg"
     fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/" + current + ".svg"]
+    fn[current]["type"] = cType
+    fn[current]["generated"] = False
+    current = "qrCode"    
+    fn[current] = {}
+    fn[current]["filename"] = current + "&&res&&.&&ext&&"
+    fn[current]["defaultExtension"] = "png"
     fn[current]["type"] = cType
     fn[current]["generated"] = False
     

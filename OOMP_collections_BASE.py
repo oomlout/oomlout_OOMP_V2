@@ -32,7 +32,34 @@ def makeAllCollections():
         if len(parts) > 0:
             skip = False
             for part in parts:
-                if "HEAD-JSTSH-X-PI04-RS" in parts[part] and not skip:
+                if "HEAD-JSTSH-X-PI04-RS" in parts[part]["OOMPID"] and not skip:
+                    d["collection"]["items"].append(projectID)
+                    skip = True       ###### QWIIC
+    collections.append(d.copy())
+    
+    ######  ATTINY84
+    d= base.copy()
+    d["oompType"] = "COLLECTION"
+    d["oompSize"] = "MCUU"
+    d["oompColor"] = "ATTINY84"
+    d["oompDesc"] = "STAN"
+    d["oompIndex"] = "01"
+    
+    d["hexID"] = "COLATTINY84"
+    d["code"] = "attiny84"
+    d["name"] = "ATTiny84 Projects"
+    d["description"] = "A collection of all OOMP projects that have as ATTINY84 in them"
+    d["collection"] = {}
+    d["collection"]["items"] = []
+    for projectID in OOMP.itemsTypes["projects"]["items"]:
+        project = OOMP.items[projectID]
+        parts = project["oompParts"][0]
+        if len(parts) > 0:
+            skip = False
+            for part in parts:
+                #print(parts[part]["OOMPID"])
+                ping(5000)
+                if "84-ATTINY" in parts[part]["OOMPID"] and not skip:
                     d["collection"]["items"].append(projectID)
                     skip = True                
     collections.append(d.copy())
@@ -95,7 +122,7 @@ def makeCollection(d):
     oomMakeDir(outputDir + "src/")
     outputFile = outputDir + "details.py"
 
-    print("Making: " + outputFile)
+    print("    Making: " + outputFile)
 
     contents = oomReadFileToString(inputFile)
     contents = contents.replace("TYPEZZ",type)

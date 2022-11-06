@@ -5,11 +5,11 @@ import time
 startTime= time.time()
 #mode = "all"
 #mode = "allUsed" ##### no JSON, and csv
-#mode = "afterCreate"
+mode = "afterCreate"
 
 #mode = "parts"
 #mode = "projects"
-mode = "regular"
+#mode = "regular"
 #mode = "none"
 #mode = "regular"
 ###### Setting Base Level
@@ -26,7 +26,7 @@ if mode == "regular":
     runCollections = False
     runFootprints = False
     runModules = False
-    runParts = False
+    runParts = True
     runProjects = False
     runSymbols = False
 
@@ -38,6 +38,7 @@ if mode == "regular":
     runInstances = False
     runMigrating = False
     loadPartNumbers = False
+    qrCodes = False
     runPartNumbers = False
     runImages = False
     runJson = False
@@ -45,7 +46,7 @@ if mode == "regular":
     runSummaries = False
     ###### gui ones
     convertToKicad=False
-    harvestKicad=True
+    harvestKicad=False
 
 
 
@@ -61,18 +62,18 @@ if mode == "regular":
 ##### All
 #makePickle = False
 if mode == "all":    
-    makePickle = runCollections = runFootprints = runModules = runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = loadPartNumbers = runPartNumbers = runImages = runJson = runLabels = runSummaries = True
+    makePickle = runCollections = runFootprints = runModules = runParts = runProjects = runSymbols = makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = loadPartNumbers = runPartNumbers = runImages = runJson = runLabels = runSummaries = qrCodes = True
 if mode == "allUsed":    
     runJson = runLabels = runCSV = runProjects = False
-    makePickle = runCollections = runFootprints = runModules = runParts = runSymbols = makePickle2 = runHarvestProjects = runMatching = runInstances = runMigrating = runPartNumbers =loadPartNumbers =  runImages =  runSummaries = True
+    makePickle = runCollections = runFootprints = runModules = runParts = runSymbols = makePickle2 = runHarvestProjects = runMatching = runInstances = runMigrating = runPartNumbers =loadPartNumbers =  runImages =  runSummaries = qrCodes = True
 
 if mode == "afterCreate":    
     runCollections = runFootprints = runModules =runParts = runProjects = runSymbols = False
-    makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runLabels = runSummaries = True
+    makePickle2 = runCSV = runHarvestProjects = runMatching = runInstances = runMigrating = runImages = runJson = runLabels = runSummaries = qrCdoes = True
 
 ##### Make Parts, make pickle, make csv etc
 if mode == "parts":
-    runParts = makePickle = makePickle2 = runCSV = runInstances = runMigrating = runImages = runJson = runLabels = runSummaries = True
+    runParts = makePickle = makePickle2 = runCSV = runInstances = runMigrating = runImages = runJson = runLabels = runSummaries = qrCodes = True
     items = OOMP.itemsTypes["parts"]["items"]
 ##### Make Projects, make pickle, make csv etc
 if mode == "projects":
@@ -220,11 +221,12 @@ if runHarvestProjects:
 ######  MATCH PARTS
 
 import OOMP_projects_partsMatch
+import OOMP_projects_partsMatch_Special
 
 if runMatching:
     print("Running Match Parts")
     OOMP.loadPickle()
-    
+    OOMP_projects_partsMatch_Special.loadMatches()
     for itemID in OOMP.itemsTypes["projects"]["items"]:
         OOMP_projects_partsMatch.matchParts(OOMP.items[itemID])
     OOMP_projects_partsMatch.partReport()    
@@ -253,6 +255,16 @@ if runMigrating:
         OOMP_migrate_BASE.migrateFiles(OOMP.items[item])
 
 #######################################
+######  QR CODES
+import OOMP_qrCode_BASE
+
+if qrCodes:
+    for itemID in OOMP.itemsTypes["parts"]["items"]:
+        item = OOMP.items[itemID]
+        OOMP_qrCode_BASE.createCode(item)
+
+ 
+# #######################################
 ######  PARTNUMBERS
 
 import OOMP_partNumbers_BASE
@@ -303,6 +315,7 @@ import OOMP_summaries_BASE
 import OOMP_summaries_INDEXES
 if runSummaries:
     OOMP.makePickle()
+    print("Making Summaries")
 
     #OOMP.loadPickle()
     

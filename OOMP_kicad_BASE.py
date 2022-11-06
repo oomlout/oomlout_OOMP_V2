@@ -13,13 +13,13 @@ def convertAllEagleToKicad(overwrite=False):
     print("Converting all eagleBoard.brd files to kicad")
     filter = "eagleBoard.brd"
     print("     Getting glob of files")
-    files = glob.glob("**\\" + filter,recursive=True)
+    files = glob.glob(OOMP.getDir("projects") + "\\**\\" + filter,recursive=True)
     for file in files:
         convertEagleToKicad(file,style="brd",overwrite=overwrite)    
     print("Converting all eagleSchematic.sch files to kicad")
     filter = "eagleSchem.sch"
     print("     Getting glob of files")
-    files = glob.glob("**\\" + filter,recursive=True)
+    files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
     for file in files:
         convertEagleToKicad(file,style="sch",overwrite=overwrite)    
 
@@ -90,17 +90,21 @@ def harvestAllKicad(overwrite=False):
     print("Harvesting All Kicad Boards")
     filter = "kicadBoard.kicad_pcb"
     print("     Getting glob of files")
-    files = glob.glob("**\\" + filter,recursive=True)
+    files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
     for file in files:
-        print("Harvesrting Kicad Board: " + file)
-        harvestKicadBoard(file,overwrite=overwrite)    
+        fileSize = os.stat(file).st_size
+        if fileSize > 3000:
+            print("Harverting Kicad Board: " + file)
+            harvestKicadBoard(file,overwrite=overwrite)    
     print("Harvesting all Kicad Schematics")
     filter = "kicadBoard.kicad_sch"
     print("     Getting glob of files")
-    files = glob.glob("**\\" + filter,recursive=True)
+    files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
     for file in files:
-        print("Harvesting Kicad Schem: " + file)
-        harvestKicadSchem(file,overwrite=overwrite) 
+        fileSize = os.stat(file).st_size
+        if fileSize > 2000:
+            print("Harvesting Kicad Schem: " + file)
+            harvestKicadSchem(file,overwrite=overwrite) 
 
 def harvestKicadBoard(filename="",overwrite=False):    
     filename = OOMP.baseDir + filename 
@@ -110,7 +114,7 @@ def harvestKicadBoard(filename="",overwrite=False):
     kicadBoard = filename
     print("Harvesting Kicad Board File: " + kicadBoard)
     if os.path.isfile(kicadBoard):
-        if overwrite or not os.path.isfile(dirBase + "kicadPcb3d.png"):
+        if overwrite or not os.path.isfile(dirBase + "kicadPcb3d.png")  or not os.path.isfile(dirBase + "src/kicadBoardBom.csv"):
             oomLaunchPopen("pcbnew.exe " + kicadBoard,10)
             oomMouseMove(pos=kicadFootprintMiddle,delay=2)
             oomSend("b",10)

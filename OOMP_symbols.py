@@ -1,22 +1,47 @@
 import OOMP
 import OOMP_symbols_BASE
-
-OOMP.setBaseDir("C:/GH/oomlout_OOMP/")
-#OOMP.loadParts("pickle")
-
-def working():
-    #OOMP_symbols_BASE.createAllSymbols()
-
-    OOMP_symbols_BASE.createSymbolLibraries()
+name = "OOMP_symbols_BASE"
 
 
-def make():
+def makeAll(overwrite=False):
+    print("Make all for: " + name)
     OOMP_symbols_BASE.gitPull()
-    OOMP_symbols_BASE.createAllSymbols()
-    OOMP_symbols_BASE.createSymbolLibraries()
+    for itemID in OOMP.itemsTypes["projects"]["items"]:
+        item = OOMP.items[itemID]
+        make(item,overwrite)
 
-def harvest():
+def make(item,overwrite=False):    
     pass
 
-#working
-#make()
+def createAll(overwrite=False):
+    print("Create all for: " + name)
+    OOMP_symbols_BASE.createAllSymbols()
+    for itemID in OOMP.items:
+    #for itemID in OOMP.itemsTypes["collections"]["items"]:
+        item = OOMP.items[itemID]
+        create(item,overwrite)
+
+def create(item,overwrite=False):
+    pass
+
+
+def generateAll(overwrite=False):
+    print("Generate all for: " + name)
+    #for itemID in OOMP.items:
+    for itemID in OOMP.itemsTypes["projects"]["items"]:
+        item = OOMP.items[itemID]
+        generate(item,overwrite)
+    
+
+def generate(item,overwrite=False):
+    pass
+
+def harvestAll(overwrite=False):
+    print("Harvest all for: " + name)
+    #for itemID in OOMP.items:
+    for itemID in OOMP.itemsTypes["eda"]["items"]:
+        item = OOMP.items[itemID]
+        harvest(item,overwrite)
+
+def harvest(item,overwrite=False):
+    pass

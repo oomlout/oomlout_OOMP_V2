@@ -2439,10 +2439,17 @@ def load(td):
     td['index']['SHRO']['name'] = 'Shrouded (IDC)'
     td['index']['SHRO']['description'] = 'Shrouded (IDC)'
 
+    current = "SHRR"
+    td['index'][current] = {}
+    td['index'][current]['code'] = current
+    td['index'][current]['name'] = 'Shrouded (IDC) Right Angle'
+    td['index'][current]['description'] = td['index'][current]['name']
+
+
 
     ####### New ones
     current = "VADJ"
     td['index'][current] = {}
-    td['index'][current]['code'] = 'VADJ'
+    td['index'][current]['code'] = current
     td['index'][current]['name'] = 'Adjustable Voltage'
     td['index'][current]['description'] = 'Adjustable Voltage'

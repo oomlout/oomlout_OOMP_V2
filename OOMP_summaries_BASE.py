@@ -26,6 +26,8 @@ def generateReadme(item,overwrite=False):
         type = OOMP.getType(item)
         if type== "eda":
             OOMP_summaries_PAGES.generateReadmeFootprint(item, rFile)
+        elif type== "collections":
+            OOMP_summaries_PAGES.generateReadmeCollection(item, rFile)
         elif type== "projects" or  type== "modules"  :
             OOMP_summaries_PAGES.generateReadmeProject(item, rFile)
         else:
@@ -45,27 +47,6 @@ def generateReadme(item,overwrite=False):
 def generateCollectionsIndex(): 
     OOMP_summaries_INDEXES.generateCollectionsIndex()
     
-def generateCollectionPage(collection):    
-    oompID = collection["oompID"][0]  
-    
-    filename = OOMP.getFileItem(collection,"collection")
-    name = collection["name"][0]
-    description = collection["description"][0]
-    rFile = newReadme(filename)
-    
-    print("    Generating collection page for: " + oompID) 
-
-    addHeader(rFile,title="Collection: " + name,level=1)
-    addLine(rFile,description)
-    
-    items = []
-    for itemID in collection["collection"][0]["items"]:
-        item = OOMP.items[itemID]
-        string = getPictureLink(item,resolution="140",link="")
-        items.append(string)
-    addDisplayTable(rFile,items,4)
-    
-    saveReadme(rFile)
 
 
 ###### oomp md helpers

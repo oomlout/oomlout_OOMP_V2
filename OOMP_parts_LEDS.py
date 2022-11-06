@@ -17,7 +17,7 @@ def addParts():
     datasheet = ""
     
     list = sizes = ["03","05","10","0402","0603","0805","1206"]
-    list2 = colours = ["R","G","L","Y","W"]
+    list2 = colours = ["R","G","L","Y","W","O"]
     for l in list:
         size = l
         for ll in list2:

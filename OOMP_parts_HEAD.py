@@ -9,161 +9,87 @@ def addParts():
     ######### I01
     #####################################################################
 
-        ######### PI1X
-        #####################################################################
-
-        type = "HEAD";size = "I01";color = "X";desc = "";index = "01";hexID = ""
-        datasheet = "sourceDatasheets/HEAD-I01-X-PI03-01.pdf"
-        
+    ######### I01 PI1X
+    #####################################################################
+    type = "HEAD";size = "I01";color = "X";desc = "";index = "";hexID = ""
+    indexes = ["01","SM","RS"]
+    for index in indexes:
+        datasheet = "sourceDatasheets/HEAD-I01-X-PI03-" + index + ".pdf"
         for x in range(1,20+1):
             desc = "PI" + str(x).zfill(2)
-            hexID = "H" + str(x) + ""
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+            hexID = OOMP_parts_BASE.getHexID(oompID)
             extraTags = []
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d)
 
-    ##########
-    ##########
-        type = "HEAD";size = "I01";color = "X";desc = "";index = "SM";hexID = ""
-        #datasheet = "sourceDatasheets/HEAD-I01-X-PI03-SM.pdf"
-        datasheet = ""
-        
+
+
+    ######### I01 PI2X
+    #####################################################################
+    type = "HEAD";size = "I01";color = "X";desc = "";index = "SM";hexID = ""
+    indexes = ["01","SM","RS","SHRO","SHRR"]
+    #datasheet = "sourceDatasheets/HEAD-I01-X-PI03-SM.pdf"
+    datasheet = ""
+
+    for index in indexes:
+        datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-" + index + ".pdf"
         for x in range(2,20+1):
             desc = "PI2X" + str(x).zfill(2)
-            hexID = "H2X" + str(x) + "SM"
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+            hexID = OOMP_parts_BASE.getHexID(oompID)
             extraTags = []
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d)
 
-    #########
-    #########
-        type = "HEAD";size = "I01";color = "X";desc = "";index = "RS";hexID = ""
-        datasheet = "sourceDatasheets/HEAD-I01-X-PI03-RS.pdf"
 
-        for x in range(2,20+1):
-            extraTags = []
-            desc = "PI" + str(x).zfill(2)
-            hexID = "H" + str(x) + "RS"
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-
-        ######### PI2X
-        #####################################################################
-
-        type = "HEAD";size = "I01";color = "X";desc = "PI2X10";index = "SHRO";hexID = "H2X10SH"
-        datasheet="sourceDatasheets/HEAD-I01-X-PI2X03-01.pdf"
-
-        for x in range(2,20+1):
-            desc = "PI2X" + str(x).zfill(2)
-            hexID = "H2X" + str(x) + "SH"
-            extraTags = []
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-    ##########
-    ##########
-        type = "HEAD";size = "I01";color = "X";desc = "";index = "01";hexID = ""
-        datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-01.pdf"
-        
-        for x in range(2,20+1):
-            desc = "PI2X" + str(x).zfill(2)
-            hexID = "H2X" + str(x) + ""
-            extraTags = []
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-
-    ##########
-    ##########
-        type = "HEAD";size = "I01";color = "X";desc = "";index = "SM";hexID = ""
-        datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-SM.pdf"
-        
-        for x in range(2,20+1):
-            desc = "PI2X" + str(x).zfill(2)
-            hexID = "H2X" + str(x) + "SM"
-            extraTags = []
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-
-    #########
-    #########
-        type = "HEAD";size = "I01";color = "X";desc = "";index = "RS";hexID = ""
-        datasheet = "sourceDatasheets/HEAD-I01-X-PI2X03-RS.pdf"
-
-        for x in range(2,20+1):
-            extraTags = []
-            desc = "PI2X" + str(x).zfill(2)
-            hexID = "H2X" + str(x) + "RS"
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-
+    
     #########
     #########        
     ######### JST
     #####################################################################
+        #########
+        #########   JSTXH
         type = "HEAD";size = "JSTXH";color = "X";desc = "";index = "01";hexID = ""
         datasheet = "sourceDatasheets/HEAD-JSTXH-X-PI03-01.pdf"
 
         for x in range(1,20+1):
             desc = "PI" + str(x).zfill(2)
-            hexID = "HXH" + str(x)
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+            hexID = OOMP_parts_BASE.getHexID(oompID)
             extraTags = []
             extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=136"}])
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d)
 
-
-    #########   JSTPH
-        type = "HEAD";size = "JSTPH";color = "X";desc = "";index = "RA";hexID = ""
+        #########
+        #########   JSTPH
+        type = "HEAD";size = "JSTPH";color = "X";desc = "";index = "";hexID = ""
         datasheet = "sourceDatasheets/HEAD-JSTPH-X-PI03-01.pdf"
-
-        for x in range(1,20+1):
-            desc = "PI" + str(x).zfill(2)
-            hexID = "HPH" + str(x) + "R"
-            extraTags = []
-            extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=6626"}])
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-
-        #type = "HEAD";size = "JSTSH";color = "X";desc = "";index = "SM";hexID = ""
-        index = "01"
-        for x in range(1,20+1):
-            desc = "PI" + str(x).zfill(2)
-            hexID = "HPH" + str(x) 
-            extraTags = []
-            extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=6626"}])
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-
-        index = "SM"
-        for x in range(1,20+1):
-            desc = "PI" + str(x).zfill(2)
-            hexID = "HPH" + str(x) 
-            extraTags = []
-            extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=6626"}])
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
+        indexes = ["RA","01","SM"]
+        for index in indexes:
+            for x in range(1,20+1):
+                desc = "PI" + str(x).zfill(2)
+                oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+                hexID = OOMP_parts_BASE.getHexID(oompID)
+                extraTags = []
+                extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=6626"}])
+                d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+                OOMP_parts_BASE.makePart(dict = d)
 
 
-    #########
-    #########   JSTSH
-        
+        #########
+        #########   JSTSH
         type = "HEAD";size = "JSTSH";color = "X";desc = "";index = "SM";hexID = ""
         datasheet = "sourceDatasheets/HEAD-JSTSH-X-PI03-01.pdf"
+        indexes = ["RA","RS"]
+        for index in indexes:
+            for x in range(1,20+1):
+                desc = "PI" + str(x).zfill(2)
+                oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+                hexID = OOMP_parts_BASE.getHexID(oompID)
+                extraTags = []
+                extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=93"}])
+                d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+                OOMP_parts_BASE.makePart(dict = d)
 
-        for x in range(1,20+1):
-            desc = "PI" + str(x).zfill(2)
-            hexID = "HSH" + str(x) 
-            extraTags = []
-            extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=93"}])
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)
-
-        #type = "HEAD";size = "JSTSH";color = "X";desc = "";index = "SM";hexID = ""
-        index = "RS"
-        datasheet = "sourceDatasheets/HEAD-JSTSH-X-PI03-01.pdf"
-        for x in range(1,20+1):
-            desc = "PI" + str(x).zfill(2)
-            hexID = "HSH" + str(x) + "R"
-            extraTags = []
-            extraTags.append(["manufacturerPartNumber",{"partLink" : "https://www.jst.co.uk/productSeries.php?pid=93"}])
-            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-            OOMP_parts_BASE.makePart(dict = d)

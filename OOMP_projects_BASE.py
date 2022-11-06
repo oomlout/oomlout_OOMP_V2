@@ -30,14 +30,16 @@ def preMakeAllProjects():
 
 def createAllProjects():
     OOMP_projects_IBBC.createProjects()
-    #OOMP_projects_ADAF.createProjects()    
+    OOMP_projects_ADAF.createProjects()    
     OOMP_projects_DANP.createProjects()    
     OOMP_projects_ELLA.createProjects()
     OOMP_projects_PDP7.createProjects()
     #OOMP_projects_SEED.createProjects()
     OOMP_projects_SIRB.createProjects()
     OOMP_projects_SOPA.createProjects()
-    #OOMP_projects_SPAR.createProjects()
+    OOMP_projects_SPAR.createProjects()
+    OOMP_projects_SPAR.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
+    OOMP_projects_ADAF.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
 
 def getRepos(user):
     print("    Farming repos for: " + user)
@@ -47,7 +49,7 @@ def getRepos(user):
         print("        Page: " + str(page) + " current repos: " + str(len(repos)))
         url = "https://api.github.com/users/" + user + "/repos?per_page=100&page=" + str(page)
         response  = urlopen(url)
-        oomDelay(5)
+        oomDelay(10)
         result = json.loads(response.read())
         for item in result:
             try:
@@ -138,7 +140,7 @@ def makeProjectNew(d):
 
     oomWriteToFile(outputFile,contents)
 
-def harvestProjects(filter="",exclusions="NONE",dict = {"all" : False,"easy" : False, "copyBaseFiles" : False,"harvestKicad" : False,"matchParts" : False},overwrite=False):
+def harvestProjects(filter="",exclusions="NONE",overwrite=False):
     neverString = "nnmmkjkjoijlknlkzzzz"
     if exclusions == "NONE":
         exclusions= neverString
@@ -147,7 +149,7 @@ def harvestProjects(filter="",exclusions="NONE",dict = {"all" : False,"easy" : F
         skip = ["PROJ-SEED-20054-STAN-01"]
         if projectID not in skip:
             if filter in projectID and exclusions not in projectID:
-                harvestProject(OOMP.items[projectID],dict=dict,overwrite=overwrite)
+                harvestProject(OOMP.items[projectID],overwrite=overwrite)
     #for part in OOMP.getItems("parts"):
     #    pass
         #part.exportTags("detailsInstancesOomp",["oompInstances"]) 
@@ -164,14 +166,13 @@ def farmProjects(users,code):
     oomWriteToFile(filename,json.dumps(repos))
 
 
-def harvestProject(project,all=False,dict="",overwrite=False):
+
+####### no longer used
+def harvestProject(project,all=False,overwrite=False):
     oompID = project["oompID"][0]
     print("Harvesting Project: " + oompID)
 
-    if dict != "":
-        if dict["all"]:
-            all = True
-
+    all = True
     if all or dict["easy"] or dict["gitPull"]:
         pass
         gitPullProject(project)

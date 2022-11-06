@@ -1,5 +1,7 @@
 import OOMP
 import OOMP_parts
+import OOMP_parts_BASE
+import OOMP_parts_OOML
 import OOMP_parts_EDA
 import OOMP_parts_INSTANCES
 
@@ -13,18 +15,12 @@ import OOMP_parts_INSTANCES
                     # 
 OOMP.loadPickle()
 
-#OOMP_parts.make()
 
-#OOMP_parts.harvest()
-
-OOMP_parts_EDA.matchFootprintsSymbols()
+#OOMP_parts_EDA.matchFootprintsSymbols()
 items = OOMP.items
 #item = items["HEAD-I01-X-PI2X03-01"]
-
-#OOMP.makePickle()
-OOMP.loadPickle()
 #OOMP_parts_INSTANCES.loadAllInstances()
 
-
+OOMP_parts_OOML.createParts()
 
 pass

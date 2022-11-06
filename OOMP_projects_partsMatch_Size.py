@@ -70,6 +70,7 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     ###### Abnormal Sparkfun ones
     pairs.append(["0603@1","0603"])
     pairs.append(["0603-RES@1","0603"])
+    pairs.append(["(0603)0603","0603"]) 
     ###### Kicad surface mounts
     pairs.append(["0603_1608Metric","0603"])
     pairs.append(["0805_2012Metric","0805"])

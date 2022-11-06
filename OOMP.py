@@ -7,6 +7,13 @@ import importlib
 
 baseDir = "C:/GH/oomlout_OOMP_V2/"
 
+
+def getTag(item,tagName):
+    try:
+        return items[item][tagName]
+    except:
+        return ""
+
 def getPythonLine(part="newPart",tagName="",tagValue="",indent="    "):  
     if isinstance(tagValue,dict) or isinstance(tagValue,list) :
         rv = indent + part + "['" + tagName + "'].append(" + str(tagValue).replace("\\","") + ")" 
@@ -483,6 +490,8 @@ def getExclusionList():
     rv.append("kicad-footprints\\Valve")
     rv.append("kicad-footprints\\Varistor")
 
-    #rv = ["A NEVER STRING &&&&&(((*&"]
+    rv.append("eagle")
+
+    rv = ["A NEVER STRING &&&&&(((*&"]
 
     return rv

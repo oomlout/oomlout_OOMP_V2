@@ -45,6 +45,28 @@ footprintGits[git]["url"] = 'https://github.com/adafruit/Adafruit-Eagle-Library'
 footprintGits[git]["name"] = "Adafruit's Eagle Footprints"
 footprintGits[git]["description"] = "Adafruit's footprint library."
 
+######
+git = 'Adafruit-Eagle-Library'
+footprintGits[git] = {}
+footprintGits[git]["code"] = git
+footprintGits[git]["type"] = "eagle"
+footprintGits[git]["url"] = 'https://github.com/adafruit/Adafruit-Eagle-Library'
+footprintGits[git]["name"] = "Adafruit's Eagle Footprints"
+git = 'SparkFun-Eagle-Libraries'
+footprintGits[git] = {}
+footprintGits[git]["code"] = git
+footprintGits[git]["type"] = "eagle"
+footprintGits[git]["url"] = 'https://github.com/sparkfun/SparkFun-Eagle-Libraries'
+footprintGits[git]["name"] = "SparkFun's Eagle Footprints"
+footprintGits[git]["description"] = "SparkFun's footprint library."
+git = 'eagle-default'
+footprintGits[git] = {}
+footprintGits[git]["code"] = git
+footprintGits[git]["type"] = "eagle"
+footprintGits[git]["url"] = ''
+footprintGits[git]["name"] = "Eagle Default Footprints"
+footprintGits[git]["description"] = "Eagle's default footprint library."
+
 def gitPull():
     gits= []
     
@@ -53,7 +75,8 @@ def gitPull():
     for git in footprintGits:        
         dir = "sourceFiles/git/" + footprintGits[git]["type"] + "Footprints/"
         oomMakeDir(dir)
-        oomGitPullNew(footprintGits[git]["url"],dir)
+        if footprintGits[git]["url"] != "":
+            oomGitPullNew(footprintGits[git]["url"],dir)
 
 import os
 
@@ -161,6 +184,8 @@ def makeFootprint(d):
     extraTags = []
     for tag in d:
         if tag not in skipTags:
+            if isinstance(d[tag],str):
+                d[tag] = d[tag].replace("'","\\'")
             extraTags.append([tag,d[tag]])        
     tagString = ""
     for tag in extraTags:

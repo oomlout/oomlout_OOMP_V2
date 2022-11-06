@@ -36,7 +36,7 @@ def createParts():
     for part in parts:
         oompID = part["oompType"] + "-" + part["oompSize"] + "-" + part["oompColor"]  + "-" + part["oompDesc"]  + "-" + part["oompIndex"]
         if "UNMATCHED" not in oompID:
-            hexID = getHexID(oompID)
+            hexID = OOMP_parts_BASE.getHexID(oompID)
             part["hexID"] = hexID
             print(oompID + " " + hexID)    
             part["datasheet"] = part["Datasheet"]
@@ -212,52 +212,4 @@ def extraTags(part):
 
     return part
 
-def getHexID(oompID):
-    
-    list = []
-    list.append(["CAPC-","C"])
-    list.append(["LEDS-","L"])
-    list.append(["RESE-","R"])
-    ######size
-    list.append(["0201-","2"])
-    list.append(["0402-","4"])
-    list.append(["0603-","6"])
-    list.append(["0805-","8"])
-    list.append(["1206-","12"])
-    list.append(["03-","3"])
-    list.append(["05-","5"])
-
-    
-    ######desc
-        ###### CAPC
-    list.append(["PF","P"])
-    list.append(["NF","N"])
-    list.append(["UF","U"])
-
-    list.append(["STAN",""])
-
-
-    ######index          
-    if "CAPC" in oompID:  
-        list.append(["-V50",""])  
-        list.append(["-V25",""])  
-    list.append(["-V",""])
-    list.append(["-D",""])
-    list.append(["-01",""])
-        
-     ######color
-    list.append(["X-",""])
-    list.append(["R-","R"])
-    list.append(["O-","O"])
-    list.append(["Y-","Y"])
-    list.append(["G-","G"])
-    list.append(["L-","L"])
-    list.append(["V-","V"])
-    list.append(["B-","B"])
-    list.append(["P-","P"])   
-    list.append(["W-","W"])   
-
-    for l in list:
-        oompID = oompID.replace(l[0],l[1])
-    return oompID
 

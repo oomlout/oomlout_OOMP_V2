@@ -78,3 +78,77 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
     oomWriteToFile(outputFile,contents)
 
 
+    ####### details 2 File
+    outputFile = outputDir + "details2.py"
+    if not os.path.exists(outputFile): ###### only make one if it doesn't alreadry exist
+        inputFile = "templates/details2Template.py"
+        outputDir = OOMP.baseDir + OOMP.getDir("parts") + oompSlashes + "/"
+        oomMakeDir(outputDir)
+        contents = oomReadFileToString(inputFile, encoding="utf-8")
+        
+        oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+        contents = contents.replace("OOMPIDZZ",oompID)
+        oomWriteToFileUtf(outputFile,contents)
+
+def getHexID(oompID):
+    
+    list = []
+    list.append(["CAPC-","C"])
+    list.append(["LEDS-","L"])
+    list.append(["RESE-","R"])
+    list.append(["HEAD-","R"])
+    ######size
+    list.append(["0201-","2"])
+    list.append(["0402-","4"])
+    list.append(["0603-","6"])
+    list.append(["0805-","8"])
+    list.append(["1206-","12"])
+    list.append(["03-","3"])
+    list.append(["05-","5"])
+        ###### Headers
+    list.append(["I01-",""])
+    list.append(["JSTXH-","XH"])
+    list.append(["JSTPH-","PH"])
+    list.append(["JSTSH-","SH"])        
+    
+    ######desc
+        ###### CAPC
+    list.append(["PF","P"])
+    list.append(["NF","N"])
+    list.append(["UF","U"])
+
+    list.append(["STAN",""])
+        ###### HEAD
+    list.append(["PI2X","2X"])        
+    list.append(["PI",""])        
+
+    ######index          
+    if "CAPC" in oompID:  
+        list.append(["-V50",""])  
+        list.append(["-V25",""])  
+    ###### HEAD
+    list.append(["-RA","R"])
+    list.append(["-RS","RS"])    
+    list.append(["-SM","S"])    
+    list.append(["-SHRO","SHR"])
+    list.append(["-SHRR","SHRR"])
+    
+    list.append(["-V",""])
+    list.append(["-D",""])
+    list.append(["-01",""])
+        
+     ######color
+    list.append(["X-",""])
+    list.append(["R-","R"])
+    list.append(["O-","O"])
+    list.append(["Y-","Y"])
+    list.append(["G-","G"])
+    list.append(["L-","L"])
+    list.append(["V-","V"])
+    list.append(["B-","B"])
+    list.append(["P-","P"])   
+    list.append(["W-","W"])   
+
+    for l in list:
+        oompID = oompID.replace(l[0],l[1])
+    return oompID

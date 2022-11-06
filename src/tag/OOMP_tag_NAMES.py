@@ -183,6 +183,12 @@ def load(tn):
     tn[current]["category"] = "EDA"
     tn[current]["name"] = "Symbol Eagle Details"
     tn[current]["description"] = ""
+    current = "matchSpecial"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "EDA"
+    tn[current]["name"] = "Match Special"
+    tn[current]["description"] = "An array item to be used when matching a part in a project. The match is made when any of the first strings are in the full EDA BOM string."
 
 ######  Parts
     current = "oompParts"
