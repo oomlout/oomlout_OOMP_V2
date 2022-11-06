@@ -5,4 +5,4 @@ import OOMP_footprints
 #OOMP.makePickle()
 OOMP.loadPickle()
 
-OOMP_footprints.harvest()
+OOMP_footprints.harvestAll()
