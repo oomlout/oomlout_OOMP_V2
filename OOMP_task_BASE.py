@@ -75,7 +75,7 @@ def make():
 
 
 
-def multiple():
+def all():
     ###### makeAll
     ######    Everything needed to get things in line for creating
     for section in sections:

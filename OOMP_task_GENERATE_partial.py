@@ -34,10 +34,11 @@ OOMP.loadPickle()
 #section = OOMP_json
 section = OOMP_images
 
+OOMP_task_BASE.all()
 #OOMP_task_BASE.one(section)
-OOMP_task_BASE.makeAll()    
-#OOMP_task_BASE.createAll()
-#OOMP_task_BASE.generateAll()
-#OOMP_task_BASE.harvestAll()
+#section.makeAll()    
+#section.createAll()
+#section.generateAll()
+#section.harvestAll()
 
 print(oomRuntime())
