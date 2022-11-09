@@ -13,7 +13,7 @@ def createSummary(item,overwrite=False):
 
 def generateReadme(item,overwrite=False):  
     oompID = item["oompID"][0]
-    ping()
+    ping(1000)
     filename = OOMP.getFileItem(item,"readme")
     if not os.path.isfile(filename) or overwrite:       
         rFile = newReadme(filename)
@@ -162,7 +162,7 @@ def getLink(text,link):
 def getImageItem(item,image,resolution="140",link=True):
     lin = OOMP.getFileItem(item,image,relative="github")
     imageOut = getImage(OOMP.getFileItem(item,image,resolution=resolution,relative="githubRaw"))
-    if ".svg" in imageOut:
+    if ".svg" in imageOut:        
         imageOut = getImage(OOMP.getFileItem(item,image,resolution=resolution,relative="githubRaw",extension="png"))
     if link:
         return getLink(imageOut,lin)

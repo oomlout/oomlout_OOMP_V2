@@ -16,7 +16,7 @@ def loadPartNumbers():
     #max = 10000
     max = 10000000000000000000
     for row in csvIn:
-        ping()
+        ping(10000)
         
         manuCode = onp.getCompanyCode(row) 
         manuNum = row["MFR.Part"]

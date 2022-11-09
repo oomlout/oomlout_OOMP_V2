@@ -3,7 +3,8 @@ import OOMP_partNumbers_BASE
 name = "OOMP_partNumbers_BASE"
 
 
-def makeAll(overwrite=False):    
+def makeAll(overwrite=False):  
+    print("Make all for: " + name)
     #for itemID in OOMP.items:    
     for itemID in OOMP.itemsTypes["projects"]["items"]:
         item = OOMP.items[itemID]
@@ -13,7 +14,7 @@ def make(item,overwrite=False):
         pass
 
 def createAll(overwrite=False):
-    print("Loading MPN and DPN part numbers")
+    print("Create all for: " + name)
     OOMP_partNumbers_BASE.loadPartNumbers()
     OOMP_partNumbers_BASE.dictToCsv()
     OOMP_partNumbers_BASE.savePickle()    
@@ -36,7 +37,7 @@ def generateAll(overwrite=False):
     
 
 def generate(item,overwrite=False):
-    OOMP_partNumbers_BASE.loadMpnDpn(OOMP.items[item])
+    OOMP_partNumbers_BASE.loadMpnDpn(item)
 
 def harvestAll(overwrite=False):    
     print("Harvest all for: " + name)

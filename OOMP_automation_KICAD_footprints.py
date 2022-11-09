@@ -34,7 +34,7 @@ def harvestFootprint(footprint,all=False,copySourceFiles=False,harvestFootprintI
         harvestKicadFootprint(footprint)
 
 def harvestKicadFootprint(footprint,overwrite=False):
-    print("    Harvesting files")
+    
 
     oompID = footprint["oompID"][0]
     oompFileName = OOMP.getFileItem(footprint,"image",relative="full")
@@ -45,6 +45,7 @@ def harvestKicadFootprint(footprint,overwrite=False):
 
     #if overwrite or not os.path.isfile(oompFileName) :
     if overwrite or not os.path.isfile(oompFileName3D) :
+        print("    Harvesting files")
         shortDelay = 1
         longDelay = 3
         footprintName = footprint["oompIndex"][0]

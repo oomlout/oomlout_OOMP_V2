@@ -4,10 +4,18 @@ import OOMP_task_BASE
 
 #OOMP.makePickle()
 OOMP.loadPickle()
-OOMP_task_BASE.harvest()
 
 
-y
+import OOMP_projects
+
+OOMP_projects.harvestAll()
+
+
+
+#OOMP_task_BASE.harvest()
+
+
+
 
 
 

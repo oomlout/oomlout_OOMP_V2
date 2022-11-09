@@ -109,7 +109,8 @@ def makeProjectNew(d):
     oomMakeDir(outputDir + "src/")
     outputFile = outputDir + "details.py"
 
-    print("Making: " + outputFile)
+    #print("Making: " + outputFile)
+    ping()
 
     contents = oomReadFileToString(inputFile)
     contents = contents.replace("TYPEZZ",type)
@@ -192,6 +193,7 @@ def harvestProject(project,all=False,overwrite=False):
 def makeBaseProjects(company,code):
 
     print("Harvesting " + company + " Projects")
+
     repoString = ""
     filename = "json/oomp_Projects_" + code + "_repoRaw.json"
     repos = json.loads(oomReadFileToString(filename))
@@ -210,10 +212,9 @@ def createProjects():
     skips = ['https://github.com/sparkfunX/Arduino.git']
     for repo in repos:
         if repo not in skips:
-            print("    Harvesting: " + repo)
-            outDir = oomGitPullNew(repo,"sourceFiles/git/")  
-            
-            
+            #print("    Harvesting: " + repo)
+            ping()
+            outDir = oomGitPullNew(repo,"sourceFiles/git/",onlyCreate=True)  
             base = {}
             base["oompType"] = "PROJ"
             base["oompSize"] = code
@@ -260,7 +261,8 @@ def processDir(directory,d,company,code):
             name = d["repo"].replace("_"," ").replace("-"," ")
             d["name"] = name 
             if len(files) > 1:
-                print("    More than one board file found")
+                pass
+                #print("    More than one board file found")
             
             d["file"] = files[0].replace("sourceFiles/git/" + d["repo"].replace(".git",""),"").replace(".brd","").replace("\\","/")
             filter = "license.md"
@@ -274,7 +276,8 @@ def processDir(directory,d,company,code):
                 extraTags = []
                 if code == "SPAR":
                     if readmeFile != "":
-                        print("        Found Readme")
+                        #print("        Found Readme")
+                        pass
                         readme = oomReadFileToString(readmeFile)
                         
                         index = stringBetween(readme,"https://www.sparkfun.com/products/","\\)")
@@ -286,17 +289,18 @@ def processDir(directory,d,company,code):
                             ###### for debugging skipped repositories
                             c=0    
                         d["count"] = index
-                        print ("            Index: " + str(index))
+                        #print ("            Index: " + str(index))
                         
                         extraTags.append(["sources","All source files from https://github.com/sparkfun/" + name.replace(" ","_") + " (source licence details in srcLicense.md)"])
                         extraTags.append(["linkBuyPage","https://www.sparkfun.com/products/" + str(index)])
                 if code == "ADAF":
                     if readmeFile != "":
-                        print("        Found Readme")
+                        #print("        Found Readme")
+
                         readme = oomReadFileToString(readmeFile)
                         index = stringBetween(readme,'href="http://www.adafruit.com/products/','">')
                         d["count"] = index
-                        print ("            Index: " + str(index))                        
+                        #print ("            Index: " + str(index))                        
                 if index != 0 and index != "":
                     ############ Making OOMP file
                     oompType = "PROJ"
@@ -316,7 +320,8 @@ def processDir(directory,d,company,code):
                 return d
             return None
         else:
-            print("SKIPING")
+            pass
+            #print("SKIPING")
                 #delay(1)
             return None
 
@@ -333,7 +338,8 @@ def gitPullProject(project):
         oomGitPullNew(gitRepo,"sourceFiles/git/")
 
 def copyBaseFilesProject(project):
-    print("    Copying Base Files ")
+    #print("    Copying Base Files ")
+    ping()
     for prog in ["kicad", "eagle"]:
         for type in ["Board","Schem"]:
             try:

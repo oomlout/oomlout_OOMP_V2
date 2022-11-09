@@ -1,14 +1,12 @@
 import OOMP
 import OOMP_footprints_BASE
-name = "OOMP_projects_BASE"
+name = "OOMP_footprints_BASE"
 
 import OOMP_automation_KICAD_footprints
 
 def makeAll(overwrite=False):
     print("Make all for: " + name)
     OOMP_footprints_BASE.gitPull()
-    OOMP_footprints_BASE.createAllFootprints()
-    OOMP_footprints_BASE.createFootprintLibraries()
     for itemID in OOMP.itemsTypes["projects"]["items"]:
         item = OOMP.items[itemID]
         make(item,overwrite)
@@ -18,8 +16,11 @@ def make(item,overwrite=False):
 
 def createAll(overwrite=False):
     print("Create all for: " + name)
+    OOMP_footprints_BASE.createAllFootprints()    
+    print("Create all for: " + name)
     for itemID in OOMP.itemsTypes["projects"]["items"]:
-        create(item,overwrite)
+        item = OOMP.items[itemID]
+        create(item,overwrite)    
 
 def create(item,overwrite=False):
     pass
@@ -30,6 +31,7 @@ def generateAll(overwrite=False):
     for itemID in OOMP.itemsTypes["projects"]["items"]:
         item = OOMP.items[itemID]
         generate(item,overwrite)
+    OOMP_footprints_BASE.createFootprintLibraries()
     
 
 def generate(item,overwrite=False):

@@ -106,7 +106,8 @@ def createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_parts.p
         hexID = part["hexID"][0]
         footprints = part["footprintKicad"]
         if len(footprints) > 0:
-            print("    Writing footprint:" + oompID)
+            #print("    Writing footprint:" + oompID)
+            ping()
             try:
                 footprint = OOMP.items[footprints[0]]
                 footprintID = footprint
@@ -142,9 +143,11 @@ def createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_parts.p
                     footIn.to_file(outFile)
                     pass
                 else:
-                    print("        Skipping")
+                    ping()
+                    #print("        Skipping")
             except KeyError:
-                print("Footprint not found" + oompID)
+                pass
+                #print("Footprint not found" + oompID)
 def makeFootprint(d):
     type = d["oompType"]
     size = d["oompSize"]

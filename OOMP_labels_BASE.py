@@ -3,16 +3,18 @@ import OOMP
 import os
 import re
 import subprocess
+from oomBase import *
 
 def generateLabels(item,overwrite=False):
     oompID = item["oompID"][0]
-    print("Generating labels for:" + oompID)
+    #print("Generating labels for:" + oompID)
+    ping()
     templates = []
     templates.append({"template" : "templates/label/OOMP-label-inventory.tmpl.svg", "fileType" :"labelInventory"})
 
     for template in templates:
         generateLabel(item,template,overwrite)
-
+from oomBase import *
 
 def generateLabel(item,template,overwrite):
     oompID = item["oompID"][0]
@@ -21,7 +23,8 @@ def generateLabel(item,template,overwrite):
     outputPDF = OOMP.getFileItem(item,template["fileType"],extension = "pdf")
     outputPNG = OOMP.getFileItem(item,template["fileType"],extension = "png") 
     if not os.path.isfile(output) or overwrite:    
-        print("    Generating Label " + output)
+        #print("    Generating Label " + output)
+        ping()
         oompSearchAndReplace(template["template"], output, item)
         oompMakePDF(output,outputPDF)
         oompMakePDF(output,outputPNG)

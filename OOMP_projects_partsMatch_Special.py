@@ -5,6 +5,7 @@ specialMatches  =[]
 
 def loadMatches():
     global specialMatches
+
     list  =[]
     for partID in OOMP.itemsTypes["parts"]["items"]:
         matchSpecial = OOMP.items[partID]["matchSpecial"]
@@ -26,7 +27,7 @@ def matchSpecial(project,part,oompType="",oompSize="",oompColor="",oompDesc="",o
     partDict = OOMP_projects_partsMatch.loadPartDict(part,project)   
 
     ######  Full text test
-    
+    oompID = ""
     list = specialMatches
     for l in list:
         #if l[0].upper() in partDict["FULL"].upper():
@@ -34,6 +35,5 @@ def matchSpecial(project,part,oompType="",oompSize="",oompColor="",oompDesc="",o
         for x in l[0]:
             if x in partDict["FULL"]:
                 oompID = l[1]
-
 
     return oompID

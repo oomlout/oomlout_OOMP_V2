@@ -97,7 +97,20 @@ def load(fn):
     current = "imagePng"
     fn[current] = {}
     fn[current]["filename"] = "image&&res&&.&&ext&&"
+    fn[current]["defaultExtension"] = "png"
+    fn[current]["type"] = cType
+    fn[current]["generated"] = False
     
+    current = "ibomFront"
+    fn[current] = {}
+    fn[current]["filename"] = "/" + current + "&&res&&.&&ext&&"
+    fn[current]["defaultExtension"] = "png"    
+    fn[current]["generated"] = True
+    current = "ibomBack"
+    fn[current] = {}
+    fn[current]["filename"] = "/" + current + "&&res&&.&&ext&&"
+    fn[current]["defaultExtension"] = "png"    
+    fn[current]["generated"] = True
     fn[current]["defaultExtension"] = "png"
     fn[current]["type"] = cType
     fn[current]["generated"] = False
@@ -224,6 +237,11 @@ def load(fn):
     fn[current] = {}
     fn[current]["filename"] = "footprint.&&ext&&"
     fn[current]["defaultExtension"] = "kicad_mod"
+    fn[current]["generated"] = False
+    current = "kicadSymbol"
+    fn[current] = {}
+    fn[current]["filename"] = "symbol.&&ext&&"
+    fn[current]["defaultExtension"] = "kicad_sym"
     fn[current]["generated"] = False
     
 

@@ -17,7 +17,8 @@ def migrateFiles(item):
 
     for file in OOMP.filenames:
         if file == "kicadBoard":
-            print(oompID)
+            #print(oompID)
+            ping(10000)
             pass
         try:
             v1Files = OOMP.filenames[file]["filenameV1"]

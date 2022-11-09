@@ -38,13 +38,14 @@ def createParts():
         if "UNMATCHED" not in oompID:
             hexID = OOMP_parts_BASE.getHexID(oompID)
             part["hexID"] = hexID
-            print(oompID + " " + hexID)    
+            #print(oompID + " " + hexID)    
+            ping()
             part["datasheet"] = part["Datasheet"]
             d = {"type" : part["oompType"], "size" : part["oompSize"], "color" : part["oompColor"], "desc" : part["oompDesc"], "index" : part["oompIndex"], "hexID" : part["hexID"], "datasheet" : part["datasheet"], "extraTags" : part["extraTags"]}
             OOMP_parts_BASE.makePart(dict = d)
             count = count + 1
         else:
-            print(oompID + " "  + part["Description"])  
+            #print(oompID + " "  + part["Description"])  
             pass
     print("Parts Matched: " + str(count))
 
@@ -173,6 +174,15 @@ def matchSpecial(part):
     lcscPart = part["LCSC Part"]
     newDict  = {"oompType" : "","oompSize" : "","oompColor" : "","oompDesc" : "","oompIndex" : ""}
     tests = []
+
+    ###### ICIC   
+    newDict = {"oompType" : "ICIC","oompSize" : "","oompColor" : "X","oompDesc" : "","oompIndex" : "01"}
+
+    newDict["oompSize"] = "SC16"
+    dic = newDict.copy(); dic["oompDesc"] = "K2003";tests.append(["C7512", dic])
+    newDict["oompSize"] = "SC18W"
+    dic = newDict.copy(); dic["oompDesc"] = "K2803";tests.append(["C9683", dic])
+    
     ###### LEDS
         ######  0603
     newDict = {"oompType" : "LEDS","oompSize" : "0603","oompColor" : "","oompDesc" : "STAN","oompIndex" : "01"}
@@ -186,9 +196,60 @@ def matchSpecial(part):
     dic = newDict.copy(); dic["oompColor"] = "W";tests.append(["C34499", dic])
     dic = newDict.copy(); dic["oompColor"] = "R";tests.append(["C84256", dic])
     dic = newDict.copy(); dic["oompColor"] = "Y";tests.append(["C2296", dic])
+
+    ###### MOSN
+    newDict = {"oompType" : "MOSN","oompSize" : "","oompColor" : "X","oompDesc" : "","oompIndex" : "01"}
+    newDict["oompSize"] = "SO23"
+    dic = newDict.copy(); dic["oompDesc"] = "K2N7002";tests.append(["C8545", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KAO3400A";tests.append(["C20917", dic])
+
+    ###### MOSP
+    newDict = {"oompType" : "MOSP","oompSize" : "","oompColor" : "X","oompDesc" : "","oompIndex" : "01"}
+    newDict["oompSize"] = "SO23"
+    dic = newDict.copy(); dic["oompDesc"] = "KLBSS84LT1G";tests.append(["C8492", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KSI2301CDS";tests.append(["C8492", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KAO3401A";tests.append(["C15127", dic])
+
+
+    ###### TRNN
+    newDict = {"oompType" : "TRNN","oompSize" : "","oompColor" : "X","oompDesc" : "","oompIndex" : "01"}
+    newDict["oompSize"] = "SO23"
+    dic = newDict.copy(); dic["oompDesc"] = "K5551";tests.append(["C2145", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KS8050";tests.append(["C2146", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KSS8050";tests.append(["C2150", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KS9013";tests.append(["C6749", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KMMBT2222A";tests.append(["C8512", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KD882";tests.append(["C9634", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KMMBT3904";tests.append(["C20526", dic])
+
     
-
-
+    
+    
+    
+    ###### TRNP
+    newDict = {"oompType" : "TRNP","oompSize" : "","oompColor" : "X","oompDesc" : "","oompIndex" : "01"}    
+    newDict["oompSize"] = "SO23"
+    dic = newDict.copy(); dic["oompDesc"] = "KS9015";tests.append(["C2149", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KMMBT5401";tests.append(["C8326", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KSS8550";tests.append(["C8542", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KS8550";tests.append(["C105432", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KS9012";tests.append(["C8543", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "KB772";tests.append(["C24278", dic])
+    
+    ###### XTAL    
+    newDict = {"oompType" : "XTAL","oompSize" : "","oompColor" : "X","oompDesc" : "","oompIndex" : "01"}
+    newDict["oompSize"] = "3225P4"
+    dic = newDict.copy(); dic["oompDesc"] = "MZ12";tests.append(["C9002", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "MZ25";tests.append(["C9006", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "MZ16";tests.append(["C13738", dic])
+    newDict["oompSize"] = "3215"
+    dic = newDict.copy(); dic["oompDesc"] = "KZ327D";tests.append(["C32346", dic])
+    newDict["oompSize"] = "5032"
+    dic = newDict.copy(); dic["oompDesc"] = "MZ11";tests.append(["C112574", dic])
+    dic = newDict.copy(); dic["oompDesc"] = "MZ8";tests.append(["C115962", dic])
+    newDict["oompSize"] = "HC49S"
+    dic = newDict.copy(); dic["oompDesc"] = "MZ8";tests.append(["C12674", dic])
+    
 
     for test in tests:
         if test[0] == lcscPart:

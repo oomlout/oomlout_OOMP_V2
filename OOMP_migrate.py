@@ -3,7 +3,8 @@ import OOMP_migrate_BASE
 name = "OOMP_migrate_BASE"
 
 
-def makeAll(overwrite=False):    
+def makeAll(overwrite=False): 
+    print("Make all for: " + name)   
     #for itemID in OOMP.items:
     
     for itemID in OOMP.itemsTypes["projects"]["items"]:
@@ -15,6 +16,7 @@ def make(item,overwrite=False):
 
 def createAll(overwrite=False):
     
+    print("Create all for: " + name)
     #for itemID in OOMP.items:
     for itemID in OOMP.itemsTypes["modules"]["items"]:
         item = OOMP.items[itemID]

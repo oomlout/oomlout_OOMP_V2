@@ -319,9 +319,15 @@ def exportTagsItem(item,filetype,tags):
         contents2 = ""
         for tag in tags:
             if len(item[tag]) > 0:
-                contents2 = contents2 + getPythonLineItems(part="it",partID=oompID,tagName=tag) + '\n'
+                include = True
+                if isinstance(item[tag],dict) or isinstance(item[tag],list):
+                    if len(item[tag]) == 0:
+                        include = False
+                if include:
+                    contents2 = contents2 + getPythonLineItems(part="it",partID=oompID,tagName=tag) + '\n'
         if contents2 != "":
-            print("    Exporting tags to: " + filename)
+            #print("    Exporting tags to: " + filename)
+            ping()
             oomWriteToFileUtf(filename,contents+contents2)
 
 
@@ -491,6 +497,7 @@ def getExclusionList():
     rv.append("kicad-footprints\\Varistor")
 
     rv.append("eagle")
+    #rv.append("kicad")
 
     rv = ["A NEVER STRING &&&&&(((*&"]
 

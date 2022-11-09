@@ -36,6 +36,12 @@ def load(tn):
     tn[current]["category"] = "BASE"
     tn[current]["name"] = "Full OOMP ID"
     tn[current]["description"] = "Full OOMP ID"
+    current = "oompNote"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = "BASE"
+    tn[current]["name"] = "OOMP Note"
+    tn[current]["description"] = "Any notes about part creation"
     current = "hexID"
     tn[current] = {}
     tn[current]["code"] = current

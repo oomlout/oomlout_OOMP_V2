@@ -16,20 +16,22 @@ def createAll(overwrite=False):
     print("Create all for: " + name)
     for itemID in OOMP.items:
     #for item in OOMP.itemsTypes["parts"]["items"]:
-        create(OOMP.items[itemID],overwrite)
+        item = OOMP.items[itemID]
+        create(item,overwrite)
 
     
 
 def create(item,overwrite=False):
-    OOMP_json_BASE.makeJson(item,overwrite=True,short=True)
+    pass
 
 def generateAll(overwrite=False):
     print("Generate all for: " + name)
-    for item in OOMP.itemsTypes["parts"]["items"]:
+    for itemID in OOMP.itemsTypes["parts"]["items"]:
+        item = OOMP.items[itemID]
         generate(item,overwrite)
 
 def generate(item,overwrite=False):
-    pass
+    OOMP_json_BASE.makeJson(item,overwrite=True,short=True)
 
 def harvestAll(overwrite=False):
     print("Harvest all for: " + name)

@@ -251,8 +251,12 @@ def load(td):
 
     td['size']['SC16W'] = {}
     td['size']['SC16W']['code'] = 'SC16W'
-    td['size']['SC16W']['name'] = '16 Pin SMD (SOIC Wide)'
-    td['size']['SC16W']['description'] = '16 Pin SMD (SOIC Wide)'
+    td['size']['SC16W']['name'] = '16 Pin SMD (SOIC Wide 7.62 mm)'
+    td['size']['SC16W']['description'] = '16 Pin SMD (SOIC Wide 7.62 mm)'
+    td['size']['SC18W'] = {}
+    td['size']['SC18W']['code'] = 'SC18W'
+    td['size']['SC18W']['name'] = '18 Pin SMD (SOIC Wide 7.62 mm)'
+    td['size']['SC18W']['description'] = '18 Pin SMD (SOIC Wide 7.62 mm)'
 
     td['size']['SC75'] = {}
     td['size']['SC75']['code'] = 'SC75'
@@ -311,8 +315,8 @@ def load(td):
 
     td['size']['T252'] = {}
     td['size']['T252']['code'] = 'T252'
-    td['size']['T252']['name'] = 'TO-252'
-    td['size']['T252']['description'] = 'TO-252'
+    td['size']['T252']['name'] = 'TO-252 (SMD)'
+    td['size']['T252']['description'] = 'TO-252 (SMD)'
 
     td['size']['G28'] = {}
     td['size']['G28']['code'] = 'G28'
@@ -3369,3 +3373,21 @@ def load(td):
     td['size']['ELLA']['name'] = 'Electro Lama'
     td['size']['ELLA']['description'] = 'Electro Lama'
 
+
+####### NEW
+
+    code = "3225P4"
+    td['size'][code] = {}
+    td['size'][code]['code'] = code
+    td['size'][code]['name'] = "SMD (3225) (4 Pin)"
+    td['size'][code]['description'] = td['size'][code]['name']
+    code = "HC49"
+    td['size'][code] = {}
+    td['size'][code]['code'] = code
+    td['size'][code]['name'] = "HC49"
+    td['size'][code]['description'] = td['size'][code]['name']
+    code = "HC49S"
+    td['size'][code] = {}
+    td['size'][code]['code'] = code
+    td['size'][code]['name'] = "SMD (HC49)"
+    td['size'][code]['description'] = td['size'][code]['name']

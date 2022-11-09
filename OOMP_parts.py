@@ -42,7 +42,7 @@ def generateAll(overwrite=False):
         except:
             pass
         OOMP.exportTagsItem(OOMP.items[partID],"detailsInstancesOomp",["oompInstances"])
-    OOMP.makePcikle()
+    OOMP.makePickle()
 
     
 def generate(item,overwrite=False):

@@ -16551,6 +16551,12 @@ def load(td):
     td['desc']['K2803']['name'] = 'ULN2803A Octal Transistor Array'
     td['desc']['K2803']['description'] = 'ULN2803A Octal Transistor Array'
 
+    td['desc']['K2003'] = {}
+    td['desc']['K2003']['code'] = 'K2003'
+    td['desc']['K2003']['name'] = 'ULN2003A Heptal Transistor Array'
+    td['desc']['K2003']['description'] = 'ULN2003A Heptal Transistor Array'
+
+
     td['desc']['K2904'] = {}
     td['desc']['K2904']['code'] = 'K2904'
     td['desc']['K2904']['name'] = 'LM2904 Dual'

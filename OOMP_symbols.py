@@ -16,6 +16,7 @@ def make(item,overwrite=False):
 def createAll(overwrite=False):
     print("Create all for: " + name)
     OOMP_symbols_BASE.createAllSymbols()
+    
     for itemID in OOMP.items:
     #for itemID in OOMP.itemsTypes["collections"]["items"]:
         item = OOMP.items[itemID]
@@ -26,6 +27,7 @@ def create(item,overwrite=False):
 
 
 def generateAll(overwrite=False):
+    OOMP_symbols_BASE.createSymbolLibraries()
     print("Generate all for: " + name)
     #for itemID in OOMP.items:
     for itemID in OOMP.itemsTypes["projects"]["items"]:

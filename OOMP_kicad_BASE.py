@@ -9,6 +9,109 @@ kicadFile = [80,35]
 kicadFootprintMiddle = [945,545] 
 kicad3dView = [145,35]
 
+def makeInteractiveHtmlBom(project,overwrite=False):
+    kicadPython = "C:/Program Files/KiCad/6.0/bin/python.exe"
+    ###### git clone https://github.com/openscopeproject/InteractiveHtmlBom
+    interactiveBom = '"C:/GH/oomlout_OOMP/sourceFiles/InteractiveHtmlBom/InteractiveHtmlBom/generate_interactive_bom.py" --no-browser'
+    projectFile = OOMP.getFileItem(project,"kicadBoard",relative = "full")
+    bomFile = OOMP.getFileItem(project,"ibom",relative="full")
+    if os.path.isfile(projectFile): 
+        if overwrite or not os.path.isfile(bomFile):
+            launchString = '"' + kicadPython + '" ' + interactiveBom + ' "' + projectFile + '"'
+            launchString = launchString.replace("/","\\")
+            #print("Generating Interactive BOM: " + projectFile)
+            process = subprocess.Popen(launchString, shell=True, stdout=subprocess.PIPE)
+            process.wait()
+
+            #print("    Result: " + str(process.returncode))
+
+def makeInteractiveHtmlBomImages(project,overwrite=False):                   
+    #print("Harvesting Bom Image for: " + project.getID())  
+    item = project               
+    filename = OOMP.getFileItem(item,"ibom",relative="full")
+    frontimage = OOMP.getFileItem(item,"ibomFront")
+    backimage = OOMP.getFileItem(item,"ibomBack")
+    frontimageDownload = "C:/Users/aaron/Downloads/boardKicad.F.png" 
+    backimageDownload = "C:/Users/aaron/Downloads/boardKicad.B.png" 
+    if os.path.exists(filename):
+        if not os.path.exists(frontimage) or not os.path.exists(backimage) or overwrite:
+            #oomLaunchWebsite(filename)
+            oomLaunchOpen(filename)
+            oomDelay(10)
+            menuButton = [1160,120]
+            frontimagePos = [950,250]
+            backimagePos = [1100,250]
+            bomPos = [955,410]
+            oomDeleteFile(frontimageDownload)
+            oomDeleteFile(backimageDownload)
+            oomMouseClick(pos=menuButton,delay=2)
+            oomMouseClick(pos=menuButton,delay=2)
+            oomMouseClick(pos=frontimagePos,delay=3)
+            oomMouseClick(pos=backimagePos,delay=3)
+            #oomMouseClick(pos=bomPos,delay=3)
+            
+            try:
+                oomCopyFile(frontimageDownload,frontimage)
+                oomCopyFile(backimageDownload,backimage)
+                #oomCopyFile(bomDownload,bom)
+            except:
+                try:
+                    frontimageDownload = "C:/Users/aaron/Downloads/boardKicad.2.F.png" 
+                    backimageDownload = "C:/Users/aaron/Downloads/boardKicad.2.B.png" 
+                    oomCopyFile(frontimageDownload,frontimage)
+                    oomCopyFile(backimageDownload,backimage)
+                    #oomCopyFile(bomDownload,bom)                
+                    oomDeleteFile(frontimageDownload)
+                    oomDeleteFile(backimageDownload)
+                except:
+                    print("IBOM borad downlaod file not found (kicad boards get their own name need to add a find file function)")
+
+            oomSendControl("w")
+        else:
+            pass
+            #print("        SKIPPING")
+    else:
+        pass
+        #print("        SKIPPING NO BOM")
+
+
+def renderPcbDraw(project,overwrite):
+    item = project
+    ###### need to  pip install pcbdraw in kicad consile and pip install pyvirtualdisplay, and Pillow
+    oompID = project["oompID"][0]
+    ping()
+    filename = OOMP.getFileItem(item,"kicadBoard",relative="full").replace("/","\\")
+    pcbDrawFile = OOMP.getFileItem(item,"pcbdraw",relative="full").replace("/","\\")
+    pcbDrawBackFile = OOMP.getFileItem(item,"pcbdrawBack",relative="full").replace("/","\\")
+    pcbDrawFilePng = OOMP.getFileItem(item,"pcbdraw",relative="full",extension = "png").replace("/","\\")
+    pcbDrawBackFilePng = OOMP.getFileItem(item,"pcbdrawBack",relative="full",extension = "png").replace("/","\\")
+    
+    if os.path.exists(filename):
+        filesize = os.stat(filename).st_size ## pcbdraw fails on empty boards
+        if overwrite or not os.path.exists(pcbDrawBackFilePng) and filesize > 5000:
+            print("Making PCB Draw for: "  + oompID  )
+            kicadCmd = '"C:\\Program Files\\KiCad\\6.0\\bin\\kicad-cmd.bat"'
+            pcbString = 'pcbDraw plot "' + filename + '" "' + pcbDrawFile + '"'
+            pcbStringBack = 'pcbDraw plot --side back "' + filename + '" "' + pcbDrawBackFile + '"'
+            launchString = 'start cmd /C "' + kicadCmd + "&" + pcbString + '"'
+            #print("       Launch String: " + launchString)
+            launchStringBack = 'start cmd /C "' + kicadCmd + "&" + pcbStringBack + '"'
+            #print("       Launch String Back: " + launchStringBack)            
+            #subprocess.Popen(launchString,shell=True)
+            os.system(launchString)
+            oomDelay(20)
+            os.system(launchStringBack)
+            oomDelay(20)
+            oomMakePNG(pcbDrawFile,pcbDrawFilePng)
+            oomMakePNG(pcbDrawBackFile,pcbDrawBackFilePng)
+
+        else:
+            pass
+            #print("    SKIPPING")
+    else:
+        pass
+        #print("      No PCB File")
+
 def convertAllEagleToKicad(overwrite=False):
     print("Converting all eagleBoard.brd files to kicad")
     filter = "eagleBoard.brd"
@@ -91,20 +194,29 @@ def harvestAllKicad(overwrite=False):
     filter = "kicadBoard.kicad_pcb"
     print("     Getting glob of files")
     files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
+    skips = ["SOPA\\0010"]
     for file in files:
         fileSize = os.stat(file).st_size
         if fileSize > 3000:
-            print("Harverting Kicad Board: " + file)
-            harvestKicadBoard(file,overwrite=overwrite)    
+            include = True
+            for skip in skips:
+                if skip in file:
+                    include = False
+            if include:
+                print("Harverting Kicad Board: " + file)
+                harvestKicadBoard(file,overwrite=overwrite)    
     print("Harvesting all Kicad Schematics")
     filter = "kicadBoard.kicad_sch"
     print("     Getting glob of files")
     files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
+    
     for file in files:
         fileSize = os.stat(file).st_size
         if fileSize > 2000:
-            print("Harvesting Kicad Schem: " + file)
-            harvestKicadSchem(file,overwrite=overwrite) 
+            include = True
+            if include:
+                print("Harvesting Kicad Schem: " + file)
+                harvestKicadSchem(file,overwrite=overwrite) 
 
 def harvestKicadBoard(filename="",overwrite=False):    
     filename = OOMP.baseDir + filename 

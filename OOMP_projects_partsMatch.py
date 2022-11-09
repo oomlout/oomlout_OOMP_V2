@@ -62,11 +62,14 @@ def partReport():
 
 
 def matchParts(project):
-    print("    Matching Parts")
+    ping(500)
+    #print("    Matching Parts")
     ###### remove tags before starting
     project["oompParts"] = [{}]
     try:
         parts = project["rawParts"][0]["eagleBom"]
+        if len(parts) == 0:
+            raise KeyError
     except:
         try:
             parts = project["rawParts"][0]["kicadBom"]
@@ -74,7 +77,7 @@ def matchParts(project):
             parts = []
     for part in parts:
         oompPart = matchPart(project,part)
-        if not "SKIP-" in oompPart:
+        if not "SKIP-" in oompPart["OOMPID"]:
             project["oompParts"][0][part["Part"]] = oompPart
 
     
@@ -89,8 +92,13 @@ def matchPart(project,part):
     part = loadPartDict(part,project)   
     rv = {}
     rv["OOMPID"] = oompType + "-" + oompSize + "-" + oompColor + "-" + oompDesc + "-" + oompIndex
+    oompID = ""
     if "UNMATCHED" in rv["OOMPID"]:
-        rv = OOMP_projects_partsMatch_Special.matchSpecial(project,part,oompType=oompType,oompSize=oompSize,oompColor=oompColor,oompDesc=oompDesc,oompID=rv)  
+        oompID = OOMP_projects_partsMatch_Special.matchSpecial(project,part,oompType=oompType,oompSize=oompSize,oompColor=oompColor,oompDesc=oompDesc,oompID=rv)  
+    
+    if oompID != "":
+        rv["OOMPID"] = oompID
+
     rv["FULL"] = part
     return rv
 

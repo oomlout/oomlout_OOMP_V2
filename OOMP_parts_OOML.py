@@ -9,6 +9,8 @@ import OOMP_parts_MCUU
 import OOMP_parts_VREG
 import OOMP_parts_MOSN
 import OOMP_parts_RESE
+import OOMP_parts_TRNN
+import OOMP_parts_XTAL
 
 
 def createParts():    
@@ -113,7 +115,7 @@ def createParts():
     if True:
         type = "TERS";size = "35D";color = "L";desc = "";index = "01";hexID = ""
         datasheet = "sourceDatasheets/TERS-35D-L-PI03-01.pdf"
-        for x in range(1,15+1):
+        for x in range(2,15+1):
             desc = "PI" + str(x).zfill(2)
             hexID = "T35L" + str(x)
             extraTags = []
@@ -122,15 +124,7 @@ def createParts():
     ##############################
     ######  TRNN
     if True:
-        type = "TRNN";size = "SO23";color = "X";desc = "KS8050";index = "01";hexID = "TNS248050"
-        oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
-        datasheet = "sourceDatasheets/" + oompID + ".pdf"
-        extraTags = []
-        extraTags.append(["footprintKicad","FOOTPRINT-kicad-kicad-footprints-Package_TO_SOT_SMD-SOT-23"])
-        extraTags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Device-Q_NPN_BEC"])            
-        d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-        OOMP_parts_BASE.makePart(dict = d) 
-
+        OOMP_parts_TRNN.addParts() ###### also TRNP
 
     ##############################
     ######  USB
@@ -151,3 +145,8 @@ def createParts():
     if True:
         OOMP_parts_VREG.addParts() 
         
+    ##############################
+    ######  XTAL
+
+    if True:
+        OOMP_parts_XTAL.addParts()

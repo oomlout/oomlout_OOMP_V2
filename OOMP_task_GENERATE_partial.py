@@ -14,7 +14,7 @@ import OOMP_migrate
 import OOMP_partNumbers
 import OOMP_parts
 import OOMP_projects
-import OOMP_qr
+import OOMP_qrCode
 import OOMP_summaries
 import OOMP_symbols
 import OOMP_images
@@ -32,9 +32,9 @@ OOMP.loadPickle()
 #section = OOMP_symbols
 
 #section = OOMP_json
-section = OOMP_images
+#section = OOMP_images
 
-OOMP_task_BASE.all()
+#OOMP_task_BASE.all(make=Trus,create=True)
 #OOMP_task_BASE.one(section)
 #section.makeAll()    
 #section.createAll()

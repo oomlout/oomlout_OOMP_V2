@@ -239,8 +239,8 @@ def makeModules():
     ######  POWE
     d = {}
     d["oompType"] = "MODULE";    d["oompSize"] = "POWE"
-    d["oompColor"] = "KAP2112K";    d["oompDesc"] = "STAN"
-    d["oompIndex"] = "01";    d["hexID"] = "MP2112"
+    d["oompColor"] = "KAP2112K";    d["oompDesc"] = "SO235"
+    d["oompIndex"] = "V33D";    d["hexID"] = "MP2112"
     d["name"] = "Power Module AP2112K"    
     d["extraTags"] = []
     d["extraTags"].append(["matchingBlock","BLOCK-POW-STAN-STAN-01"])
@@ -248,8 +248,8 @@ def makeModules():
     OOMP_modules_BASE.makeModule(d)
     d = {}
     d["oompType"] = "MODULE";    d["oompSize"] = "POWE"
-    d["oompColor"] = "KLD1117";    d["oompDesc"] = "SO23"
-    d["oompIndex"] = "01";    d["hexID"] = "MP1117"
+    d["oompColor"] = "KLD1117";    d["oompDesc"] = "SO223"
+    d["oompIndex"] = "V33D";    d["hexID"] = "MP1117"
     d["name"] = "Power Module LD1117"    
     d["extraTags"] = []
     d["extraTags"].append(["matchingBlock","BLOCK-POW-STAN-STAN-01"])

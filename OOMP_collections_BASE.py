@@ -28,13 +28,15 @@ def makeAllCollections():
     d["collection"]["items"] = []
     for projectID in OOMP.itemsTypes["projects"]["items"]:
         project = OOMP.items[projectID]
-        parts = project["oompParts"][0]
-        if len(parts) > 0:
-            skip = False
-            for part in parts:
-                if "HEAD-JSTSH-X-PI04-RS" in parts[part]["OOMPID"] and not skip:
-                    d["collection"]["items"].append(projectID)
-                    skip = True       ###### QWIIC
+        if len(project["oompParts"]) > 0:
+            parts = project["oompParts"][0]
+            if len(parts) > 0:
+                skip = False
+                for part in parts:
+                    testID = parts[part]["OOMPID"]
+                    if "HEAD-JSTSH-X-PI04-RS" in testID and not skip:
+                        d["collection"]["items"].append(projectID)
+                        skip = True       ###### QWIIC
     collections.append(d.copy())
     
     ######  ATTINY84
@@ -53,15 +55,16 @@ def makeAllCollections():
     d["collection"]["items"] = []
     for projectID in OOMP.itemsTypes["projects"]["items"]:
         project = OOMP.items[projectID]
-        parts = project["oompParts"][0]
-        if len(parts) > 0:
-            skip = False
-            for part in parts:
-                #print(parts[part]["OOMPID"])
-                ping(5000)
-                if "84-ATTINY" in parts[part]["OOMPID"] and not skip:
-                    d["collection"]["items"].append(projectID)
-                    skip = True                
+        if len(project["oompParts"]) > 0:
+            parts = project["oompParts"][0]
+            if len(parts) > 0:
+                skip = False
+                for part in parts:
+                    #print(parts[part]["OOMPID"])
+                    ping(5000)
+                    if "84-ATTINY" in parts[part]["OOMPID"] and not skip:
+                        d["collection"]["items"].append(projectID)
+                        skip = True                
     collections.append(d.copy())
     ###### JLC Parts Library
     d= base.copy()
@@ -93,7 +96,8 @@ def makeAllCollections():
 
 def createAllCollections():
     OOMP_summaries_BASE.generateCollectionsIndex()
-    print("Generating collection pages")
+    #print("Generating collection pages")
+    ping()
     for collectionID in OOMP.itemsTypes["collections"]["items"]:
         collection = OOMP.items[collectionID]
         OOMP_summaries_BASE.generateCollectionPage(collection)    

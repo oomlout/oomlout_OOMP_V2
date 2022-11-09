@@ -121,7 +121,7 @@ def addMPNList(item,mdFile):
 
     ###### make extra file
     oompID = item["oompID"][0]
-    ping()
+    ping(1000)
     filename = OOMP.getFileItem(item,"mpnList")
     if True:       
         rFile = osb.newReadme(filename)
@@ -248,7 +248,8 @@ def addMPNList(item,mdFile):
                 osb.addLine(mdFile,"Number of MPNs: " + str(count))
             osb.addDisplayTable(mdFile,tags,3,align="left")
     except IndexError:
-        print("       Skipping because it's a block")
+        pass
+        #print("       Skipping because it's a block")
 
 
 
@@ -291,7 +292,8 @@ def addOOMPInstancesList(item,mdFile):
             osb.addHeader(mdFile,level=2, title='OOMP Instances')
             osb.addDisplayTable(mdFile,tags,3,align="left")
     except IndexError:
-        print("       Skipping because it's a block")
+        pass
+        #print("       Skipping because it's a block")
 
 def addSymbolList(item,mdFile):
     
@@ -326,9 +328,11 @@ def addSymbolList(item,mdFile):
 ###### PROJECTS
 
 def addIbom(item,mdFile):
-    mdFile.new_header(level=2, title='I BOM')
-    oompID = item["oompID"][0]
-    osb.addLine(mdFile,osb.getLink("iBom.html","https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_projects_V2/blob/main/" + oompID.replace("-","/") + "/ibom.html"))
+    ibomFile = OOMP.getFileItem(item,"ibom")
+    if os.path.exists(ibomFile):
+        mdFile.new_header(level=2, title='iBom')
+        oompID = item["oompID"][0]
+        osb.addLine(mdFile,osb.getLink("iBom.html","https://htmlpreview.github.io/?https://github.com/oomlout/oomlout_OOMP_projects_V2/blob/main/" + oompID.replace("-","/") + "/ibom.html"))
 
 
 def addOOMPPartsList(item,mdFile):
@@ -343,20 +347,22 @@ def addOOMPPartsList(item,mdFile):
         
         for part in oompParts:
             if oompParts[part]["OOMPID"] not in uniqueParts:
-                uniqueParts.append(oompParts[part])
+                uniqueParts.append(oompParts[part]["OOMPID"])
         for partID in uniqueParts:
             try:
-                part = OOMP.items[partID["OOMPID"]]
+                part = OOMP.items[partID]
                 link = OOMP.getFileItem(part,"",relative="github")
             except KeyError:
                 part= ""
                 link = ""
             image= osb.getImageItem(part,"image",link=False)
-            text= partID["OOMPID"]
+            text= partID
             designators = ""
             for testPart in oompParts:
-                if oompParts[testPart] == partID["OOMPID"]:
+                if oompParts[testPart]["OOMPID"] == partID:
                     designators = designators + testPart + ","
+            if designators != "":
+                designators = designators[0:-1]
             tags.append(osb.getLink(image,link))
             tags.append(osb.getLink(text,link))
             tags.append(osb.getLink(designators,link))

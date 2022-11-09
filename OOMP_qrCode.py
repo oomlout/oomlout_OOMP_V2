@@ -1,9 +1,10 @@
 import OOMP
-import OOMP_migrate_BASE
-name = "OOMP_migrate_BASE"
+import OOMP_qrCode_BASE
+name = "OOMP_qrCode_BASE"
 
 
-def makeAll(overwrite=False):    
+def makeAll(overwrite=False): 
+    print("Make all for: " + name)    
     #for itemID in OOMP.items:    
     for itemID in OOMP.itemsTypes["projects"]["items"]:
         item = OOMP.items[itemID]
@@ -13,6 +14,7 @@ def make(item,overwrite=False):
         pass
 
 def createAll(overwrite=False):
+    print("Create all for: " + name)
     
     #for itemID in OOMP.items:
     for itemID in OOMP.itemsTypes["modules"]["items"]:

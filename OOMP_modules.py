@@ -4,14 +4,11 @@ name = "OOMP_modules_BASE"
 
 import OOMP_projects
 
-import OOMP_projects_partsHarvest_BASE
-import OOMP_projects_partsMatch
-
 import OOMP_kicad_BASE
 
 def makeAll(overwrite=False):    
     #for itemID in OOMP.items:
-    OOMP_modules_BASE.makeAllModules()
+
     for itemID in OOMP.itemsTypes["projects"]["items"]:
         item = OOMP.items[itemID]
         make(item,overwrite)
@@ -20,7 +17,7 @@ def make(item,overwrite=False):
         pass
 
 def createAll(overwrite=False):
-    
+    OOMP_modules_BASE.makeAllModules()    
     #for itemID in OOMP.items:
     for itemID in OOMP.itemsTypes["modules"]["items"]:
         item = OOMP.items[itemID]
@@ -38,7 +35,8 @@ def generateAll(overwrite=False):
     
 
 def generate(item,overwrite=False):
-    OOMP_projects_partsMatch.matchParts(item)
+    #OOMP_projects_partsMatch.matchParts(item)
+    pass
 
 def harvestAll(overwrite=False):
     OOMP_projects.harvestAll(overwrite)

@@ -27,7 +27,8 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
 
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
     oompSlashes = oompID.replace("-","/")
-    print("Making part: " + oompID)
+    #print("Making part: " + oompID)
+    ping()
 
     inputFile = "templates/partsTemplate.py"
     outputDir = OOMP.baseDir + OOMP.getDir("parts") + oompSlashes + "/"
@@ -46,20 +47,29 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
                 download_url = datasheet
                 filename = outputDir + "datasheet"
                 if not os.path.exists(filename + ".pdf"): ######
-                    print("        Downloading datasheet: " + datasheet)
-                    response = urllib.request.urlopen(download_url)    
-                    file = open(filename + ".pdf", 'wb')
-                    file.write(response.read())
-                    file.close()            
+                    #print("        Downloading datasheet: " + datasheet)
+                    try:
+                        response = urllib.request.urlopen(download_url, allow_redirects=True)    
+                        file = open(filename + ".pdf", 'wb')
+                        file.write(response.read())
+                        file.close()            
+                    except:
+                        pass
+                        print("         Error downloading datasheet")
                 else:
-                    print("        Skipping datasheet (already exists): " + datasheet)
+                    pass
+                    #print("        Skipping datasheet (already exists): " + datasheet)
                 pass            
 
         else:
-            oomCopyFile(datasheet,outputDir + "datasheet.pdf" )
+            try:
+                oomCopyFile(datasheet,outputDir + "datasheet.pdf" )
+            except:
+                pass
+                print("        datasheet not found: " + oompID)
 
 
-    print("Making: " + outputFile)
+    #print("Making: " + outputFile)
 
     contents = oomReadFileToString(inputFile)
     contents = contents.replace("TYPEZZ",type)
@@ -96,7 +106,7 @@ def getHexID(oompID):
     list.append(["CAPC-","C"])
     list.append(["LEDS-","L"])
     list.append(["RESE-","R"])
-    list.append(["HEAD-","R"])
+    list.append(["HEAD-","H"])
     ######size
     list.append(["0201-","2"])
     list.append(["0402-","4"])
