@@ -76,7 +76,11 @@ def getDirItem(item,relative):
     return rv
 
 def getFileItem(item,file,resolution="",extension="",relative=""):
-    if item != "":
+    if file == "details.py" and OOMP.getType(item) == "eda":
+        rv = getDir("eda") + "details.py"
+        raise Exception("Shouldn't really be here")
+        return rv
+    elif item != "":
         resolution = str(resolution)
         rv = filenames[file]["filename"]
         if "&&res&&" in rv:

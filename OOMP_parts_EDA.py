@@ -152,8 +152,7 @@ def add0201(part,dict):
     if "RESE" in oompType:         
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0201_0603Metric"])
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0201_0603Metric_Pad0.64x0.40mm_HandSolder"])   
-    for tag in tags:
-        part[tag[0]].append(tag[1])
+    addEdaTags(part=part,tags=tags)
 
 def add0402(part,dict):
     oompType = part["oompType"][0]
@@ -181,8 +180,7 @@ def add0402(part,dict):
     if "RESE" in oompType:         
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0402_1005Metric"])
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0402_1005Metric_Pad0.72x0.64mm_HandSolder"])   
-    for tag in tags:
-        part[tag[0]].append(tag[1])
+    addEdaTags(part=part,tags=tags)
 
 def add0603(part,dict):
     oompType = part["oompType"][0]
@@ -210,8 +208,7 @@ def add0603(part,dict):
     if "RESE" in oompType:         
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0603_1608Metric"])
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"])   
-    for tag in tags:
-        part[tag[0]].append(tag[1])
+    addEdaTags(part=part,tags=tags)
 
 def add0805(part,dict):
     oompType = part["oompType"][0]
@@ -228,8 +225,7 @@ def add0805(part,dict):
         tags.append(["footprintEagle", "FOOTPRINT-eagle-SparkFun-Eagle-Libraries-SparkFun-Capacitors-0805"])
     tags.append(["footprintEagle", "FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-rc-0805_SENSE"])
     tags.append(["footprintEagle", "FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-rc-0805"])
-    for tag in tags:
-        part[tag[0]].append(tag[1])
+    addEdaTags(part=part,tags=tags)
     tags = []
     if "CAP" in oompType:
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Capacitor_SMD-C_0805_2012Metric"])
@@ -237,8 +233,7 @@ def add0805(part,dict):
     if "RESE" in oompType:         
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0805_2012Metric"])
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_0805_2012Metric_Pad1.18x1.45mm_HandSolder"])   
-    for tag in tags:
-        part[tag[0]].append(tag[1])
+    addEdaTags(part=part,tags=tags)
 
 def add1206(part,dict):
     oompType = part["oompType"][0]
@@ -266,7 +261,7 @@ def add1206(part,dict):
     if "RESE" in oompType:         
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_1206_3216Metric"])
         tags.append(["footprintKicad", "FOOTPRINT-kicad-kicad-footprints-Resistor_SMD-R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"])   
-        addEdaTags(part=part,tags=tags)
+    addEdaTags(part=part,tags=tags)
 
 def addSO8(part,dict):
     tags = []
@@ -275,7 +270,7 @@ def addSO8(part,dict):
 
 def addSO223(part,dict):
     tags = []
-    tags.append("FOOTPRINT-kicad-kicad-footprints-Package_TO_SOT_SMD-SOT-223-3_TabPin2")
+    tags.append(["footprintKicad","FOOTPRINT-kicad-kicad-footprints-Package_TO_SOT_SMD-SOT-223-3_TabPin2"])
     addEdaTags(part=part,tags=tags)
 
 def addSO235(part,dict):
@@ -291,10 +286,19 @@ def addT220(part,dict):
 
 
 def addBUTASymbols(part,dict):
-    part["symbolKicad"].append("SYMBOL-kicad-kicad-symbols-Switch-SW_Push")
+    tags = []
+    tags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Switch-SW_Push"])
+    
+
+    addEdaTags(part=part,tags=tags)
+
 
 def addCAPCSymbols(part,dict):
-    part["symbolKicad"].append("SYMBOL-kicad-kicad-symbols-Device-C")
+    tags = []
+    tags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Device-C"])
+    
+
+    addEdaTags(part=part,tags=tags)
 
 
 
@@ -316,23 +320,34 @@ def addHEADSymbols(part,dict):
                 symbols.append(["symbolKicad",base  + "_Counter_Clockwise"])
                 symbols.append(["symbolKicad",base  + "_Top_Bottom"])
                 symbols.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + str(int(pinss)*2).zfill(2) + "_Male"])
-                for symbol in symbols:
-                    ###### TODO add a check for existance
-                    addEdaTags(part=newPart,tags=symbols)
+                addEdaTags(part=newPart,tags=symbols)
                     
         else:
-            newPart["symbolKicad"].append("SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male")
-            newPart["symbolKicad"].append("SYMBOL-kicad-kicad-symbols-Connector_Generic-Conn_01x" + pinss + "")
+            symbols = []
+            symbols.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male"])
+            symbols.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Connector_Generic-Conn_01x" + pinss + ""])
+            addEdaTags(part=newPart,tags=symbols)
 
 
 def addLEDSSymbols(part,dict):
-    part["symbolKicad"].append("SYMBOL-kicad-kicad-symbols-Device-LED")
+
+    tags = []
+    tags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Device-LED"])
+    addEdaTags(part=part,tags=tags)
+
 
 def addRESESymbols(part,dict):
-    part["symbolKicad"].append("SYMBOL-kicad-kicad-symbols-Device-R")
+    
+    tags = []
+    tags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Device-R"])
+    addEdaTags(part=part,tags=tags)
+
 
 def addXTALSymbols(part,dict):
-    part["symbolKicad"].append("SYMBOL-kicad-kicad-symbols-Device-Crystal")
+    tags = []
+    tags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Device-Crystal"])
+    addEdaTags(part=part,tags=tags)
+
 
 
 def addHEAD01(part,dict):
@@ -350,7 +365,7 @@ def addHEAD01(part,dict):
                 imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/SparkFun-Eagle-Libraries/Sparkfun-Connectors/1X" + pinss + style + "/image.png"
                 #print("Image File: " + imageFile)
                 if os.path.isfile(imageFile):
-                    newPart["footprintEagle"].append("FOOTPRINT-eagle-SparkFun-Eagle-Libraries-Sparkfun-Connectors-1X" + pinss + style)
+                    addEdaTags(newPart,["footprintEagle","FOOTPRINT-eagle-SparkFun-Eagle-Libraries-Sparkfun-Connectors-1X" + pinss + style])
             
             
             adafruitStyles = ["", "-CLEANBIG", "-BIGLOCK", "-CLEAN", "-LOCK", "-CB"]
@@ -358,7 +373,7 @@ def addHEAD01(part,dict):
                 imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Adafruit-Eagle-Library/adafruit/1X" + pinss + style + "/image.png"
                 #print("Image File: " + imageFile)
                 if os.path.isfile(imageFile):
-                    newPart["footprintEagle"].append("FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-1X" + pinss + style)
+                    addEdaTags(newPart,["footprintEagle","FOOTPRINT-eagle-Adafruit-Eagle-Library-adafruit-1X" + pinss + style])
             
             
             pimoroniStyles = ["","-0.1&quot;-CASTELLATED-BCREAM", "-0.1&quot;-CASTELLATED-BIGGER-ROUNDED", "-0.1&quot;-CASTELLATED-BIGGER", "-0.1&quot;-CASTELLATED", "-LOCK-MALE", "-CB","_LONGPADS"]
@@ -366,9 +381,9 @@ def addHEAD01(part,dict):
                 imageFile = "oomlout_OOMP_eda/FOOTPRINT/eagle/Pimoroni-Eagle-Library/pimoroni-headers/1X" + pinss.replace("0","") + style + "/image.png"
                 #print("Image File: " + imageFile)
                 if os.path.isfile(imageFile):
-                    newPart["footprintEagle"].append("FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-headers-1" + pinss + style)
+                    addEdaTags(newPart["footprintEagle","FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-headers-1" + pinss + style])
             
-            newPart["footprintKicad"].append("FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_1x" + pinss + "_P2.54mm_Vertical")
+            addEdaTags(newPart,["footprintKicad","FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_1x" + pinss + "_P2.54mm_Vertical"])
     else:
         pinss = oompDesc.replace("PI2X","")
         newPart = part
@@ -540,10 +555,9 @@ def addTERSSymbols(part,dict):
         ###### FOOTPRINTS
         symbols = []
         base = "SYMBOL-kicad-kicad-symbols-Connector-Screw_Terminal_01x" + pinss
-        symbols.append(base)
-        for symbol in symbols:
-            ###### TODO add a check for existance
-            newPart["symbolKicad"].append(symbol)
+        symbols.append(["symbolKicad",base])
+        addEdaTags(part,symbols)
+        
 
 def addTERS35D(part,dict):
     oompDesc = part["oompDesc"][0]

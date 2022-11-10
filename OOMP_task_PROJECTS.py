@@ -13,11 +13,11 @@ section = OOMP_projects
 #OOMP_task_BASE.one(section)
 #section.makeAll()    
 #section.createAll()
-#section.generateAll()
+section.generateAll()
 #section.harvestAll()
 
 itemID = "PROJ-ADAF-1032-STAN-01"
-itemID = "PROJ-SPAR-18077-STAN-01"
+itemID = "PROJ-ADAF-1431-STAN-01"
 item = OOMP.items[itemID]
 itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
 print(itemDir)

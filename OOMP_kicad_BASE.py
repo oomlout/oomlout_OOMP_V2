@@ -64,7 +64,20 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
                     oomDeleteFile(frontimageDownload)
                     oomDeleteFile(backimageDownload)
                 except:
-                    print("IBOM borad downlaod file not found (kicad boards get their own name need to add a find file function)")
+                    downloadDirectory = "C:/Users/aaron/Downloads/"
+                    list_of_files = glob.glob(downloadDirectory + "/*.F.*")
+                    oomMouseClick(pos=menuButton,delay=2)
+                    oomMouseClick(pos=frontimagePos,delay=5)
+                    latestFile = max(list_of_files, key=os.path.getctime)
+                    oomCopyFile(latestFile,frontimage)
+                    oomDeleteFile(latestFile)
+                    oomMouseClick(pos=menuButton,delay=2)
+                    oomMouseClick(pos=backimagePos,delay=5)
+                    list_of_files = glob.glob(downloadDirectory + "/*.B.*")                    
+                    latestFile = max(list_of_files, key=os.path.getctime)
+                    oomCopyFile(latestFile,backimage)
+                    oomDeleteFile(latestFile)
+                    oomDelay(45)
 
             oomSendControl("w")
         else:
@@ -79,38 +92,44 @@ def renderPcbDraw(project,overwrite):
     item = project
     ###### need to  pip install pcbdraw in kicad consile and pip install pyvirtualdisplay, and Pillow
     oompID = project["oompID"][0]
-    ping()
-    filename = OOMP.getFileItem(item,"kicadBoard",relative="full").replace("/","\\")
-    pcbDrawFile = OOMP.getFileItem(item,"pcbdraw",relative="full").replace("/","\\")
-    pcbDrawBackFile = OOMP.getFileItem(item,"pcbdrawBack",relative="full").replace("/","\\")
-    pcbDrawFilePng = OOMP.getFileItem(item,"pcbdraw",relative="full",extension = "png").replace("/","\\")
-    pcbDrawBackFilePng = OOMP.getFileItem(item,"pcbdrawBack",relative="full",extension = "png").replace("/","\\")
-    
-    if os.path.exists(filename):
-        filesize = os.stat(filename).st_size ## pcbdraw fails on empty boards
-        if overwrite or not os.path.exists(pcbDrawBackFilePng) and filesize > 5000:
-            print("Making PCB Draw for: "  + oompID  )
-            kicadCmd = '"C:\\Program Files\\KiCad\\6.0\\bin\\kicad-cmd.bat"'
-            pcbString = 'pcbDraw plot "' + filename + '" "' + pcbDrawFile + '"'
-            pcbStringBack = 'pcbDraw plot --side back "' + filename + '" "' + pcbDrawBackFile + '"'
-            launchString = 'start cmd /C "' + kicadCmd + "&" + pcbString + '"'
-            #print("       Launch String: " + launchString)
-            launchStringBack = 'start cmd /C "' + kicadCmd + "&" + pcbStringBack + '"'
-            #print("       Launch String Back: " + launchStringBack)            
-            #subprocess.Popen(launchString,shell=True)
-            os.system(launchString)
-            oomDelay(20)
-            os.system(launchStringBack)
-            oomDelay(20)
-            oomMakePNG(pcbDrawFile,pcbDrawFilePng)
-            oomMakePNG(pcbDrawBackFile,pcbDrawBackFilePng)
+    include = True
+    skips = ["ADAF-0723","ADAF-3501","ADAF-4991","ADAF-5100"]
+    for s in skips:
+        if s in oompID:
+            include = False
+    if include:
+        ping()
+        filename = OOMP.getFileItem(item,"kicadBoard",relative="full").replace("/","\\")
+        pcbDrawFile = OOMP.getFileItem(item,"pcbdraw",relative="full").replace("/","\\")
+        pcbDrawBackFile = OOMP.getFileItem(item,"pcbdrawBack",relative="full").replace("/","\\")
+        pcbDrawFilePng = OOMP.getFileItem(item,"pcbdraw",relative="full",extension = "png").replace("/","\\")
+        pcbDrawBackFilePng = OOMP.getFileItem(item,"pcbdrawBack",relative="full",extension = "png").replace("/","\\")
+        
+        if os.path.exists(filename):
+            filesize = os.stat(filename).st_size ## pcbdraw fails on empty boards
+            if overwrite or not os.path.exists(pcbDrawBackFilePng) and filesize > 5000:
+                print("Making PCB Draw for: "  + oompID  )
+                kicadCmd = '"C:\\Program Files\\KiCad\\6.0\\bin\\kicad-cmd.bat"'
+                pcbString = 'pcbDraw plot "' + filename + '" "' + pcbDrawFile + '"'
+                pcbStringBack = 'pcbDraw plot --side back "' + filename + '" "' + pcbDrawBackFile + '"'
+                launchString = 'start cmd /C "' + kicadCmd + "&" + pcbString + '"'
+                #print("       Launch String: " + launchString)
+                launchStringBack = 'start cmd /C "' + kicadCmd + "&" + pcbStringBack + '"'
+                #print("       Launch String Back: " + launchStringBack)            
+                #subprocess.Popen(launchString,shell=True)
+                os.system(launchString)
+                oomDelay(20)
+                os.system(launchStringBack)
+                oomDelay(20)
+                oomMakePNG(pcbDrawFile,pcbDrawFilePng)
+                oomMakePNG(pcbDrawBackFile,pcbDrawBackFilePng)
 
+            else:
+                pass
+                #print("    SKIPPING")
         else:
             pass
-            #print("    SKIPPING")
-    else:
-        pass
-        #print("      No PCB File")
+            #print("      No PCB File")
 
 def convertAllEagleToKicad(overwrite=False):
     print("Converting all eagleBoard.brd files to kicad")

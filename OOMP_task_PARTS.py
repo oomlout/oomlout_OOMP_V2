@@ -11,8 +11,8 @@ section = OOMP_parts
 #OOMP_task_BASE.all(make=Trus,create=True)
 #OOMP_task_BASE.one(section)
 #section.makeAll()    
-section.createAll()
-#section.generateAll()
+#section.createAll()
+section.generateAll()
 #section.harvestAll()
 
 itemID = "VREG-SO223-X-KLD1117-V33D"

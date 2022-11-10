@@ -38,7 +38,9 @@ def harvestParts(item,overwrite=False):
     if os.path.exists(bomFile):
         parts = oomReadFileToString(bomFile)
         parts = parts.split("\n")
-
+        item["rawParts"] = [{}]
+        item["rawParts"][0]["kicadBom"] = []
+        item["rawParts"][0]["eagleBom"] = []
         for part in parts:
             if '"Id";"Designator"' in part or part == '':
                 pass #skip title line

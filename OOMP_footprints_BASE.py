@@ -86,8 +86,10 @@ def harvest3DModel(item):
         pass
     
 def createAllFootprints():
+    initializeFootprintFile()
     OOMP_footprints_EAGLE.createFootprints()
     OOMP_footprints_KICAD.createFootprints()
+    oomCloseFileUtf()
 
 def harvestAllFootprints():
     OOMP_footprints_KICAD.harvestFootprints()    
@@ -148,6 +150,24 @@ def createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_parts.p
             except KeyError:
                 pass
                 #print("Footprint not found" + oompID)
+
+
+
+
+def initializeFootprintFile():
+    outputFile = OOMP.getDir("eda") + "details.py"
+    oomOpenFileUtf(outputFile)
+
+    contents = """
+import OOMP
+
+def load(newpart, it):
+    pass
+    
+    
+"""
+    oomAddToOpenFileUtf(contents)
+
 def makeFootprint(d):
     type = d["oompType"]
     size = d["oompSize"]
@@ -166,9 +186,10 @@ def makeFootprint(d):
 
     oompSlashes = type + "/" + size + "/" + color + "/" + desc + "/" + index + "/"
 
-    inputFile = "templates/partsTemplate.py"
+    inputFile = "templates/edaTemplate.py"
     outputDir = OOMP.getDir("eda") + oompSlashes
-    outputFile = outputDir + "details.py"
+    #outputFile = outputDir + "details.py"
+    outputFile = OOMP.getDir("eda") + "details.py"
 
     #print("Making: " + outputFile) n
 
@@ -192,11 +213,13 @@ def makeFootprint(d):
             extraTags.append([tag,d[tag]])        
     tagString = ""
     for tag in extraTags:
-        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1]) + "\n"
+        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1],indent="") + "\n"
 
     contents = contents.replace("EXTRAZZ",tagString)
 
-    oomWriteToFile(outputFile,contents)
+    #oomWriteToFile(outputFile,contents)
+    #oomAddLineToFileUtf(outputFile,contents)
+    oomAddToOpenFileUtf(contents)
     pass
 
     

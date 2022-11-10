@@ -9,10 +9,10 @@ if make:
 else:
     OOMP.loadPickle()
 
-#OOMP_task_BASE.all(preMake=False,make=True,create=True,generate=True,harvest=False,fast=False)
+OOMP_task_BASE.all(preMake=False,make=True,create=True,generate=True,harvest=False,fast=False)
 
 ###### Fast skips 
     #OOMP_partNUmbers.make
     #OOMP_footprints.create
-OOMP_task_BASE.all(preMake=False,make=True,create=True,generate=True,harvest=False,fast=True)
-#OOMP_task_BASE.all(preMake=False,make=False,create=False,generate=True,harvest=False)
+#OOMP_task_BASE.all(preMake=False,make=True,create=True,generate=True,harvest=False,fast=True)
+#OOMP_task_BASE.all(preMake=False,make=False,create=False,generate=True,harvest=False) 0

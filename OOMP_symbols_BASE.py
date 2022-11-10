@@ -28,7 +28,23 @@ def gitPull():
         oomGitPullNew(symbolGits[git]["url"],dir)
 
 def createAllSymbols():
+    initializeSymbolFile()
     OOMP_symbols_KICAD.createSymbols()
+    oomCloseFileUtf()
+
+def initializeSymbolFile():
+    outputFile = OOMP.getDir("eda") + "details2.py"
+    oomOpenFileUtf(outputFile)
+
+    contents = """
+import OOMP
+
+def load(newpart, it):
+    pass
+    
+    
+"""
+    oomAddToOpenFileUtf(contents)
 
 def makeSymbol(d):
     type = d["oompType"]
@@ -48,10 +64,11 @@ def makeSymbol(d):
 
     oompSlashes = type + "/" + size + "/" + color + "/" + desc + "/" + index + "/"
 
-    inputFile = "templates/partsTemplate.py"
+    inputFile = "templates/edaTemplate.py"
     outputDir = OOMP.baseDir + OOMP.getDir("eda") + oompSlashes
     oomMakeDir(outputDir)
-    outputFile = outputDir + "details.py"
+    #outputFile = outputDir + "details.py"
+    outputFile = OOMP.getDir("eda") + "details.py"
 
     #print("Making: " + outputFile)
     ping()
@@ -74,11 +91,12 @@ def makeSymbol(d):
             extraTags.append([tag,d[tag]])        
     tagString = ""
     for tag in extraTags:
-        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1]) + "\n"
+        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1],indent="") + "\n"
 
     contents = contents.replace("EXTRAZZ",tagString)
 
-    oomWriteToFile(outputFile,contents)
+    #oomWriteToFile(outputFile,contents)
+    oomAddToOpenFileUtf(contents)
     pass
 
 def createSymbolLibraries():
