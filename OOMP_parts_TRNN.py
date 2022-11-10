@@ -11,8 +11,9 @@ def addParts():
     type = "TRNN";size = "";color = "X";desc = "";index = "01";hexID = ""
     sizes = ["T92"]
     for size in sizes:
-        datasheet = "sourceDatasheets/" + type + "-" + size + "-X-" + values[0] + "-01.pdf"
-        for desc in values:            
+
+        for desc in values: 
+            datasheet = "sourceDatasheets/" + type + "-" + size + "-X-" + desc + "-01.pdf"           
             oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
             hexID = OOMP_parts_BASE.getHexID(oompID)
             extraTags = []
@@ -26,8 +27,8 @@ def addParts():
     type = "TRNP";size = "";color = "X";desc = "";index = "01";hexID = ""
     sizes = ["T92"]
     for size in sizes:
-        datasheet = "sourceDatasheets/" + type + "-" + size + "-X-" + values[0] + "-01.pdf"
-        for desc in values:            
+        for desc in values:                        
+            datasheet = "sourceDatasheets/" + type + "-" + size + "-X-" + desc + "-01.pdf"           
             oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
             hexID = OOMP_parts_BASE.getHexID(oompID)
             extraTags = []

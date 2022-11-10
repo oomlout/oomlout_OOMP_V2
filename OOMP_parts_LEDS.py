@@ -27,7 +27,8 @@ def addParts():
             if os.path.exists(testDatasheet):
                 datasheet = testDatasheet
             extraTags = []
-            hexID = "L" + l.replace("0603","6").replace("0402","4").replace("1216","12").replace("DPAK","D") + ll.replace("D","").replace("V","") + ll
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+            hexID = OOMP_parts_BASE.getHexID(oompID)
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d)
 

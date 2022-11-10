@@ -10,6 +10,7 @@ else:
     OOMP.loadPickle()
 
 OOMP_task_BASE.all(preMake=False,make=True,create=True,generate=True,harvest=False,fast=False)
+#OOMP_task_BASE.all(preMake=False,make=False,create=False,generate=True,harvest=False,fast=False)
 
 ###### Fast skips 
     #OOMP_partNUmbers.make

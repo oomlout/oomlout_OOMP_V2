@@ -2,7 +2,7 @@ import OOMP
 import OOMP_symbols
 
 
-#OOMP.makePickle()oompf2s
+#OOMP.makePickle()
 OOMP.loadPickle()
 
 
@@ -16,15 +16,18 @@ section.createAll()
 #section.harvestAll()
 
 itemID = "RESE-0603-X-O103-01"
+itemID = "VREG-SO223-X-KLD1117-V5"
 
 item = OOMP.items[itemID]
 itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
 print(itemDir)
 #section.make(item)    
 #section.create(item)
-#section.generate(item)
+section.generate(item)
 #section.harvest(item)
 
+import OOMP_summaries
+OOMP_summaries.generate(item)
 
 ######## TESTING
 

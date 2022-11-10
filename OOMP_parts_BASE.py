@@ -66,7 +66,7 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
                 oomCopyFile(datasheet,outputDir + "datasheet.pdf" )
             except:
                 pass
-                print("        datasheet not found: " + oompID)
+                print("        datasheet not found: " + oompID + "  " + datasheet)
 
 
     #print("Making: " + outputFile)

@@ -12,12 +12,14 @@ def addParts():
         ss = {}
         id = "QFN14"
         ss[id] = {}
-        ss[id]["SYMBOL"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny84-20M"
+        ss[id]["SYMBOL"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny24V-10M"
+        ss[id]["SYMBOL2"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny84-20M"
         ss[id]["FOOTPRINT"] = "FOOTPRINT-kicad-kicad-footprints-Package_DFN_QFN-QFN-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm"
         ss[id]["HEXID"] = "MCAT84QF14"
         id = "DI14"
         ss[id] = {}
-        ss[id]["SYMBOL"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny84-20P"
+        ss[id]["SYMBOL"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny24V-10P"
+        ss[id]["SYMBOL2"] = "SYMBOL-kicad-kicad-symbols-MCU_Microchip_ATtiny-ATtiny84-20P"
         ss[id]["FOOTPRINT"] = "FOOTPRINT-kicad-kicad-footprints-Package_DIP-DIP-14_W7.62mm"
         ss[id]["HEXID"] = "MCAT84DI14"
         id = "SC14"
@@ -30,5 +32,9 @@ def addParts():
             extraTags = []
             extraTags.append(["footprintKicad",ss[s]["FOOTPRINT"]])
             extraTags.append(["symbolKicad",ss[s]["SYMBOL"]])
+            try:
+                extraTags.append(["symbolKicad",ss[s]["SYMBOL2"]])
+            except KeyError:
+                pass
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : ss[s]["HEXID"], "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d)   

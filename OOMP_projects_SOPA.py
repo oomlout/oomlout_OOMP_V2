@@ -42,7 +42,7 @@ def createProjects():
         d = base.copy()    
         d["repo"] = repo
         d["file"] = file.replace("_hw","")    
-        d["name"] = file.replace("_hw","").replace("_"," ").capitalize
+        d["name"] = file.replace("_hw","").replace("_"," ").capitalize()
         d["count"] = count; count = count + 1
         projects.append(d)
 

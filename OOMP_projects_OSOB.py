@@ -41,7 +41,7 @@ def createProjects():
             d = base.copy()    
             d["repo"] = repo
             d["file"] = file.replace("_hw","")    
-            d["name"] = name.replace("_hw","").replace("_"," ").capitalize
+            d["name"] = name.replace("_hw","").replace("_"," ").capitalize()
             d["count"] = count ; count = count + 1 
             if index != "01":
                 d["oompIndex"] = index

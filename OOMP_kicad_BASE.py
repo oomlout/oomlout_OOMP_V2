@@ -65,7 +65,7 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
                     oomDeleteFile(backimageDownload)
                 except:
                     downloadDirectory = "C:/Users/aaron/Downloads/"
-                    list_of_files = glob.glob(downloadDirectory + "/*.F.*")
+                    list_of_files = glob.glob(downloadDirectory + "/*.F*")
                     oomMouseClick(pos=menuButton,delay=2)
                     oomMouseClick(pos=frontimagePos,delay=5)
                     latestFile = max(list_of_files, key=os.path.getctime)
@@ -73,7 +73,7 @@ def makeInteractiveHtmlBomImages(project,overwrite=False):
                     oomDeleteFile(latestFile)
                     oomMouseClick(pos=menuButton,delay=2)
                     oomMouseClick(pos=backimagePos,delay=5)
-                    list_of_files = glob.glob(downloadDirectory + "/*.B.*")                    
+                    list_of_files = glob.glob(downloadDirectory + "/*.B*")                    
                     latestFile = max(list_of_files, key=os.path.getctime)
                     oomCopyFile(latestFile,backimage)
                     oomDeleteFile(latestFile)
@@ -93,7 +93,7 @@ def renderPcbDraw(project,overwrite):
     ###### need to  pip install pcbdraw in kicad consile and pip install pyvirtualdisplay, and Pillow
     oompID = project["oompID"][0]
     include = True
-    skips = ["ADAF-0723","ADAF-3501","ADAF-4991","ADAF-5100"]
+    skips = ["ADAF-0723","ADAF-3501","ADAF-4991","ADAF-5100","SOPA-0010","SOPA-0012","SPAR-10412","SPAR-11013","SPAR-11259","SPAR-11260","SPAR-12634","SPAR-11013"]
     for s in skips:
         if s in oompID:
             include = False

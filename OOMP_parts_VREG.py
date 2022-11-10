@@ -23,6 +23,8 @@ def addParts():
                 vString = ll.replace("V5","50").replace("V","").replace("D","")
                 vString = vString.replace("25","-2.5").replace("12","-1.2").replace("18","-1.8").replace("26","-2.6").replace("3","-3.0").replace("33","-3.3").replace("50","-5.0").replace("ADJ","")
                 symbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-AP2112K" + vString
+                baseSymbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-AP2204K-1.5"
+                extraTags.append(["symbolKicad",baseSymbol])
                 extraTags.append(["symbolKicad",symbol])
 
 
@@ -39,14 +41,17 @@ def addParts():
         size = l
         for ll in list2:
             extraTags = []
-            extraTags.append(["oompNote","LCSC Part number set in VREG/SO223/X/KLD1117/V33D/details2.py"])
+            extraTags.append(["oompNote","LCSC Part number set in VREG/SO223/X/KLD1117/V5/details2.py"])
             index = ll
             hexID = "VR1117" + l.replace("SO","").replace("T","").replace("T","").replace("T252","25") + ll.replace("D","").replace("V","")            
             
             if "SO8" not in size and "ADJ" not in index:
                 vString = ll.replace("V5","50").replace("V","").replace("D","")
                 symbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-LD1117S" + vString + "TR_SOT223" 
+                baseSymbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-AP1117-15"
+                extraTags.append(["symbolKicad",baseSymbol])
                 extraTags.append(["symbolKicad",symbol])
+
             
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d) 
@@ -67,6 +72,8 @@ def addParts():
             vString = ll.replace("V5","50").replace("V","").replace("D","")
             vString = vString.replace("25","-2.5").replace("27","-2.7").replace("3","-3.0").replace("33","-3.3").replace("50","-5.0").replace("ADJ","")
             symbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-MIC5205" + vString + "YM5" 
+            baseSymbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-AP131-15"
+            extraTags.append(["symbolKicad",baseSymbol])
             extraTags.append(["symbolKicad",symbol])
             
 

@@ -26,6 +26,8 @@ print(itemDir)
 #section.generate(item)
 #section.harvest(item)
 
+import OOMP_summaries
+OOMP_summaries.generate(item)
 
 ######## TESTING
 

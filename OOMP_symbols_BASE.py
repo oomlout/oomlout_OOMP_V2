@@ -91,7 +91,7 @@ def makeSymbol(d):
             extraTags.append([tag,d[tag]])        
     tagString = ""
     for tag in extraTags:
-        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1],indent="") + "\n"
+        tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1],indent="    ") + "\n"
 
     contents = contents.replace("EXTRAZZ",tagString)
 
