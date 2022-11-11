@@ -56,6 +56,7 @@ def matchPart(part):
     part["oompDesc"] = "UNMATCHED"
     part["oompIndex"] = "UNMATCHED"
     part["hexID"] = "XXX"
+    part["extraTags"] = []
 
     
     part = matchType(part)
@@ -236,6 +237,23 @@ def matchSpecial(part):
     dic = newDict.copy(); dic["oompDesc"] = "KS9012";tests.append(["C8543", dic])
     dic = newDict.copy(); dic["oompDesc"] = "KB772";tests.append(["C24278", dic])
     
+    ###### VREG
+    newDict = {"oompType" : "VREG","oompSize" : "SO223","oompColor" : "X","oompDesc" : "KLD1117","oompIndex" : "V33D"}
+    newDict["hexID"] = "VR11172233"
+    baseSymbol = ["symbolKicad","SYMBOL-kicad-kicad-symbols-Regulator_Linear-AP1117-15"]
+    symbol = ["symbolKicad","SYMBOL-kicad-kicad-symbols-Regulator_Linear-LD1117S" + "33" + "TR_SOT223"]
+    newDict["extraTags"] = [baseSymbol,symbol]
+    dic = newDict.copy()
+    tests.append(["C6186", dic])
+    
+    newDict["oompIndex"] = "V5"
+    newDict["hexID"] = "VR11172235"
+    symbol = ["symbolKicad","SYMBOL-kicad-kicad-symbols-Regulator_Linear-LD1117S" + "50" + "TR_SOT223"]
+    newDict["extraTags"] = [baseSymbol,symbol]
+    dic = newDict.copy()
+    tests.append(["C6187", dic])
+
+
     ###### XTAL    
     newDict = {"oompType" : "XTAL","oompSize" : "","oompColor" : "X","oompDesc" : "","oompIndex" : "01"}
     newDict["oompSize"] = "3225P4"
@@ -264,12 +282,13 @@ def matchSpecial(part):
     return part
 
 def extraTags(part):
-    part["extraTags"] = []
+    part["extraTags"] = part["extraTags"]
 
     part["extraTags"].append(["oplPartNumber",{"code" : "C-JLCC", "name" : "JLC Parts Library", "partID" : part["LCSC Part"], "partName" : part["Description"]}])
     part["extraTags"].append(["distributorPartNumber",{ "code" : "C-LCSC", "name" : "LCSC" , "partID" : part["LCSC Part"]}])
     part["extraTags"].append(["manufacturerPartNumber",{ "code" : "C-XXXX", "name" : part["Manufacturer"], "partID" : part["MFR.Part"], "partName" : part["MFR.Part"] }])
 
+    
 
     return part
 

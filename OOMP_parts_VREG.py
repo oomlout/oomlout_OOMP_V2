@@ -97,6 +97,8 @@ def addParts():
             vString = ll.replace("V5","50").replace("V","").replace("D","")
             vString = vString.replace("25","-2.5").replace("27","-2.7").replace("3","-3.0").replace("33","-3.3").replace("50","-5.0").replace("ADJ","")
             symbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-MIC5205" + vString + "YM5" 
+            baseSymbol = "SYMBOL-kicad-kicad-symbols-Regulator_Linear-AP131-15"
+            extraTags.append(["symbolKicad",baseSymbol])
             extraTags.append(["symbolKicad",symbol])
             
 
