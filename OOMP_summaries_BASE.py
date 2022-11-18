@@ -71,6 +71,7 @@ def addSummary(item,mdFile):
     type = item["oompType"][0]
     oompID = item["oompID"][0]
     hexID = item["hexID"][0]
+    path = OOMP.getDirItem(item,relative="")
     try:
         name = item["name"][0]
     except:
@@ -81,7 +82,8 @@ def addSummary(item,mdFile):
     summary = []
     summary.append("ID: " + oompID)
     summary.append("Hex ID: " + hexID)
-    summary.append("Name: " + name) 
+    summary.append("Name: " + name)
+    summary.append("Path: " + path) 
     summary.append("Description: " + name) 
     summary.append("Long Link: " + getLink("http://oom.lt/" + oompID, "http://oom.lt/" + oompID))
     summary.append("Short Link: " + getLink("http://oom.lt/" + hexID, "http://oom.lt/" + hexID))
@@ -94,6 +96,7 @@ def addImages(item, mdFile):
         images.append(image + "<br>" + getImageItem(item,image,resolution=140))
     title='Images'
     if len(images) > 0:
+        mdFile.new_header(level=2, title="Images")
         addDisplayTable(mdFile,images,4)
     else:
         mdFile.new_line("NO IMAGES  ")

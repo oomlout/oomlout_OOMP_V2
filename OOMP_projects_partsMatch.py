@@ -93,7 +93,7 @@ def matchPart(project,part):
     rv = {}
     rv["OOMPID"] = oompType + "-" + oompSize + "-" + oompColor + "-" + oompDesc + "-" + oompIndex
     oompID = ""
-    if "UNMATCHED" in rv["OOMPID"]:
+    if "UNMATCHED" in rv["OOMPID"] and "SKIP" not in rv["OOMPID"]:
         oompID = OOMP_projects_partsMatch_Special.matchSpecial(project,part,oompType=oompType,oompSize=oompSize,oompColor=oompColor,oompDesc=oompDesc,oompID=rv)  
     
     if oompID != "":

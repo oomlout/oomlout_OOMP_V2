@@ -20,6 +20,8 @@ import OOMP_qrCode
 sections.append(OOMP_qrCode)
 import OOMP_migrate
 sections.append(OOMP_migrate)
+import OOMP_redirects
+sections.append(OOMP_redirects)
 import OOMP_projects
 sections.append(OOMP_projects)
 import OOMP_parts
@@ -119,13 +121,16 @@ def one(section):
 #########################
 #########################
 
+OOMP.loadPickle()
+
 #sectiosbsn = OOMP_collections
+section = OOMP_csv
 #section = OOMP_parts
 #section = OOMP_projects
 #section = OOMP_summaries
 #section = OOMP_json
-section = OOMP_images
-#one(section)
+#section = OOMP_images
+one(section)
 #section.makeAll()    
 #section.createAll()
 #section.generateAll()

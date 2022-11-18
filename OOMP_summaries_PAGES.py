@@ -8,12 +8,14 @@ def generateReadmeFootprint(item, mdFile):
     pass
 
 def generateReadmeCollection(item, mdFile):
-    addCollectionList
+    addCollectionList(item,mdFile)
 
 def generateReadmePart(item, mdFile):
     addFootprintList(item,mdFile)
     addSymbolList(item,mdFile)
     addOOMPInstancesList(item,mdFile)
+    addDPNSearch(item,mdFile)
+    addDPNList(item,mdFile)
     addMPNList(item,mdFile)
     pass
 
@@ -43,7 +45,7 @@ def addCollectionList(collection,mdFile):
         item = OOMP.items[itemID]
         string = osb.getPictureLink(item,resolution="140",link="")
         items.append(string)
-    osb.addDisplayTable(rFile,items,4)
+    osb.addDisplayTable(rFile,items,3)
     
 
 ###### PARTS
@@ -81,7 +83,7 @@ def addFootprintList(item,mdFile):
     except IndexError:
         print("       Skipping because it's a block")
 
-def addMPNList(item,mdFile): 
+def addDPNSearch(item,mdFile): 
     osb.addHeader(mdFile, level=2, title='Distributor Searches')
     osb.addLine(mdFile, "Links to search for this item (using OOMP name) at various distributors")          
     ###### search links
@@ -119,11 +121,39 @@ def addMPNList(item,mdFile):
     linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
     osb.addLine(mdFile, linkText)
 
+def addDPNList(item,mdFile): 
+    thingName = "distributorPartNumber"
+    things = OOMP.getTag(item,thingName)
+    if len(things) > 0:       
+        tags = ["Distributor","DPN"]
+        for thing in things:
+            try:
+                link = thing["LINK"]
+            except:
+                link = thing["partLink"]
+            try:
+                distributor = thing["DISTRIBUTOR"]
+            except:
+                distributor = "LCSC"
+            try:
+                dpn = thing["DPN"]
+            except:
+                dpn = thing["partID"]
+            tags.append(osb.getLink(distributor,link))
+            tags.append(osb.getLink(dpn,link))
+        if len(tags) > 2:            
+            osb.addHeader(mdFile, level=2, title='Distributor Part Numbers')          
+            osb.addDisplayTable(mdFile,tags,2,align="left")
+
+    
+def addMPNList(item,mdFile):     
     ###### make extra file
     oompID = item["oompID"][0]
     ping(1000)
     filename = OOMP.getFileItem(item,"mpnList")
-    if True:       
+    thingName = "manufacturerPartNumber"
+    things = OOMP.getTag(item,thingName)
+    if len(things) > 0:       
         rFile = osb.newReadme(filename)
         hexID = item["hexID"][0]
         try:
@@ -132,44 +162,46 @@ def addMPNList(item,mdFile):
             name = ""
         osb.addHeader(rFile,level=1,title="MPN Summary For: " + hexID + " > " + name)
         tags = ["MPN","Direct Links","Search Links"]
-        thingName = "manufacturerPartNumber"
-        things = OOMP.getTag(item,thingName)
+        
         for thing in things:
-            mpn = thing["MPN"]
-            text = thing["MANUFACTURER"] + "<br>" + mpn
-            tags.append(text)
-            ###### direct links
-            linkText = ""
-            tags.append(linkText)
-            ###### search links
-            linkText = ""
-            ###### AVNET
-            linkStart = "https://www.avnet.com/shop/us/search/"
-            link = linkStart + mpn
-            text = "(AV) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### Digikey
-            linkStart = "https://www.digikey.co.uk/en/products/result?s="
-            link = linkStart + mpn
-            text = "(DK) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### LCSC
-            linkStart = "https://www.lcsc.com/search?q="
-            link = linkStart + mpn
-            text = "(LCSC) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### Farnell
-            linkStart = "https://uk.farnell.com/search?st="
-            link = linkStart + mpn
-            text = "(FA) "
-            linkText = linkText + osb.getLink(text,link)
-            ###### Mouser
-            linkStart = "https://www.mouser.com/c/?q="
-            link = linkStart + mpn
-            text = "(MS) "
-            linkText = linkText + osb.getLink(text,link)
-            tags.append(linkText)                   
-        if len(tags) > 2:            
+            try:
+                mpn = thing["MPN"]
+                text = thing["MANUFACTURER"] + "<br>" + mpn
+                tags.append(text)
+                ###### direct links
+                linkText = ""
+                tags.append(linkText)
+                ###### search links
+                linkText = ""
+                ###### AVNET
+                linkStart = "https://www.avnet.com/shop/us/search/"
+                link = linkStart + mpn
+                text = "(AV) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### Digikey
+                linkStart = "https://www.digikey.co.uk/en/products/result?s="
+                link = linkStart + mpn
+                text = "(DK) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### LCSC
+                linkStart = "https://www.lcsc.com/search?q="
+                link = linkStart + mpn
+                text = "(LCSC) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### Farnell
+                linkStart = "https://uk.farnell.com/search?st="
+                link = linkStart + mpn
+                text = "(FA) "
+                linkText = linkText + osb.getLink(text,link)
+                ###### Mouser
+                linkStart = "https://www.mouser.com/c/?q="
+                link = linkStart + mpn
+                text = "(MS) "
+                linkText = linkText + osb.getLink(text,link)
+                tags.append(linkText)     
+            except:
+                pass              
+        if len(tags) > 3:            
             osb.addHeader(rFile, level=2, title='MPNs')          
             osb.addDisplayTable(rFile,tags,3,align="left")
     
@@ -239,7 +271,7 @@ def addMPNList(item,mdFile):
                 tags.append(linkText)                   
             except KeyError:
                 pass ###### skip over if no MPN
-        if len(tags) > 2:            
+        if len(tags) > 3:            
             osb.addHeader(mdFile, level=2, title='MPNs')
             link = OOMP.getFileItem(item,"mpnList",relative="flat")
             if tagReason != "":
@@ -343,29 +375,31 @@ def addOOMPPartsList(item,mdFile):
     tags.append("Designators")
     try:
         oompParts = item["oompParts"][0]
-        uniqueParts = []
-        
-        for part in oompParts:
-            if oompParts[part]["OOMPID"] not in uniqueParts:
-                uniqueParts.append(oompParts[part]["OOMPID"])
-        for partID in uniqueParts:
-            try:
-                part = OOMP.items[partID]
-                link = OOMP.getFileItem(part,"",relative="github")
-            except KeyError:
-                part= ""
-                link = ""
-            image= osb.getImageItem(part,"image",link=False)
-            text= partID
-            designators = ""
-            for testPart in oompParts:
-                if oompParts[testPart]["OOMPID"] == partID:
-                    designators = designators + testPart + ","
-            if designators != "":
-                designators = designators[0:-1]
-            tags.append(osb.getLink(image,link))
-            tags.append(osb.getLink(text,link))
-            tags.append(osb.getLink(designators,link))
-        osb.addDisplayTable(mdFile,tags,3,align="left")
+        if len(oompParts) > 0:
+            uniqueParts = []
+            
+            for part in oompParts:
+                if oompParts[part]["OOMPID"] not in uniqueParts:
+                    uniqueParts.append(oompParts[part]["OOMPID"])
+            uniqueParts.sort()
+            for partID in uniqueParts:
+                try:
+                    part = OOMP.items[partID]
+                    link = OOMP.getFileItem(part,"",relative="github")
+                except KeyError:
+                    part= ""
+                    link = ""
+                image= osb.getImageItem(part,"image",link=False)
+                text= partID
+                designators = ""
+                for testPart in oompParts:
+                    if oompParts[testPart]["OOMPID"] == partID:
+                        designators = designators + testPart + ","
+                if designators != "":
+                    designators = designators[0:-1]
+                tags.append(osb.getLink(image,link))
+                tags.append(osb.getLink(text,link))
+                tags.append(osb.getLink(designators,link))
+            osb.addDisplayTable(mdFile,tags,3,align="left")
     except IndexError:
         print("       Skipping because it's a block")

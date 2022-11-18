@@ -98,6 +98,39 @@ def createFootprintLibraries():
     createFootprintLibrary()
     createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_JLCC_Basic.pretty/",style="JLCC")
 
+from kiutils.board import Board
+from kiutils.footprint import Footprint
+from kiutils.items.common import Position
+from kiutils.items.fpitems import FpText
+
+def createFootprintBoardFile(item):
+    footprintFile = OOMP.getFileItem(item,"kicadFootprint")
+    if os.path.isfile(footprintFile):
+        outFile = OOMP.getFileItem(item,"kicadBoardFootprint")
+        oomMakeDir(OOMP.getFileItem(item,"")+ "src/")
+        oomMakeDir(OOMP.getFileItem(item,"")+ "src/sourceFiles/")
+        templateFile = "templates/empty100.kicad_pcb"
+        projectFile = "templates/empty100.kicad_pro"
+        projectFileOut = OOMP.getFileItem(item,"")+ "src/sourceFiles/kicadBoard.kicad_pro"
+        oomCopyFile(projectFile,projectFileOut)
+        board = Board().from_file(templateFile)
+    
+    
+        footprint = Footprint().from_file(footprintFile)
+        footprint.position = Position(X=50, Y=50)
+        
+        # Change identifier to C105
+        for itemA in footprint.graphicItems:
+            if isinstance(itemA, FpText):
+                if itemA.type == 'reference':
+                    itemA.text = item["hexID"][0]
+        board.footprints.append(footprint)
+    
+
+
+ 
+        board.to_file(outFile)
+
 def createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_parts.pretty/",style=""):
     outDir = directory
     print("    Creating foortprint library: " + outDir)

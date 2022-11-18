@@ -204,6 +204,11 @@ def load(td):
     td['size']['S323']['name'] = 'SMD (SOD-323)'
     td['size']['S323']['description'] = 'SMD (SOD-323)'
 
+    td['size']['S523'] = {}
+    td['size']['S523']['code'] = 'S523'
+    td['size']['S523']['name'] = 'SMD (SOD-523)'
+    td['size']['S523']['description'] = 'SMD (SOD-523)'
+
     td['size']['SO123'] = {}
     td['size']['SO123']['code'] = 'SO123'
     td['size']['SO123']['name'] = 'SMD (SOT-123)'
@@ -3173,10 +3178,15 @@ def load(td):
     td['size']['QFP100']['name'] = '100 Pin SMD (TQFP)'
     td['size']['QFP100']['description'] = '100 Pin SMD (TQFP)'
 
-    td['size']['LG14'] = {}
-    td['size']['LG14']['code'] = 'LG14'
-    td['size']['LG14']['name'] = '14 Pin SMD (LGA)'
-    td['size']['LG14']['description'] = '14 Pin SMD (LGA)'
+    td['size']['LG143050'] = {}
+    td['size']['LG143050']['code'] = 'LG143050'
+    td['size']['LG143050']['name'] = '14 Pin SMD (3 x 5 mm LGA)'
+    td['size']['LG143050']['description'] = '14 Pin SMD (3 x 5 mm LGA)'
+    
+    td['size']['LG163030S'] = {}
+    td['size']['LG163030S']['code'] = 'LG163030S'
+    td['size']['LG163030S']['name'] = '16 Pin SMD (3x3 mm LGA (Unusual Pins))'
+    td['size']['LG163030S']['description'] = '16 Pin SMD (3x3 mm LGA (Unusual Pins))'
 
     td['size']['ML14'] = {}
     td['size']['ML14']['code'] = 'ML14'

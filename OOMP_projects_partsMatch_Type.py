@@ -21,7 +21,8 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     if partDict["PARTLETTER"] == "C" or "UF" in partDict["VALUE"].upper() :
         rv = "CAPX"
         ###### CAPC test
-        tests = ["0805","0603","0402","1206"]
+        #tests = ["0805","0603","0402","1206"]
+        tests = ["805","603","402","1206"]
         for test in tests:
             if test in partDict["PACKAGE"]:
                 rv = "CAPC"
@@ -43,7 +44,14 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     if partDict["PARTLETTER"] == "D":
         if "APA102" in partDict["VALUE"] or "LED" in partDict["PACKAGE"]:
             return "LEDS"
-        rv = "DIOD"
+    if "1N4148" in partDict["VALUE"]:
+            return "DIOD"
+    if "WS2812" in partDict["VALUE"]: #### needs to be before D# Test
+            return "LEDS"
+    for x in range(1,20):
+        test = "D" + str(x)
+        if partDict["PART"].upper().startswith(test):
+            rv = "DIOD"             
 
     ###### FERITE BEAD
     if partDict["PARTLETTER"] == "FB":
@@ -52,6 +60,13 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     ###### HEADER
     if "HEADER" in partDict["DEVICE"].upper():
         rv = "HEAD"
+    for x in range(1,100):
+        test = "J" + str(x)
+        if partDict["PART"].upper().startswith(test):
+            if "USB" in partDict["PART"].upper() or "USB" in partDict["DEVICE"].upper():
+                rv = "USBS"
+            else:
+                rv = "HEAD"        
     if "pin connector" in partDict["DESC"].upper():
         rv = "HEAD"
     if "HEADER" in partDict["DESC"].upper():
@@ -76,7 +91,9 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     ###### MOSFETS
     if "N-CHANNEL MOSFET" in partDict["DESC"].upper():
         rv = "MOSN"
-    if "P-CHANNEL MOSFET" in partDict["DESC"].upper():
+    elif "BSS138" in partDict["VALUE"].upper():
+        return "MOSN"
+    elif "P-CHANNEL MOSFET" in partDict["DESC"].upper():
         rv = "MOSP"
 
     ###### PTC
@@ -84,12 +101,13 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
         return "REFU"
 
     ###### Terminal Strip
-    list = []
-    list.append(["SCREWTERMINAL","TERS"])
-    list.append(["-3.5MM","TERS"])
-    for l in list:
-        if l[0] in partDict["PACKAGE"].upper():
-            return l[1]
+    if "AUDIO" not in partDict["PACKAGE"].upper(): #####needed to differentiate between 3.5mm terminal srtrip and audio jack
+        list = []
+        list.append(["SCREWTERMINAL","TERS"])
+        list.append(["-3.5MM","TERS"])
+        for l in list:
+            if l[0] in partDict["PACKAGE"].upper():
+                return l[1]
 
     ######Resistor
     if partDict["PARTLETTER"] == "R" or partDict["PART"] == "R-PROG2":
@@ -121,9 +139,12 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
             rv = "SKIP"
     ###### PART (Designator)
     list = []
+    list.append("FRAME")
     list.append("DNP")
     list.append("U$")
-    list.append("TP")
+    list.append("TP")    
+    list.append("@HOLE") 
+    list.append("REF**")
     for l in list:
         if l in partDict["PART"]:
             rv = "SKIP"
@@ -133,6 +154,7 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     list.append("CREATIVE")
     list.append("ELAST")
     list.append("FIDUCIAL")
+    list.append("CAPSENSE_CIRCLE")
     list.append("FRAME")
     list.append("GATOR")
     list.append("JUMPER")
@@ -162,7 +184,7 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     list.append("TPTP")
     list.append("MOUNT-HOLE")
     for l in list:
-        if l in partDict["VALUE"]:
+        if l in partDict["VALUE"].upper():
             rv = "SKIP"
     ###### DEVICE
     list = []
@@ -177,6 +199,7 @@ def matchType(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     list.append("FRAME-LETTER")
     list.append("3-STRIP")
     list.append("12-STRIP")
+    list.append("EDGECONNECT")
     list.append("HEADER-1X1-SMD_MASKHELD_2X2MM")
     for l in list:
         if l in partDict["DEVICE"]:

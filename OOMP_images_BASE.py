@@ -27,11 +27,14 @@ def generateResolutions(inFile,overwrite=False):
         basewidth=r            
         outFile = inFile.replace(".png","_" + str(r) + ".png").replace(".jpg","_" + str(r) + ".jpg")
         if not os.path.isfile(outFile) or overwrite:     
-            print("        Generating: " + outFile)
-            img = Image.open(inFile)
-            wpercent = (basewidth / float(img.size[0]))
-            hsize = int((float(img.size[1]) * float(wpercent)))
-            img = img.resize((basewidth, hsize), Image.ANTIALIAS)
-            img.save(outFile)
+            try:
+                print("        Generating: " + outFile)
+                img = Image.open(inFile)
+                wpercent = (basewidth / float(img.size[0]))
+                hsize = int((float(img.size[1]) * float(wpercent)))
+                img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+                img.save(outFile)
+            except:
+                print("        Error in scaling png: " + infile)
         
 

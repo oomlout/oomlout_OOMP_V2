@@ -6,76 +6,21 @@ def getFootprintHex(filter):
     replaceList = []
     replaceList.append(["FOOTPRINT-","FZ"])
     replaceList.append(["SYMBOL-","SZ"])
-    ### adafruit ones
-    ######  Library
-    replaceList.append(["",""])
-    replaceList.append(["eagle-Adafruit-Eagle-Library-adafruit-".upper(),"A"])
-    ######  additions
-    replaceList.append(["",""])
-    replaceList.append(["-0.7MM","07"])
-    replaceList.append(["-0.5MM","05"])
-    replaceList.append(["-3.5MM","35"])
-    replaceList.append(["ADAFRUIT","ADA"])
-    replaceList.append(["ARDUINO","ARD"])
-    replaceList.append(["-BIG","B"])
-    replaceList.append(["CLUEFRUIT","BF"])
-    replaceList.append(["-BIGPOGO","BP"])
-    replaceList.append(["-CLEANBIG","CB"])
-    replaceList.append(["-CLEAN","C"])
-    replaceList.append(["-CB","CB"])
-    replaceList.append(["_DIM","D"])
-    replaceList.append(["-DIM","D"])
-    replaceList.append(["EDGELAUNCH","EL"])
-    replaceList.append(["FEATHERWING","FW"])
-    
-    replaceList.append(["INLINE","I"])
-    replaceList.append(["JACK","J"])
-    replaceList.append(["EAGLEBONE","EB"])
-    replaceList.append(["MINI_MELF","MM"])
-    replaceList.append(["MOLEX","MX"])
-    
-    replaceList.append(["NARROW","N"])
-    replaceList.append(["NOIOREF","NI"])
-    replaceList.append(["-NOTEXT","NT"])
-    replaceList.append(["-NODIM","ND"])
-    replaceList.append(["-NOHOLE","NH"])
-    replaceList.append(["-OSHWLOGO","OL"])
-    replaceList.append(["-PANASONIC","P"])
-    replaceList.append(["PUSHBUTTON","PB"])
-    
-    replaceList.append(["PWRONLY",""])
-    replaceList.append(["PTH","P"])
-    
-    replaceList.append(["REVERSE","R"])
-    replaceList.append(["-ROUND","R"])    
-    replaceList.append(["SEGMENT","S"])
-    replaceList.append(["-SIDE","SD"])
-    replaceList.append(["SKINNYPADS","SP"])
-    replaceList.append(["SMA","S"])
-    replaceList.append(["SMD","SM"])
-    replaceList.append(["SKINNIER","SK"])
-    replaceList.append(["-SMALLS","S"])
-    replaceList.append(["-SMT","S"])
-    replaceList.append(["_SMT","S"])
-    
-    replaceList.append(["THM","T"])
-    replaceList.append(["-LOCK","L"])
-    
-    replaceList.append(["WHEEL","W"])
-    
-    ### Dangerous Prototypes ones
-    ######  Library
-    replaceList.append(["",""])
-    replaceList.append(["DangerousPrototypes-Eagle-Library-dp_devices.v6-".upper(),"DP"])
-   ### eagle ones    
-    replaceList.append(["",""])
-    replaceList.append(["eagle-eagle-default-".upper(),"E"])
-
-
    ### kicad ones    
     replaceList.append(["",""])
     replaceList.append(["kicad-kicad-footprints".upper(),"K"])
     replaceList.append(["kicad-kicad-symbols".upper(),"K"])
+    ######  OOMLOUT libraries
+    replaceList.append(["kicad-oomlout_OOMP_kicad".upper(),"OOMPK"])
+    replaceList.append(["kicad-digikey-kicad-library".upper(),"DIGI"])
+    replaceList.append(["digiekey-footprint".upper(),""])
+    replaceList.append(["oomlout_OOMP_JLCC_Basic".upper(),"JLC"])
+    replaceList.append(["oomlout_OOMP_modules".upper(),"OOMPM"])
+    replaceList.append(["oomlout_OOMP_JLCC_Basic".upper(),"JLC"])
+    replaceList.append(["oobbOutlines".upper(),"OOBB"])
+    replaceList.append(["oomlout_OOMP_parts".upper(),"OOMPP"])
+
+    
     ######  Kicad libraries
     replaceList.append(["Varistor".upper(),"V"])
     replaceList.append(["Audio_Module".upper(),"A"])
@@ -212,7 +157,77 @@ def getFootprintHex(filter):
     replaceList.append(["Transformer_THT".upper(),"TR"])
     replaceList.append(["Transistor_Power_Module".upper(),"Q"])
     replaceList.append(["Valve".upper(),"VA"])
+    
+    #kicad extras
+    replaceList.append(["Metric".upper(),"VA"])
 
+    ### adafruit ones
+    ######  Library
+    replaceList.append(["",""])
+    replaceList.append(["eagle-Adafruit-Eagle-Library-adafruit-".upper(),"A"])
+    ######  additions
+    replaceList.append(["",""])
+    replaceList.append(["-0.7MM","07"])
+    replaceList.append(["-0.5MM","05"])
+    replaceList.append(["-3.5MM","35"])
+    replaceList.append(["ADAFRUIT","ADA"])
+    replaceList.append(["ARDUINO","ARD"])
+    replaceList.append(["-BIG","B"])
+    replaceList.append(["CLUEFRUIT","BF"])
+    replaceList.append(["-BIGPOGO","BP"])
+    replaceList.append(["-CLEANBIG","CB"])
+    replaceList.append(["-CLEAN","C"])
+    replaceList.append(["-CB","CB"])
+    replaceList.append(["_DIM","D"])
+    replaceList.append(["-DIM","D"])
+    replaceList.append(["EDGELAUNCH","EL"])
+    replaceList.append(["FEATHERWING","FW"])
+    
+    replaceList.append(["INLINE","I"])
+    replaceList.append(["JACK","J"])
+    replaceList.append(["EAGLEBONE","EB"])
+    replaceList.append(["MINI_MELF","MM"])
+    replaceList.append(["MOLEX","MX"])
+    
+    replaceList.append(["NARROW","N"])
+    replaceList.append(["NOIOREF","NI"])
+    replaceList.append(["-NOTEXT","NT"])
+    replaceList.append(["-NODIM","ND"])
+    replaceList.append(["-NOHOLE","NH"])
+    replaceList.append(["-OSHWLOGO","OL"])
+    replaceList.append(["-PANASONIC","P"])
+    replaceList.append(["PUSHBUTTON","PB"])
+    
+    replaceList.append(["PWRONLY",""])
+    replaceList.append(["PTH","P"])
+    
+    replaceList.append(["REVERSE","R"])
+    replaceList.append(["-ROUND","R"])    
+    replaceList.append(["SEGMENT","S"])
+    replaceList.append(["-SIDE","SD"])
+    replaceList.append(["SKINNYPADS","SP"])
+    replaceList.append(["SMA","S"])
+    replaceList.append(["SMD","SM"])
+    replaceList.append(["SKINNIER","SK"])
+    replaceList.append(["-SMALLS","S"])
+    replaceList.append(["-SMT","S"])
+    replaceList.append(["_SMT","S"])
+    
+    replaceList.append(["THM","T"])
+    replaceList.append(["-LOCK","L"])
+    
+    replaceList.append(["WHEEL","W"])
+    
+    ### Dangerous Prototypes ones
+    ######  Library
+    replaceList.append(["",""])
+    replaceList.append(["DangerousPrototypes-Eagle-Library-dp_devices.v6-".upper(),"DP"])
+   ### eagle ones    
+    replaceList.append(["",""])
+    replaceList.append(["eagle-eagle-default-".upper(),"E"])
+
+
+   
     
     ### pimoroni ones    
     replaceList.append(["",""])
@@ -355,7 +370,92 @@ def getFootprintHex(filter):
         replaceList.append([xs + "MM",xs])
         replaceList.append([xs + "MM",xs])
 
+    ##Common words
+    replaceList.append(["FEMALE","F"])
+    replaceList.append(["HORIZONTAL","H"])
+    replaceList.append(["VERTICAL","F"])
+    replaceList.append(["EDGEPIN","EP"])
+    replaceList.append(["OFFSET","O"])
+    replaceList.append(["HOUSED","H"])
+    replaceList.append(["MOUNTINGHOLES","MH"])
+    replaceList.append(["MOUNTHOLE","MH"])
+    replaceList.append(["SWITCH","SW"])
+    replaceList.append(["TACTILE","T"])
+    replaceList.append(["THREADED","TH"])
+    replaceList.append(["FLANGE","F"])
+    replaceList.append(["OOMLOUT","OOM"])
+    replaceList.append(["OOMLOUT","OOM"])
+    replaceList.append(["POTENTIOMETER","POT"])
+    replaceList.append(["PhoenixContact_MCV_1".upper(),"MCV"])
+    replaceList.append(["PHEONIX".upper(),"PX"])
+    replaceList.append(["CONTACT".upper(),"CT"])
+    replaceList.append(["WIRE".upper(),"W"])
+    replaceList.append(["PAD".upper(),"P"])
+    replaceList.append(["PACKAGE".upper(),"P"])
+    replaceList.append(["LONG".upper(),"L"])
+    replaceList.append(["NICHICON".upper(),"NC"])
+    replaceList.append(["INDUCTOR".upper(),"IN"])
+    replaceList.append(["SQUARE".upper(),"SQ"])
+    replaceList.append(["PANASONIC".upper(),"PAN"])
+    replaceList.append(["SANTANA".upper(),"SAN"])
+    replaceList.append(["SPRING".upper(),"SP"])
+    replaceList.append(["TERMINAL".upper(),"T"])
+    replaceList.append(["SKINNIER".upper(),"SK"])
+    replaceList.append(["PETAL".upper(),"P"])
+    replaceList.append(["HOLE".upper(),"H"])
+    replaceList.append(["LONG".upper(),"L"])
+    replaceList.append(["MEDIUM".upper(),"M"])
+    replaceList.append(["GESTURE".upper(),"G"])
+    replaceList.append(["SENSE".upper(),"S"])
+    replaceList.append(["TEXT".upper(),"T"])
+    replaceList.append(["ORDERING".upper(),"O"])
+    replaceList.append(["PRODUCTION".upper(),"P"])
+    replaceList.append(["INSTRUCTIONS".upper(),"IN"])
+    replaceList.append(["ASPECT".upper(),"A"])
+    replaceList.append(["NEGATIVE".upper(),"N"])
+    replaceList.append(["INTERNAL".upper(),"IN"])
+    replaceList.append(["RASPBERRY".upper(),"R"])
+    replaceList.append(["RASP".upper(),"R"])
+    replaceList.append(["PROCESSOR".upper(),"P"])
+    replaceList.append(["GENERIC".upper(),"G"])
+    replaceList.append(["MOUNTING".upper(),"M"])
+    replaceList.append(["CONNECTOR".upper(),"C"])
+    replaceList.append(["CONN".upper(),"C"])
+    replaceList.append(["ROW".upper(),"R"])
+    replaceList.append(["LETTER".upper(),"L"])
+    replaceList.append(["FIRST".upper(),"F"])
+    replaceList.append(["PIN".upper(),"P"])
+    replaceList.append(["COUNTERCLWISE".upper(),"CCW"])
+    replaceList.append(["MOUNT".upper(),"M"])
+    replaceList.append(["HARTING".upper(),"HARTING"])
+    replaceList.append(["CONNECT".upper(),"C"])
+    replaceList.append(["TYPE".upper(),"T"])
+    replaceList.append(["HARFLEXICON".upper(),"HFLX"])
+    replaceList.append(["BOTTOM".upper(),"B"])
+    replaceList.append(["PROFILE".upper(),"P"])
+    replaceList.append(["HOLDER".upper(),"H"])
+    replaceList.append(["CLIP".upper(),"CL"])
+    replaceList.append(["PCBEDGE".upper(),"PE"])
+    
+    replaceList.append(["POLARIZED".upper(),"PZ"])
+    replaceList.append(["TOROID".upper(),"T"])
+    replaceList.append(["SLIDE".upper(),"SL"])
+    replaceList.append(["KING".upper(),"K"])
+    replaceList.append(["HEADER".upper(),"H"])
+    replaceList.append(["RIGHT".upper(),"R"])
+    replaceList.append(["LEFT".upper(),"L"])
+    replaceList.append(["FUSE".upper(),"F"])
+    replaceList.append(["PULL".upper(),"P"])
+    replaceList.append(["BACK".upper(),"B"])
+    replaceList.append(["HAND".upper(),"H"])
+    replaceList.append(["SOLDERING".upper(),"S"])
+    replaceList.append(["THERMAL".upper(),"TH"])
+    replaceList.append(["VIAS".upper(),"V"])
+    replaceList.append(["SCREW".upper(),"SC"])
+    replaceList.append(["DIP".upper(),"D"])
 
+
+    #replaceList.append(["".upper(),""])
 
     for replace in replaceList:
         filter = filter.replace(replace[0],replace[1])

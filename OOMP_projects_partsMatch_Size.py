@@ -38,9 +38,11 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     ######headers
     if oompType == "HEAD":
         ###### not 0.1"
+        if "2.54MM" in partDict["PACKAGE"].upper():
+            return "I01"
         exclusions = ["MM"]
-        for exclusion in exclusions:
-            if exclusion in partDict["PACKAGE"]:
+        for exclusion in exclusions:            
+            if exclusion in partDict["PACKAGE"].upper():
                 return "UNMATCHED"
         if "STEMMA_I2C" in partDict["VALUE"].upper():
             rv = "01"
@@ -67,6 +69,14 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     ###### Abnormal Adafruit ones
     pairs.append(["0805_10MGAP","0805"])
 
+    ###### Dangerous prototypes ones
+    pairs.append(["-805","0805"])
+    pairs.append(["C805","0805"])
+    pairs.append(["C603","0603"])
+    pairs.append(["C402","0402"])
+    pairs.append(["R805","0805"])
+    pairs.append(["R603","0603"])
+    pairs.append(["R402","0402"])
     ###### Abnormal Sparkfun ones
     pairs.append(["0603@1","0603"])
     pairs.append(["0603-RES@1","0603"])
@@ -81,11 +91,13 @@ def matchSize(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oomp
     pairs.append(["EIA7343","7343"])
     pairs.append(["SOD-123","S123"])
     pairs.append(["SOD-323","S323"])
+    pairs.append(["SOD523","S523"])
     pairs.append(["SOT-23-5","SO235"])
     pairs.append(["SOT23-5","SO235"])
     pairs.append(["SOT23","SO23"])
     pairs.append(["SOT363","SO363"])
     pairs.append(["SOT23-5L","SO235"])
+    pairs.append(["SOT95P280X145","SO236"])
     pairs.append(["2121","2121"])
     pairs.append(["SK6805_1515","1515"])
     pairs.append(["2020","2020"])

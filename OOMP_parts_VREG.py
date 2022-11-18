@@ -15,6 +15,7 @@ def addParts():
     for l in list:
         size = l
         for ll in list2:
+            
             extraTags = []
             index = ll
             hexID = "VR2112" + l.replace("SO","").replace("T","").replace("T","").replace("T252","25") + ll.replace("D","").replace("V","")
@@ -43,7 +44,8 @@ def addParts():
             extraTags = []
             extraTags.append(["oompNote","LCSC Part number set in VREG/SO223/X/KLD1117/V5/details2.py"])
             index = ll
-            hexID = "VR1117" + l.replace("SO","").replace("T","").replace("T","").replace("T252","25") + ll.replace("D","").replace("V","")            
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
+            hexID = OOMP_parts_BASE.getHexID(oompID)
             
             if "SO8" not in size and "ADJ" not in index:
                 vString = ll.replace("V5","50").replace("V","").replace("D","")

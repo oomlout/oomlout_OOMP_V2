@@ -32,6 +32,43 @@ def addParts():
             d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
             OOMP_parts_BASE.makePart(dict = d)
 
+    
+
+    ######### 2812 LEDs
+    #####################################################################    
+    type = "LEDS";size = "";color = "X";desc = "K2812";index = "01";hexID = ""
+    oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
+    datasheet = "sourceDatasheets/" + oompID + ".pdf"
+    list = sizes = ["3535"]
+    list2 = colours = ["RGB"]
+    for l in list:
+        size = l
+        for ll in list2:
+            color = ll
+            extraTags = []
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+            hexID = OOMP_parts_BASE.getHexID(oompID)
+            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+            OOMP_parts_BASE.makePart(dict = d)
+
+    ######### 2812 LEDs
+    #####################################################################    
+    type = "LEDS";size = "";color = "X";desc = "K102";index = "01";hexID = ""
+    oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
+    datasheet = "sourceDatasheets/" + oompID + ".pdf"
+    list = sizes = ["5050","2020"]
+    list2 = colours = ["RGB"]
+    for l in list:
+        size = l
+        for ll in list2:
+            color = ll
+            extraTags = []
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
+            hexID = OOMP_parts_BASE.getHexID(oompID)
+            d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
+            OOMP_parts_BASE.makePart(dict = d)
+
+
     ######### CREE XHP70
     #####################################################################
     type = "LEDS";size = "XHP70";color = "W";desc = "CREE";index = "01";hexID = "LXHP70"    

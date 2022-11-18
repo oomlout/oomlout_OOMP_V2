@@ -2,28 +2,30 @@ import OOMP
 import OOMP_symbols
 
 
-#OOMP.makePickle()
-OOMP.loadPickle()
+
+OOMP.makePickle()
+#OOMP.loadPickle()
 
 
 section = OOMP_symbols
 
 #OOMP_task_BASE.all(make=Trus,create=True)
 #OOMP_task_BASE.one(section)
-#section.makeAll()    
-section.createAll()
-#section.generateAll()
+#section.makeAll()    oompf2
+#section.createAll()
+section.generateAll()
 #section.harvestAll()
 
 itemID = "RESE-0603-X-O103-01"
 itemID = "VREG-SO223-X-KLD1117-V5"
+itemID = "VREG-SO235-X-KMIC5225-V25D"
 
 item = OOMP.items[itemID]
 itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
 print(itemDir)
 #section.make(item)    
 #section.create(item)
-section.generate(item)
+#section.generate(item)
 #section.harvest(item)
 
 import OOMP_summaries

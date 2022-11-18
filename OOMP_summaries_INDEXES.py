@@ -3,7 +3,7 @@ import OOMP_summaries_BASE as osb
 
 def generateCollectionsIndex(): 
     print("Generating Collection Index")  
-    filename = OOMP.getDir("collections") + "/COLLECTION.md"
+    filename = OOMP.getDir("collections") + "/README.md"
     
     rFile = osb.newReadme(filename)
     osb.addHeader(rFile, title="Collections", level=1)
@@ -14,7 +14,7 @@ def generateCollectionsIndex():
         name = collection["name"][0]
         description = collection["description"][0]    
         entry = ""
-        entry = entry + osb.getLink(text = name,link = OOMP.getFileItem(collection,"collection",relative="noDir")) + "  <br>"
+        entry = entry + osb.getLink(text = name,link = OOMP.getFileItem(collection,"readme",relative="noDir")) + "  <br>"
         entry = entry + description + ""
         
         parts.append(entry)

@@ -19,27 +19,30 @@ import OOMP_projects_OSOB
 import OOMP_projects_PDP7
 import OOMP_projects_SEED
 import OOMP_projects_SIRB
+import OOMP_projects_OOML
 import OOMP_projects_SOPA
 import OOMP_projects_SPAR
 
 def preMakeAllProjects():
-    OOMP_projects_SPAR.farmProjects() ###### get repo list
-    OOMP_projects_SPAR.makeBaseProjects() ###### git pulls and makes project
-    OOMP_projects_ADAF.farmProjects() ###### get repo list
-    OOMP_projects_ADAF.makeBaseProjects() ###### git pulls and makes project
+    pass
+    raise Exception("Shouldn't have reached Here")
 
 def createAllProjects():
     OOMP_projects_IBBC.createProjects()
     OOMP_projects_ADAF.createProjects()    
     OOMP_projects_DANP.createProjects()    
     OOMP_projects_ELLA.createProjects()
+    OOMP_projects_HYDR.createProjects()
+    OOMP_projects_OSOB.createProjects()
     OOMP_projects_PDP7.createProjects()
     #OOMP_projects_SEED.createProjects()
     OOMP_projects_SIRB.createProjects()
+    OOMP_projects_OOML.createProjects()
     OOMP_projects_SOPA.createProjects()
     OOMP_projects_SPAR.createProjects()
     OOMP_projects_SPAR.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
     OOMP_projects_ADAF.makeBaseProjects() #go through all repos and pull git details and whether they are a project or not        
+    
 
 def getRepos(user):
     print("    Farming repos for: " + user)
@@ -84,7 +87,7 @@ def makeProjectNew(d):
     try:
         color = str(d["count"]).zfill(4)
     except:
-        color = str(d["oompIndex"]).zfill(4)
+        color = str(d["oompColor"]).zfill(4)
     desc = "STAN"
     index = "01"
     try:
@@ -222,7 +225,7 @@ def createProjects():
             base["github"] = "https://github.com/" + company + "/"
             d = base.copy()
             d["repo"] = repo.replace("https://github.com/" + company + "/","").replace(".git","")
-            
+            d["repo"] = d["repo"].replace("https://github.com/" + company + "X/","").replace(".git","") ###### to fix sparkfun X repos
             d = processDir(outDir,d,company,code)
             if d != None:
                 run = False

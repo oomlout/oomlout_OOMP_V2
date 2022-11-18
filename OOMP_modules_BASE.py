@@ -1,5 +1,4 @@
 import OOMP
-
 import OOMP_modules_OOML
 
 from oomBase import *
@@ -42,7 +41,7 @@ def makeModule(d):
     contents = contents.replace("INDEXZZ",index)
     contents = contents.replace("HEXZZ",hexID)
 
-    extraTags = []
+    extraTags = d["extraTags"]
     tagString = ""
     for tag in extraTags:
         tagString = tagString + OOMP.getPythonLine(tagName=tag[0],tagValue=tag[1]) + "\n"

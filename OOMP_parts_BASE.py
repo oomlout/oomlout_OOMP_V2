@@ -102,6 +102,11 @@ def makePart(type="",size="",color="",desc="",index="",hexID="",extraTags=[],dic
 
 def getHexID(oompID):
     
+    ###### special exceptions
+    if "KLD1117" in oompID:
+        rv =  "VR1117" + oompID.replace("VREG-","").replace("SO","").replace("T252","252").replace("T220","220").replace("-X-KLD1117-","").replace("V","")
+        return rv
+
     list = []
     list.append(["CAPC-","C"])
     list.append(["LEDS-","L"])
@@ -161,4 +166,6 @@ def getHexID(oompID):
 
     for l in list:
         oompID = oompID.replace(l[0],l[1])
+
+    
     return oompID

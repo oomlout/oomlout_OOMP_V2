@@ -21,10 +21,9 @@ def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oom
     list.append(["VREG-SO235-X-KMIC5225",v])
     v= "V63D"
     list.append(["CAPC-0402-X-NF47D",v])
-    list.append(["CAPC-0402-X-UF1",v])
     list.append(["CAPC-0402-X-UF10",v])
-    list.append(["CAPC-0402-X-UF47D",v])
-    list.append(["CAPC-0603-X-UF10",v])
+    
+   
     list.append(["CAPC-0805-X-UF22",v])
     list.append(["CAPC-1206-X-UF100",v])
     list.append(["CAPE-05-X-UF1",v])
@@ -33,10 +32,9 @@ def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oom
     list.append(["CAPT-1206-X-UF47D",v])
     list.append(["CAPT-2917-X-UF470",v])
     v = "V10"
-    list.append(["CAPC-0402-X-UF1",v])
+    list.append(["CAPC-0402-X-UF47D",v])
     list.append(["CAPC-0603-X-UF10",v])
     list.append(["CAPC-0603-X-UF22D",v])
-    list.append(["CAPC-0603-X-UF47D",v])
     list.append(["CAPT-1206-X-UF10",v])
     list.append(["CAPT-1206-X-UF22",v])
     list.append(["CAPT-1210-X-UF10",v])
@@ -47,6 +45,7 @@ def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oom
     list.append(["CAPT-3216-X-UF10",v])
 
     v = "V16"
+    list.append(["CAPC-0603-X-UF47D",v])
     list.append(["CAPC-0402-X-NF100",v])
     list.append(["CAPC-0402-X-NF220",v])
     list.append(["CAPE-05-X-UF100",v])
@@ -61,9 +60,8 @@ def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oom
 
     v = "V25"
     list.append(["CAPC-0402-X-NF47",v])
+    list.append(["CAPC-0402-X-UF1",v])
     list.append(["CAPC-0603-X-NF220",v])
-    list.append(["CAPC-0603-X-UF1",v])
-    list.append(["CAPC-0805-X-UF1",v])
     list.append(["CAPC-0805-X-UF10",v])
     list.append(["CAPC-0805-X-UF22D",v])
     list.append(["CAPC-0805-X-UF47D",v])
@@ -76,6 +74,8 @@ def matchIndex(project,part,oompType="",oompSize="",oompColor="",oompDesc="",oom
     list.append(["CAPT-2312-X-UF22",v])
 
     v = "V50"
+    list.append(["CAPC-0805-X-UF1",v])
+    list.append(["CAPC-0603-X-UF1",v])
     list.append(["CAPC-0603-X-NF100",v])
     list.append(["CAPC-0805-X-NF100",v])    
     list.append(["CAPC-0402-X-NF1",v])

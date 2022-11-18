@@ -15,7 +15,7 @@ section.createAll()
 #section.generateAll()
 #section.harvestAll()
 
-itemID = "MODULE-POWE-KLD1117-SO23-01"
+itemID = "MODULE-POWE-KLD1117-SO223-V33D"
 
 item = OOMP.items[itemID]
 itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
@@ -24,6 +24,11 @@ print(itemDir)
 #section.create(item)
 #section.generate(item)
 #section.harvest(item)
+
+
+import OOMP_summaries
+section = OOMP_summaries
+section.generate(item)
 
 
 ######## TESTING

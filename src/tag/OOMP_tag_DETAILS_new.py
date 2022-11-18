@@ -21,6 +21,16 @@ def load(td):
     ###### desc
     cType = "desc"
 
+    ###### Diodes
+    cName = "1N4148";cCode = "K4148"
+    td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
+    cName = "RB520S30T1G";cCode = "KRB520S30T"
+    td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
+
+    cName = "SRV05-4 TVS Array";cCode = "KSRV05X4"
+    td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
+
+
     ###### Transistors
     cCode = "K5551";cName = "MMBT5551"
     td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
@@ -65,6 +75,10 @@ def load(td):
     cName = "IRLB8721";cCode = "K" + cName
     td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
     
+    ###### Sensors
+    cName = "L3GD20 3-Axis Gyroscope";cCode = "KL3GD20"
+    td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
+
     
     
     ###### index

@@ -117,6 +117,9 @@ def createSymbolLibrary(templateFile="templates/oomlout_OOMP_partsTEMPLATE.kicad
         if len(symbols) > 0:
             symbolID = symbols[0]
             try:
+                #keys = OOMP.items.keys() 
+                #for key in keys:
+                #    print(key)
                 symbol = OOMP.items[symbolID]
                 symbolID = symbol["oompID"][0]
                 if symbolID != "----":
@@ -137,6 +140,8 @@ def createSymbolLibrary(templateFile="templates/oomlout_OOMP_partsTEMPLATE.kicad
                         inSymbol = symIn.symbols[0]
                         oldID = inSymbol.id
                         ###### changing ID
+                        if "VREG-SO235" in oompID:
+                            pass
                         inSymbol.id = oompID + extra
                         for unit in inSymbol.units:
                             unit.id = unit.id.replace(oldID,oompID + extra)
@@ -161,28 +166,27 @@ def createSymbolLibrary(templateFile="templates/oomlout_OOMP_partsTEMPLATE.kicad
                 else:
                     pass
                 #print("Missing symbol: " + symbols[0].value)
-            except KeyError:
+            except KeyError as e:
+                #raise e
                 print("symbol not found: " + symbolID)
     symLib.to_file(outFile)
 
-def getDesc(part):
-    """
+def getDesc(part):    
+    
     hexID = part["hexID"][0]
-    desc = "hexID: " + hexID + ";"
-    tags = part[oplPartNumber]
+    oompID = part["oompID"][0]
+    name = part["name"][0]
+    desc = "oompID: " + oompID + ";" + "name: " + name + ";" + "hexID: " + hexID + ";"
+    tags = part["oplPartNumber"]
     if len(tags) > 0:
-        for tag in tags:
-            desc = desc + "PARTL " + tag.value["code"] + ";" + tag.value["partID"] + ";"
-    tags = part.getTags("distributerPartNumber")
+        for x in range(0,min(len(tags),3)):
+            desc = desc + str(tags[x])
+    tags = part["distributorPartNumber"]
     if len(tags) > 0:
-        for tag in tags:
-            desc = desc + "DISTR " + tag.value["code"] + ";" + tag.value["partID"] + ";"                            
-    tags = part.getTags("manufacturerPartNumber")
-    if len(tags) > 0:
-        for tag in tags:
-            if isinstance(tag.value,dict):
-                desc = desc + "MANUF " + tag.value["code"] + ";" + tag.value["partID"] + ";"                            
-            else:
-                desc = desc + "MANUF " + "C-XXXX" + ";" + tag.value + ";"                            
-    """
-    return ""
+        for x in range(0,min(len(tags),3)):
+            desc = desc + str(tags[x])
+    tags = part["manufacturerPartNumber"]
+    if len(tags) > 0:        
+        for x in range(0,min(len(tags),3)):
+            desc = desc + str(tags[x])
+    return desc

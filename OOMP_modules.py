@@ -41,10 +41,12 @@ def generate(item,overwrite=False):
 def harvestAll(overwrite=False):
     OOMP_projects.harvestAll(overwrite)
     print("Harvest all for: " + name)
-    for itemID in OOMP.items:
-    #for item in OOMP.itemsTypes["parts"]["items"]:
+    #for itemID in OOMP.items:
+    for itemID in OOMP.itemsTypes["modules"]["items"]:
         item = OOMP.items[itemID]
         harvest(item,overwrite)
 
 def harvest(item,overwrite=False):
-    pass
+    OOMP_kicad_BASE.renderPcbDraw(item,overwrite)
+    OOMP_kicad_BASE.makeInteractiveHtmlBom(item,overwrite)
+    OOMP_kicad_BASE.makeInteractiveHtmlBomImages(item,overwrite)

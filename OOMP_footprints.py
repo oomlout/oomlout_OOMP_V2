@@ -28,14 +28,17 @@ def create(item,overwrite=False):
 def generateAll(overwrite=False):
     print("Generate all for: " + name)
     #for itemID in OOMP.items:
-    for itemID in OOMP.itemsTypes["projects"]["items"]:
+    for itemID in OOMP.itemsTypes["eda"]["items"]:
         item = OOMP.items[itemID]
         generate(item,overwrite)
     OOMP_footprints_BASE.createFootprintLibraries()
     
-
+import OOMP_kicad_BASE
+from oomBase import *
 def generate(item,overwrite=False):
-    pass
+    ping()
+    OOMP_footprints_BASE.createFootprintBoardFile(item)
+    OOMP_kicad_BASE.svgKicadBoard(item,overwrite=overwrite)
 
 def harvestAll(overwrite=False):
     print("Harvest all for: " + name)

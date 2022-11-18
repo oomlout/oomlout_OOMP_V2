@@ -10,7 +10,7 @@ baseDir = "C:/GH/oomlout_OOMP_V2/"
 
 def getTag(item,tagName):
     try:
-        return items[item][tagName]
+        return item[tagName]
     except:
         return ""
 
@@ -179,8 +179,10 @@ def loadPickle():
     print("Loading Pickle")
     start = time.time()
     reload()
-    picklePartsFile = "sourceFiles/picklePartsOOMP.json"
-    items = json.loads(oomReadFileToString(picklePartsFile))
+    #picklePartsFile = "sourceFiles/picklePartsOOMP.json"
+    picklePartsFile = "sourceFiles/picklePartsOOMP.pickle"
+    f = open(picklePartsFile,"rb")
+    items = pickle.load(f)
     loadItemTypes()    
     print(getReport(startTime=start))
     pass
@@ -198,10 +200,17 @@ def makePickle(exclusions=True):
     loadItemTypes()            
     print(getReport(startTime=start))
     
-def exportPickle(picklePartsFile="sourceFiles/picklePartsOOMP.json"): 
+import pickle    
+
+def exportPickle(picklePartsFile="sourceFiles/picklePartsOOMP.pickle"): 
     if picklePartsFile == "":
-        picklePartsFile= "sourceFiles/picklePartsOOMP.json"
-    oomWriteToFile(picklePartsFile,json.dumps(items))
+        picklePartsFile= "sourceFiles/picklePartsOOMP.pickle"
+    #oomWriteToFile(picklePartsFile,json.dumps(items))
+    f = open(picklePartsFile,"wb")
+    pickle.dump(items,f)
+    f.close
+
+
 
 import keyboard
 
@@ -238,6 +247,8 @@ def copyAllFiles(exclusions = True):
                             oomCopyFile(inFile,outFile)
                             ping()
 
+import oomlout_OOMP_parts_V2.OOMP_parts_DISTRIBUTORNUMBERS
+
 def importAllFiles():
     print("    Importing Files")
     copyDir = "sourceFiles\\load\\"  # + l + "\\"
@@ -253,6 +264,7 @@ def importAllFiles():
                 items[newPart["oompID"][0]] = newPart
                 itemsHex[newPart["hexID"][0]] = newPart
             #importlib.reload(mod)
+    oomlout_OOMP_parts_V2.OOMP_parts_DISTRIBUTORNUMBERS.load(items)
 
 def makePythonSafe(string):
     rv = string
@@ -332,6 +344,7 @@ def exportTagsItem(item,filetype,tags):
         if contents2 != "":
             #print("    Exporting tags to: " + filename)
             ping()
+            contents2 = contents2.replace("}},","}},\n      ")
             oomWriteToFileUtf(filename,contents+contents2)
 
 

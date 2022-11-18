@@ -24,6 +24,7 @@ def create(item,overwrite=False):
 
 
 def generateAll(overwrite=False):
+    OOMP_csv_BASE.makeCSVSummaries()
     print("Generate all for: " + name)
     #for itemID in OOMP.items:
     for itemID in OOMP.itemsTypes["projects"]["items"]:

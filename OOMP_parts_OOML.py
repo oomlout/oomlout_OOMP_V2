@@ -9,6 +9,7 @@ import OOMP_parts_MCUU
 import OOMP_parts_VREG
 import OOMP_parts_MOSN
 import OOMP_parts_RESE
+import OOMP_parts_SENS
 import OOMP_parts_TRNN
 import OOMP_parts_XTAL
 
@@ -100,16 +101,7 @@ def createParts():
     ##############################
     ######  SENS
     if True:
-    ######
-    ###### ADXL345
-        type = "SENS";size = "LG14";color = "X";desc = "K345";index = "01";hexID = "SEN345"        
-        oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
-        datasheet = "sourceDatasheets/" + oompID + ".pdf"
-        extraTags = []
-        extraTags.append(["footprintKicad","FOOTPRINT-kicad-kicad-footprints-Package_LGA-LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y"])     
-        extraTags.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Sensor_Motion-ADXL343"])            
-        d = {"type" : type, "size" : size, "color" : color, "desc" : desc, "index" : index, "hexID" : hexID, "datasheet" : datasheet, "extraTags" : extraTags}
-        OOMP_parts_BASE.makePart(dict = d) 
+        OOMP_parts_SENS.addParts()
     ##############################
     ######  TERS
     if True:

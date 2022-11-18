@@ -216,3 +216,18 @@ def load(tn):
     tn[current]["name"] = "Parts as pulled from a BOM"
     tn[current]["description"] = "List of OOMP matched parts (eagleBom,kicadBom)(each entry in BOM has Part,Value,Device,Package,Description,BOM)"
     
+###### Modules
+    category = "MODULES"
+    current = "matchingBlock"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = category
+    tn[current]["name"] = "Matching Blocks"
+    tn[current]["description"] = "List of matching blocks fore this module"
+    current = "componentModules"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = category
+    tn[current]["name"] = "Component Modules"
+    tn[current]["description"] = "List of component modules."
+    

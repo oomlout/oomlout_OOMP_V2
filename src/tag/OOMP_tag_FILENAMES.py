@@ -227,6 +227,17 @@ def load(fn):
     fn[current]["defaultExtension"] = "kicad_pcb"
     fn[current]["filenameV1"] = ["oomlout_OOMP_projects/&&oompID&&/kicad/" + "boardKicad" + ".kicad_pcb"]
     fn[current]["generated"] = False
+    current = "kicadBoardSvg"
+    fn[current] = {}
+    fn[current]["filename"] = "src/kicadBoardSvg&&res&&.&&ext&&"
+    fn[current]["defaultExtension"] = "svg"    
+    fn[current]["generated"] = False
+    current = "kicadBoardFootprint"
+    fn[current] = {}
+    fn[current]["filename"] = "src/sourceFiles/kicadBoard.&&ext&&"
+    fn[current]["defaultExtension"] = "kicad_pcb"
+    fn[current]["generated"] = False
+    current = "kicadSchem"
     current = "kicadSchem"
     fn[current] = {}
     fn[current]["filename"] = "src/kicadSchem.&&ext&&"

@@ -93,7 +93,7 @@ def renderPcbDraw(project,overwrite):
     ###### need to  pip install pcbdraw in kicad consile and pip install pyvirtualdisplay, and Pillow
     oompID = project["oompID"][0]
     include = True
-    skips = ["ADAF-0723","ADAF-3501","ADAF-4991","ADAF-5100","SOPA-0010","SOPA-0012","SPAR-10412","SPAR-11013","SPAR-11259","SPAR-11260","SPAR-12634","SPAR-11013"]
+    skips = ["ADAF-0723","ADAF-3501","ADAF-4991","ADAF-5100","SOPA-0010","SOPA-0012","SPAR-10412","SPAR-11013","SPAR-11259","SPAR-11260","SPAR-12634","SPAR-11013","SPAR-13328","SPAR-14130","SPAR-16653","SPAR-9565"]
     for s in skips:
         if s in oompID:
             include = False
@@ -136,6 +136,7 @@ def convertAllEagleToKicad(overwrite=False):
     filter = "eagleBoard.brd"
     print("     Getting glob of files")
     files = glob.glob(OOMP.getDir("projects") + "\\**\\" + filter,recursive=True)
+    
     for file in files:
         convertEagleToKicad(file,style="brd",overwrite=overwrite)    
     print("Converting all eagleSchematic.sch files to kicad")
@@ -208,11 +209,16 @@ def convertEagleToKicad(filename,style="brd",overwrite=False):
 
 
 
-def harvestAllKicad(overwrite=False):
+def harvestAllKicad(overwrite=False,eda=False,fpFilter=[""]):
     print("Harvesting All Kicad Boards")
     filter = "kicadBoard.kicad_pcb"
     print("     Getting glob of files")
-    files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
+    files = []
+    if eda:
+        files.extend(glob.glob(OOMP.getDir("eda") + "**\\" + filter,recursive=True)    )        
+    else:
+        files.extend(glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True))
+        files.extend(glob.glob(OOMP.getDir("modules") + "**\\" + filter,recursive=True)    )
     skips = ["SOPA\\0010"]
     for file in files:
         fileSize = os.stat(file).st_size
@@ -221,14 +227,16 @@ def harvestAllKicad(overwrite=False):
             for skip in skips:
                 if skip in file:
                     include = False
-            if include:
-                print("Harverting Kicad Board: " + file)
-                harvestKicadBoard(file,overwrite=overwrite)    
+            if include:                
+                if any(ext in file for ext in fpFilter):
+                    print("Harverting Kicad Board: " + file)
+                    harvestKicadBoard(file,overwrite=overwrite,eda=eda)    
     print("Harvesting all Kicad Schematics")
     filter = "kicadBoard.kicad_sch"
     print("     Getting glob of files")
+    files = []
     files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
-    
+    files.extend(glob.glob(OOMP.getDir("modules") + "**\\" + filter,recursive=True))
     for file in files:
         fileSize = os.stat(file).st_size
         if fileSize > 2000:
@@ -237,29 +245,68 @@ def harvestAllKicad(overwrite=False):
                 print("Harvesting Kicad Schem: " + file)
                 harvestKicadSchem(file,overwrite=overwrite) 
 
-def harvestKicadBoard(filename="",overwrite=False):    
+def harvestKicadBoard(filename="",overwrite=False,eda=False):    
     filename = OOMP.baseDir + filename 
     dir = os.path.dirname(os.path.realpath(filename)) + "\\"
     dir = dir.replace("\\","/")
-    dirBase = dir.replace("src/","")
+    dirBase = dir.replace("src/sourceFiles/","")
+    dirBase = dirBase.replace("src/","")
     kicadBoard = filename
     print("Harvesting Kicad Board File: " + kicadBoard)
     if os.path.isfile(kicadBoard):
-        if overwrite or not os.path.isfile(dirBase + "kicadPcb3d.png")  or not os.path.isfile(dirBase + "src/kicadBoardBom.csv"):
+        run = False
+        if eda:
+            fileTest = dirBase + "src/kicadBoardSvg.svg"
+            run = overwrite or not os.path.isfile(fileTest)
+        else:
+            run = overwrite or not os.path.isfile(dirBase + "kicadPcb3d.png")  or not os.path.isfile(dirBase + "src/kicadBoardBom.csv")
+        if run:
             oomLaunchPopen("pcbnew.exe " + kicadBoard,10)
             oomMouseMove(pos=kicadFootprintMiddle,delay=2)
             oomSend("b",10)
             oomMouseClick(pos=kicadActive,delay=5)    
             filename = dir
             oomMakeDir(filename)
-            kicadExport(filename,"bom",overwrite=overwrite)
-            kicadExport(filename,"pos",overwrite=overwrite)                
+            if not eda:
+                kicadExport(filename,"bom",overwrite=overwrite)
+                kicadExport(filename,"pos",overwrite=overwrite)                
             kicadExport(filename,"svg",overwrite=overwrite)            
-            kicadExport(filename,"wrl",overwrite=overwrite)
-            kicadExport(filename,"step",overwrite=overwrite)
-            filename = dirBase
-            kicadExport(filename,"3dRender",overwrite=overwrite)
-            kicadClosePcb()
+            if not eda:
+                kicadExport(filename,"wrl",overwrite=overwrite)
+                kicadExport(filename,"step",overwrite=overwrite)
+                filename = dirBase
+                kicadExport(filename,"3dRender",overwrite=overwrite)
+            kicadClosePcb(eda=eda)    
+
+import svgutils.transform as st
+
+def svgKicadBoard(item,overwrite = False):
+    pass
+    kicadSVGBoard = OOMP.getFileItem(item,"kicadBoardSvg")
+    if overwrite or not os.path.isfile(kicadSVGBoard):
+        pass
+        base = OOMP.getFileItem(item,"") + "src/kicadBoard"
+        first = "-B_Cu.svg"
+        if not os.path.isfile(base + first):
+            base = OOMP.getFileItem(item,"") + "src/sourceFiles/kicadBoard"
+        if os.path.isfile(base + first):
+            start = base+first
+            template = st.fromfile(start)
+            
+            layers = ["-B_Adhesive.svg","-B_Courtyard.svg","-B_Fab.svg","-B_Mask.svg","-B_Paste.svg","-B_Silkscreen.svg","-Edge_Cuts.svg","-F_Adhesive.svg","-F_Courtyard.svg","-F_Cu.svg","-F_Fab.svg","-F_Mask.svg","-F_Paste.svg","-F_Silkscreen.svg","-Margin.svg","-F_Cu.svg"]
+            for layer in layers:
+                layerFile = base + layer
+                second_svg = st.fromfile(layerFile)
+                template.append(second_svg.root)                
+            template.save(kicadSVGBoard)
+            kicadPNGBoard = OOMP.getFileItem(item,"kicadBoardSvg",extension="png")
+            kicadPDFBoard = OOMP.getFileItem(item,"kicadBoardSvg",extension="pdf")
+            oomMakePNG(kicadSVGBoard,kicadPNGBoard)
+            oomMakePDF(kicadSVGBoard,kicadPDFBoard)
+        else:
+            pass
+            #print("     svgKicadBoard: svg files not found")
+
 
 def harvestKicadSchem(file="",directory="",part="",overwrite=False,filter="projects"):
     
@@ -271,8 +318,13 @@ def harvestKicadSchem(file="",directory="",part="",overwrite=False,filter="proje
         directory = part.getDir()
 
     else:
-        dirKicad =   OOMP.baseDir + directory + "kicad/"
-        kicadBoard = dirKicad + "schematicKicad.kicad_sch"
+        if directory == "":
+            directory = os.path.dirname(file) + "/"
+        #dirKicad =   OOMP.baseDir + directory + "kicad/"
+        kicadBoard = directory + "schematicKicad.kicad_sch"
+        if not os.path.isfile(kicadBoard):
+            kicadBoard = directory + "kicadBoard.kicad_sch"
+
     imageFile = directory + "kicadSchem.png"
     print("Harvesting Kicad Board File: " + kicadBoard)
     if os.path.isfile(kicadBoard) and (overwrite or True):
@@ -301,14 +353,17 @@ def harvestKicadSchem(file="",directory="",part="",overwrite=False,filter="proje
 
 
 ###################### general kicad routines
-def kicadClosePcb(noSave=True):
+def kicadClosePcb(noSave=True,eda=False):
     #oomSendAltKey("f",2)
     oomMouseClick(pos=kicadFile,delay=5)
     oomSendUp(delay=2)
     oomSendEnter(delay=2)
     if noSave:
         oomSendRight(delay=2)
-    oomSendEnter(delay=20)
+    if eda:
+        oomSendEnter(delay=5)
+    else:
+        oomSendEnter(delay=20)
 
 def kicadExport(filename,type,overwrite=False):
     if type.lower() == "bom":        
