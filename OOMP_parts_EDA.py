@@ -47,8 +47,8 @@ def matchFootprint(part):
             addHEADJSTXH(part,dict)
         if "HEAD-JSTSH" in oompID and oompIndex == "SM":
             addHEADJSTSH(part,dict)
-        if "HEAD-JSTSHR" in oompID and oompIndex == "RS":
-            addHEADJSTSH(part,dict)
+        if "HEAD-JSTSH" in oompID and oompIndex == "RS":
+            addHEADJSTSHR(part,dict)
         if "LEDS-03" in oompID:
             addLEDS03(part,dict)
         if "LEDS-05" in oompID:
@@ -324,8 +324,8 @@ def addHEADSymbols(part,dict):
                     
         else:
             symbols = []
-            symbols.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male"])
             symbols.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Connector_Generic-Conn_01x" + pinss + ""])
+            symbols.append(["symbolKicad","SYMBOL-kicad-kicad-symbols-Connector-Conn_01x" + pinss + "_Male"])            
             addEdaTags(part=newPart,tags=symbols)
 
 
@@ -383,7 +383,8 @@ def addHEAD01(part,dict):
                 if os.path.isfile(imageFile):
                     addEdaTags(newPart["footprintEagle","FOOTPRINT-eagle-Pimoroni-Eagle-Library-pimoroni-headers-1" + pinss + style])
             
-            addEdaTags(newPart,["footprintKicad","FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_1x" + pinss + "_P2.54mm_Vertical"])
+            kicadFootprint = "FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_1x" + pinss + "_P2.54mm_Vertical"
+            addEdaTags(newPart,["footprintKicad",kicadFootprint])
     else:
         pinss = oompDesc.replace("PI2X","")
         newPart = part

@@ -37,14 +37,14 @@ def addParts():
     ######### 2812 LEDs
     #####################################################################    
     type = "LEDS";size = "";color = "X";desc = "K2812";index = "01";hexID = ""
-    oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
-    datasheet = "sourceDatasheets/" + oompID + ".pdf"
     list = sizes = ["3535"]
     list2 = colours = ["RGB"]
     for l in list:
         size = l
         for ll in list2:
             color = ll
+            oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
+            datasheet = "sourceDatasheets/" + oompID + ".pdf"    
             extraTags = []
             oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index
             hexID = OOMP_parts_BASE.getHexID(oompID)

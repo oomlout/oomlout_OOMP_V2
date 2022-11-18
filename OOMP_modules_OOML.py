@@ -160,12 +160,12 @@ def makeModules():
     d = {}
     d["oompType"] = "MODULE";    d["oompSize"] = "CONN"
     d["oompColor"] = "I2C";    d["oompDesc"] = "QWIIC"
-    d["oompIndex"] = "01";    d["hexID"] = "MCQI01"
+    d["oompIndex"] = "01";    d["hexID"] = "MCQ01"
     d["name"] = "Connector Module I2C QWIIC"    
     d["extraTags"] = []
     d["extraTags"].append(["matchingBlock","BLOCK-CONN-I2C-STAN-01"])
     oompParts = {}
-    oompParts["J1"] = {"OOMPID" : "HEAD-JSTSH-X-PI04-RS"}    
+    oompParts["J1"] = {"OOMPID" : "HEAD-JSTSH-X-PI04-01"}    
     d["extraTags"].append(["oompParts",oompParts]) 
     OOMP_modules_BASE.makeModule(d)
         ######  I2C
