@@ -5,13 +5,14 @@ from oomBase import *
 
 oomRuntime(mode="start")
 
-#make = True
-make = False
+make = True
+#make = False
 
 if make:
     OOMP.makePickle()
 else:
     OOMP.loadPickle()
+
 
 
 
@@ -31,8 +32,8 @@ def partsAndProjects():
     listOfRuns.append(OOMP_summaries)
     OOMP_task_BASE.all(listOfRuns=listOfRuns,preMake=False,make=True,create=True,generate=True,harvest=False,fast=False)
 
-#all()
-OOMP_task_BASE.generate()
+all()
+#OOMP_task_BASE.generate()
 #all()
 #partsAndProjects()
 

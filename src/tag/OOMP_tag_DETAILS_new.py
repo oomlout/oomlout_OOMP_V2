@@ -18,6 +18,8 @@ def load(td):
 
     cCode = "";cName = ""
     td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
+    cCode = "003";cName = "003"
+    td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
     ###### desc
     cType = "desc"
 
@@ -30,7 +32,10 @@ def load(td):
     cName = "SRV05-4 TVS Array";cCode = "KSRV05X4"
     td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
 
-
+    ###### MCU
+    cName = "CH32V";cCode = "K" + cName
+    td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName
+    
     ###### Transistors
     cCode = "K5551";cName = "MMBT5551"
     td[cType][cCode] = {};td[cType][cCode]['code'] = cCode;td[cType][cCode]['name'] = cName;td[cType][cCode]['description'] = cName

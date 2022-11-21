@@ -55,7 +55,8 @@ def generateAll(overwrite=False):
 
 def generate(item,overwrite=False):
     OOMP_projects_partsHarvest_BASE.harvestParts(item)
-    OOMP_projects_partsMatch.matchParts(item)
+    OOMP_projects_partsMatch.matchParts(item)    
+    OOMP_kicad_BASE.svgKicadBoard(item,overwrite=overwrite)
     
     
 

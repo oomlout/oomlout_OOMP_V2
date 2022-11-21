@@ -121,7 +121,7 @@ def one(section):
 #########################
 #########################
 
-OOMP.loadPickle()
+#OOMP.loadPickle()
 
 #sectiosbsn = OOMP_collections
 section = OOMP_csv
@@ -130,7 +130,7 @@ section = OOMP_csv
 #section = OOMP_summaries
 #section = OOMP_json
 #section = OOMP_images
-one(section)
+#one(section)
 #section.makeAll()    
 #section.createAll()
 #section.generateAll()

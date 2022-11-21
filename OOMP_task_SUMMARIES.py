@@ -2,8 +2,8 @@ import OOMP
 import OOMP_summaries
 
 
-#OOMP.makePickle()
-OOMP.loadPickle()
+OOMP.makePickle()
+#OOMP.loadPickle()
 
 
 section = OOMP_summaries
@@ -13,7 +13,7 @@ section = OOMP_summaries
 #section.makeAll()    
 #section.createAll()
 #OOMP.makePickle()
-#section.generateAll()
+section.generateAll()
 #OOMP.makePickle()
 #section.harvestAll()
 

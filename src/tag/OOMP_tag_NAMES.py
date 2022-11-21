@@ -69,6 +69,12 @@ def load(tn):
     tn[current]["category"] = category
     tn[current]["name"] = current
     tn[current]["description"] = current
+    current = "tags"
+    tn[current] = {}
+    tn[current]["code"] = current
+    tn[current]["category"] = category
+    tn[current]["name"] = current
+    tn[current]["description"] = current
 
 ###### Collection Ones
     category = "COLLECTION"

@@ -90,7 +90,7 @@ def addDPNSearch(item,mdFile):
     linkText = ""
     mpn = item["name"][0].replace(" ","+").replace("(","").replace(")","")
     ###### Aliexpress
-    linkStart = "https://www.aliexpress.com/wholesale?SearchText=1117"
+    linkStart = "https://www.aliexpress.com/wholesale?SearchText="
     link = linkStart + mpn
     text = "(Aliexpress) "
     linkText = linkText + osb.getLink(text,link) + "&nbsp;&nbsp;&nbsp;"
@@ -375,31 +375,30 @@ def addOOMPPartsList(item,mdFile):
     tags.append("Designators")
     try:
         oompParts = item["oompParts"][0]
-        if len(oompParts) > 0:
-            uniqueParts = []
-            
-            for part in oompParts:
-                if oompParts[part]["OOMPID"] not in uniqueParts:
-                    uniqueParts.append(oompParts[part]["OOMPID"])
-            uniqueParts.sort()
-            for partID in uniqueParts:
-                try:
-                    part = OOMP.items[partID]
-                    link = OOMP.getFileItem(part,"",relative="github")
-                except KeyError:
-                    part= ""
-                    link = ""
-                image= osb.getImageItem(part,"image",link=False)
-                text= partID
-                designators = ""
-                for testPart in oompParts:
-                    if oompParts[testPart]["OOMPID"] == partID:
-                        designators = designators + testPart + ","
-                if designators != "":
-                    designators = designators[0:-1]
-                tags.append(osb.getLink(image,link))
-                tags.append(osb.getLink(text,link))
-                tags.append(osb.getLink(designators,link))
-            osb.addDisplayTable(mdFile,tags,3,align="left")
+        uniqueParts = []
+        
+        for part in oompParts:
+            if oompParts[part]["OOMPID"] not in uniqueParts:
+                uniqueParts.append(oompParts[part]["OOMPID"])
+        uniqueParts.sort()
+        for partID in uniqueParts:
+            try:
+                part = OOMP.items[partID]
+                link = OOMP.getFileItem(part,"",relative="github")
+            except KeyError:
+                part= ""
+                link = ""
+            image= osb.getImageItem(part,"image",link=False)
+            text= partID
+            designators = ""
+            for testPart in oompParts:
+                if oompParts[testPart]["OOMPID"] == partID:
+                    designators = designators + testPart + ","
+            if designators != "":
+                designators = designators[0:-1]
+            tags.append(osb.getLink(image,link))
+            tags.append(osb.getLink(text,link))
+            tags.append(osb.getLink(designators,link))
+        osb.addDisplayTable(mdFile,tags,3,align="left")
     except IndexError:
         print("       Skipping because it's a block")

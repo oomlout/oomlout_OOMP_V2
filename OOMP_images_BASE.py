@@ -34,7 +34,6 @@ def generateResolutions(inFile,overwrite=False):
                 hsize = int((float(img.size[1]) * float(wpercent)))
                 img = img.resize((basewidth, hsize), Image.ANTIALIAS)
                 img.save(outFile)
-            except:
-                print("        Error in scaling png: " + infile)
+            except:print("        Error in scaling png: " + inFile)
         
 

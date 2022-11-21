@@ -15,15 +15,15 @@ section = OOMP_projects
 
 #section.preMakeAll()
 #section.makeAll()    
-section.createAll()
+#section.createAll()
 #section.generateAll()
 #section.harvestAll()
 
 itemID = "PROJ-ADAF-1032-STAN-01"
-itemID = "PROJ-SPAR-19921-STAN-01"
+#itemID = "PROJ-SPAR-19921-STAN-01"
 #itemID = "PROJ-ADAF-1431-STAN-01"
-itemID = "PROJ-ELLA-0003-STAN-01"
-itemID = "PROJ-PDP7-0001-STAN-01"
+#itemID = "PROJ-ELLA-0003-STAN-01"
+#itemID = "PROJ-PDP7-0001-STAN-01"
 item = OOMP.items[itemID]
 itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
 print(itemDir)

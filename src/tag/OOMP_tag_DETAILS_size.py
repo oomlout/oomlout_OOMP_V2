@@ -3123,6 +3123,11 @@ def load(td):
     td['size']['QFN16']['name'] = '16 Pin SMD (QFN)'
     td['size']['QFN16']['description'] = '16 Pin SMD (QFN)'
 
+    td['size']['QFN20'] = {}
+    td['size']['QFN20']['code'] = 'QFN20'
+    td['size']['QFN20']['name'] = '20 Pin SMD (QFN)'
+    td['size']['QFN20']['description'] = '20 Pin SMD (QFN)'
+    
     td['size']['QFN24'] = {}
     td['size']['QFN24']['code'] = 'QFN24'
     td['size']['QFN24']['name'] = '24 Pin SMD (QFN)'

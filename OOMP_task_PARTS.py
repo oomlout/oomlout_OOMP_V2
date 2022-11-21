@@ -2,8 +2,8 @@ import OOMP
 import OOMP_parts
 
 
-#OOMP.makePickle()
-OOMP.loadPickle()
+OOMP.makePickle()
+#OOMP.loadPickle()
 
 
 section = OOMP_parts
@@ -12,10 +12,10 @@ section = OOMP_parts
 #OOMP_task_BASE.one(section)
 #section.makeAll()    
 
-section.createAll()
-OOMP.makePickle()
-section.generateAll()
-OOMP.makePickle()
+#section.createAll()
+#OOMP.makePickle()
+#section.generateAll()
+#OOMP.makePickle()
 #section.harvestAll()
 
 
@@ -25,6 +25,7 @@ itemID = "VREG-SO223-X-KLD1117-V12D"
 itemID = "MCUU-SC14-84-ATTINY-01"
 itemID = "HEAD-JSTSH-X-PI04-RS"
 itemID = "HEAD-I01-X-PI04-01"
+itemID = "MCUU-SP08-003-KCH32V-01"
 
 item = OOMP.items[itemID]
 itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
