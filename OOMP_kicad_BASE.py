@@ -159,8 +159,10 @@ def convertEagleToKicad(filename,style="brd",overwrite=False):
         kicadBoard = dir + "kicadBoard.kicad_sch"
     
     boardEagle = filename
-    print(    "HarvestEagleBoardToKicad: " + filename)
+    ping()
     if (overwrite or not os.path.exists(kicadBoard)) and os.path.exists(boardEagle):
+        print(    "HarvestEagleBoardToKicad: " + filename)
+
         oomLaunchKicad()
         oomDelay(10)
         oomMouseClick(pos=kicadActive,delay=5)       
