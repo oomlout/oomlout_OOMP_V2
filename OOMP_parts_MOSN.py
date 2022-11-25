@@ -62,7 +62,7 @@ def addParts():
 
     ######### IRLB8721
     #####################################################################
-    type = "MOSN";size = "T220";color = "X";desc = "K30N06L";index = "01";hexID = "MN8721"
+    type = "MOSN";size = "T220";color = "X";desc = "KIRLB8721";index = "01";hexID = "MN8721"
     oompID = type + "-" + size + "-" + color + "-" + desc + "-" + index 
     datasheet = "sourceDatasheets/" + oompID + ".pdf"
     extraTags = []

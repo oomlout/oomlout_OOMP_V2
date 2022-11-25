@@ -160,7 +160,7 @@ def makeModules():
     d = {}
     d["oompType"] = "MODULE";    d["oompSize"] = "CONN"
     d["oompColor"] = "I2C";    d["oompDesc"] = "QWIIC"
-    d["oompIndex"] = "01";    d["hexID"] = "MCQ01"
+    d["oompIndex"] = "01";    d["hexID"] = "MCQ"
     d["name"] = "Connector Module I2C QWIIC"    
     d["extraTags"] = []
     d["extraTags"].append(["matchingBlock","BLOCK-CONN-I2C-STAN-01"])

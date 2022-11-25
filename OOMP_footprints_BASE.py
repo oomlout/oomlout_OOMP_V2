@@ -132,7 +132,7 @@ def createFootprintBoardFile(item):
     
             board.to_file(outFile)
         except UnicodeDecodeError:
-            print("       Unicode Error: " + item["oompID"])
+            print("       Unicode Error: " + item["oompID"][0])
 
 def createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_parts.pretty/",style=""):
     outDir = directory

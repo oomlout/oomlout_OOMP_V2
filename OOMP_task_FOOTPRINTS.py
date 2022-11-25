@@ -11,8 +11,8 @@ section = OOMP_footprints
 #OOMP_task_BASE.all(make=Trus,create=True)
 #OOMP_task_BASE.one(section)
 #section.makeAll()    
-section.createAll()
-OOMP.makePickle()
+#section.createAll()
+#OOMP.makePickle()
 section.generateAll()
 #section.harvestAll()
 
@@ -24,9 +24,9 @@ itemID = "FOOTPRINT-kicad-kicad-footprints-Connector_PinHeader_2.54mm-PinHeader_
 item = OOMP.items[itemID]
 itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
 print(itemDir)
-section.make(item)    
-section.create(item)
-section.generate(item)
+#section.make(item)    
+#section.create(item)
+#section.generate(item)
 #section.harvest(item)
 
 import OOMP_summaries

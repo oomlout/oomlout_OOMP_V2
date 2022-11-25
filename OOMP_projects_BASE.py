@@ -355,4 +355,8 @@ def copyBaseFilesProject(project):
                 if os.path.exists(inFile):
                     oomMakeDir(os.path.dirname(outFile))
                     oomCopyFile(inFile,outFile)
+                    if prog + type == "kicadBoard":
+                        inFile = "templates/kicadBoard.kicad_pro"
+                        outFile = outFile.replace("kicadBoard.kicad_pcb","kicadBoard.kicad_pro")
+                        oomCopyFile(inFile,outFile)
 
