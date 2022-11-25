@@ -49,5 +49,12 @@ def harvestAll(overwrite=False):
 
 def harvest(item,overwrite=False):
     type = item["oompType"][0]
+    skips = ["CBI-RIGHT-ANGLE-PTH","PI_HAT_SPECIFICATION"]
     if type == "FOOTPRINT":
-        OOMP_automation_KICAD_footprints.harvestKicadFootprint(item)
+        include = True
+        oompID = item["oompID"][0]
+        for s in skips:
+            if s.upper() in oompID.upper():
+                include = False
+        if include:
+            OOMP_automation_KICAD_footprints.harvestKicadFootprint(item)

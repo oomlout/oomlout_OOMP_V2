@@ -2,6 +2,8 @@ import OOMP
 import os
 import glob
 
+import OOMP_kicad_CLI
+
 from oomBase import *
 
 kicadActive =[515,14]

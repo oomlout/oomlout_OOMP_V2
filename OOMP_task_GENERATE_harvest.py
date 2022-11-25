@@ -21,3 +21,4 @@ itemDir = OOMP.getFileItem(item,"",relative="full").replace("/","\\")
 print(itemDir)
 
 #section.harvest(item)
+k
