@@ -14,14 +14,14 @@ kicad3dView = [145,35]
 def makeInteractiveHtmlBom(project,overwrite=False):
     kicadPython = "C:/Program Files/KiCad/6.0/bin/python.exe"
     ###### git clone https://github.com/openscopeproject/InteractiveHtmlBom
-    interactiveBom = '"C:/GH/oomlout_OOMP/sourceFiles/InteractiveHtmlBom/InteractiveHtmlBom/generate_interactive_bom.py" --no-browser'
+    interactiveBom = '"sourceFiles/InteractiveHtmlBom/InteractiveHtmlBom/generate_interactive_bom.py" --no-browser'
     projectFile = OOMP.getFileItem(project,"kicadBoard",relative = "full")
     bomFile = OOMP.getFileItem(project,"ibom",relative="full")
     if os.path.isfile(projectFile): 
         if overwrite or not os.path.isfile(bomFile):
             launchString = '"' + kicadPython + '" ' + interactiveBom + ' "' + projectFile + '"'
             launchString = launchString.replace("/","\\")
-            #print("Generating Interactive BOM: " + projectFile)
+            print("Generating Interactive BOM: " + projectFile)
             process = subprocess.Popen(launchString, shell=True, stdout=subprocess.PIPE)
             process.wait()
 
@@ -139,9 +139,20 @@ def convertAllEagleToKicad(overwrite=False):
     print("     Getting glob of files")
     files = glob.glob(OOMP.getDir("projects") + "\\**\\" + filter,recursive=True)
     
+    
     for file in files:
-        convertEagleToKicad(file,style="brd",overwrite=overwrite)    
+        skips = [""]
+        include = True
+        for skip in skips:
+            if skip in file:
+                include = False
+
+        if include:        
+            convertEagleToKicad(file,style="brd",overwrite=overwrite)    
+    
     print("Converting all eagleSchematic.sch files to kicad")
+    
+    
     filter = "eagleSchem.sch"
     print("     Getting glob of files")
     files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
@@ -215,7 +226,9 @@ def convertEagleToKicad(filename,style="brd",overwrite=False):
         ###### close project
         kicadClosePcb(False)
     else:
-        print("        SKIPPING")
+        pass
+        #
+        # print("        SKIPPING")
     
 
 
@@ -242,8 +255,8 @@ def harvestAllKicad(overwrite=False,eda=False,fpFilter=[""]):
                     include = False
             if include:                
                 if any(ext in file for ext in fpFilter):
-                    print("Harverting Kicad Board: " + file)
-                    
+                    #print("Harverting Kicad Board: " + file)
+
                     harvestKicadBoard(file,overwrite=overwrite,eda=eda)    
     print("Harvesting all Kicad Schematics")
     filter = "kicadBoard.kicad_sch"
@@ -260,7 +273,7 @@ def harvestAllKicad(overwrite=False,eda=False,fpFilter=[""]):
                 if skip in file:
                     include = False
             if include:
-                print("Harvesting Kicad Schem: " + file)
+                #print("Harvesting Kicad Schem: " + file)
                 harvestKicadSchem(file,overwrite=overwrite) 
 
 def harvestKicadBoard(filename="",overwrite=False,eda=False):    
@@ -270,7 +283,7 @@ def harvestKicadBoard(filename="",overwrite=False,eda=False):
     dirBase = dir.replace("src/sourceFiles/","")
     dirBase = dirBase.replace("src/","")
     kicadBoard = filename
-    print("Harvesting Kicad Board File: " + kicadBoard)
+    ping()
     if os.path.isfile(kicadBoard):
         ###### add frameless kicad pro
         inFile = "templates/kicadBoard.kicad_pro"
@@ -283,7 +296,9 @@ def harvestKicadBoard(filename="",overwrite=False,eda=False):
         else:
             run = overwrite or not os.path.isfile(dirBase + "kicadPcb3d.png")  or not os.path.isfile(dirBase + "src/kicadBoardBom.csv")
         if run:
+            print("Harvesting Kicad Board File: " + kicadBoard)
             oomLaunchPopen("pcbnew.exe " + kicadBoard,10)
+            oomSendEnter(delay = 5)
             oomMouseMove(pos=kicadFootprintMiddle,delay=2)
             oomSend("b",10)
             oomMouseClick(pos=kicadActive,delay=5)    
@@ -370,14 +385,15 @@ def harvestKicadSchem(file="",directory="",part="",overwrite=False,filter="proje
             kicadBoard = directory + "kicadBoard.kicad_sch"
 
     imageFile = directory + "kicadSchem.png"
-    print("Harvesting Kicad Board File: " + kicadBoard)
+    ping()
     if os.path.isfile(kicadBoard) and (overwrite or True):
         if overwrite or not os.path.isfile(imageFile):
+
             ###### add frameless kicad pro
             inFile = "templates/kicadBoard.kicad_pro"
             outFile = kicadBoard.replace("kicadBoard.kicad_sch","kicadBoard.kicad_pro")
             oomCopyFile(inFile,outFile)
-            
+
             oomLaunchPopen("eeschema.exe " + kicadBoard,10)
             oomMouseMove(pos=kicadFootprintMiddle,delay=2)
             oomMouseMove(pos=kicadActive,delay=2)

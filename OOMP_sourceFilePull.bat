@@ -1,0 +1,2 @@
+cd sourceFiles
+git pull
