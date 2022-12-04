@@ -101,25 +101,6 @@ PROJ-COMPANY CODE-ID-DESCRIPTION-VERSION
 	At the moment Sparkfun and Adafruit are harvested and back indexed based on their website product ID. All others are defined manually in their OOMP_projects_CODE.py file
 
 
-
-
-
-
-## Building from zero
-
-### Parts
-
-	need a csv of JLC's basic parts, in modules.
-	
-	###### Finished
-	
-	OOMP_parts.make()
-	OOMP_parts_JLCC
-	
-	###### Required Files
-	CSV of JLC Parts.
-	C:\GH\oomlout_OOMP_V2\oomlout_OOMP_collections_V2\COLLECTION-PARTL-JLCC-BASIC-01\current.csv
-	
 ### oomlout_OOMP_eda_V2
 https://github.com/oomlout/oomlout_OOMP_eda_V2/	
 
