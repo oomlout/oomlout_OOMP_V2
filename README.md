@@ -3,9 +3,15 @@
 
 ## Structure
 
-### Part
+Oomp is now split into 9 repositories the 4 main ones are:
 
-A part is defined by its ID from which it's name can be back generated. (these links are contained in the \codes folder)
+### oomlout_OOMP_parts_V2
+
+This contains a classification of parts to better describe electronics projects. 
+
+#### Each Part
+
+A part is defined by its ID from which it's name can be back generated. (these links are contained in the \src\tag folder and sumarized in [readmeCodes.md](readmeCodes.md)
 
 A part also has a a list of tags that defines it. These tags are defined in the details.py file in the parts folder (\parts). This can be a list of tags or calls to a routine that defines a group of tags based on a category. (ie. HEAD-I01-X-PI03-01 calls OOMPtags.addTags(newPart,"HEAD-I01-X-X-X",pins=pins))
 
@@ -20,6 +26,8 @@ A part's ID has five parts
 	* COLOR - This is the parts color or material (Ex. R - Red, M - Metal ) (Default X)
 	* DESCRIPTION - This is a defining charachteristic of the part and is the same across a type (Ex. (HEAD) PI03 - 3 Pins, (RESE) O561 - 560 Ohms) (Default XXXX)
 	* INDEX - This is an additional piece of information that differentiates a part and can change within type (Ex. 67 - 1% tolerance, RA - right angle) (Default 01)
+
+	More details can be found in [readmeCodes.md](readmeCodes.md)
 
 ### Name
 

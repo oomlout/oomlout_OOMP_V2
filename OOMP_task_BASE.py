@@ -40,6 +40,8 @@ import OOMP_images
 sections.append(OOMP_images)
 import OOMP_modules
 sections.append(OOMP_modules)
+import OOMP_tags
+sections.append(OOMP_tags)
 
 
 ###########################
