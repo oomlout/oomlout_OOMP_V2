@@ -3,9 +3,10 @@
 
 ## Structure
 
-Oomp is now split into 9 repositories the 4 main ones are:
+Oomp is now split into 9 repositories:
 
 ### oomlout_OOMP_parts_V2
+https://github.com/oomlout/oomlout_OOMP_parts_V2/
 
 This contains a classification of parts to better describe electronics projects. 
 
@@ -15,7 +16,7 @@ A part is defined by its ID from which it's name can be back generated. (these l
 
 A part also has a a list of tags that defines it. These tags are defined in the details.py file in the parts folder (\parts). This can be a list of tags or calls to a routine that defines a group of tags based on a category. (ie. HEAD-I01-X-PI03-01 calls OOMPtags.addTags(newPart,"HEAD-I01-X-X-X",pins=pins))
 
-### ID
+##### ID
 
 A part's ID has five parts
 
@@ -29,7 +30,7 @@ A part's ID has five parts
 
 	More details can be found in [readmeCodes.md](readmeCodes.md)
 
-### Name
+#### Name
 
 A part's name is back calculated from its ID.
     
@@ -39,11 +40,7 @@ A part's name is back calculated from its ID.
 	* LEDS-10-R-FROS-01 - 10 mm Frosted Red LED
 	* HEAD-I01-X-PI03-RA - 2.54 mm 3 Pin Header Right Angle
 
-### Tags
-
-A tag consists of a name and a value. Some tags are further defined in a sperate file these are in \codes
-
-### Part Files
+#### Part Files
 
 * Summaries
 	Readme's are generated using mdutils (https://github.com/didix21/mdutils). Generation is done in OOMPsummaries.py
@@ -78,9 +75,33 @@ A tag consists of a name and a value. Some tags are further defined in a sperate
 	
 * Labels
 	Labels are generated using tags and templates these are in templates/label/ they are svgs and use search and replace to generate labels. (%%ID%% is replaced by part ID and tags are format @@%%ID%%,oompPart.oompID,tagName@@). From the svgs pdfs are generated.
-	* label-front.svg (generated)  --  A label for the front of a bag.
 	* label-inventory.svg (generated)  --  A label for keeping inventory organized.
-	* label-spec.svg (generated)  --  A label listing part specifications.
+
+### oomlout_OOMP_projects_V2
+https://github.com/oomlout/oomlout_OOMP_projects_V2/
+
+This contains a repository of coded projects. Each projects OOMP ID is
+
+PROJ-COMPANY CODE-ID-DESCRIPTION-VERSION
+
+* PROJ - This marks it as a project
+* COMPANY CODE - Four letter company code current companies:
+	* ADAF - Adafruit - https://github.com/adafruit
+	* DANP - Dangerous Prototypes - https://github.com/DangerousPrototypes
+	* ELLA - Electro Lama - https://github.com/electrolama
+	* HYDR - Hydrabus - https://github.com/hydrabus/hydrabus
+	* IBBC - Inventoryless breakout board company
+	* OOML - Oomlout - https://github.com/oomlout/
+	* OSOB - Oddly Specific Objects - https://github.com/joeycastillo/
+	* PDP7 - PDP7 - https://github.com/pdp7/
+	* SIRB - Sir Board - https://github.com/sirboard/
+	* SOPA - Solder Party - https://github.com/solderparty
+	* SPAR - Sparkfun and SparkfunX - https://github.com/sparkfun
+
+	At the moment Sparkfun and Adafruit are harvested and back indexed based on their website product ID. All others are defined manually in their OOMP_projects_CODE.py file
+
+
+
 
 * EDA
 	Not developed yet.
@@ -121,7 +142,62 @@ https://github.com/mvnmgrx/kiutils
 	CSV of JLC Parts.
 	C:\GH\oomlout_OOMP_V2\oomlout_OOMP_collections_V2\COLLECTION-PARTL-JLCC-BASIC-01\current.csv
 	
+### oomlout_OOMP_eda_V2
+https://github.com/oomlout/oomlout_OOMP_eda_V2/	
+
+This contains details on footprint and symbol libraries.
+
+Each Footprint is defined by:
+
+	FOOTPRINT-VENDORFORMAT-COMPANY-LIBRARY-FOOTPRINTNAME
+
+	This isn't great as lots of libraries and names have "-"'s in them
+
+Each Symbol is defined by:
+
+	SYMBOL-VENDORFORMAT-COMPANY-LIBRAYR-SYMBOLNAME
+
+	This isn't great as lots of libraries and names have "-"'s in them
 	
+### oomlout_OOMP_collections_V2
+https://github.com/oomlout/oomlout_OOMP_collections_V2/	
+
+These are collections of oomp items that make sense to be together
+
+Examples:
+	All projects with a qwiic compatible connector:
+	https://github.com/oomlout/oomlout_OOMP_collections_V2/tree/main/COLLECTION/CONN/QWIIC/STAN/01
+	All Parts in the JLC Basic Library currently in OOMP
+	https://github.com/oomlout/oomlout_OOMP_collections_V2/tree/main/COLLECTION/PARTL/JLCC/BASIC/01
+	All parts with an ATTiny84
+	https://github.com/oomlout/oomlout_OOMP_collections_V2/tree/main/COLLECTION/MCUU/ATTINY84/STAN/01
 	
+### oomlout_OOMP_kicad_V2
+https://github.com/oomlout/oomlout_OOMP_kicad_V2/
+
+This contains footprint libraries that are generated from OOMP details.
+
+Examples:
+	All parts in OOMP and JLC basic library with JLC ID in their footprint name (symbol file in base directory)
+	https://github.com/oomlout/oomlout_OOMP_kicad_V2/tree/main/oomlout_OOMP_JLCC_Basic.pretty
+	All Oomp parts that have footprint and symbol details in their OOMP part (symbol file in base directory)
+	https://github.com/oomlout/oomlout_OOMP_kicad_V2/tree/main/oomlout_OOMP_parts.pretty
+
+### oomlout_OOMP_modules_V2
+https://github.com/oomlout/oomlout_OOMP_modules_V2/
+
+These are kicad modules (mostly just schematics at the moment), that can be copy and pasted into a kicad schematic and then connected with glue wire buses.
+
+### oomlout_OOMP_partNumbers_V2
+https://github.com/oomlout/oomlout_OOMP_partNumbers_V2
+
+Currently a work in progress to link manufacturer part numbers and distriubutor part numbers to OOMP items.
+
+### oomlout_OOMP_social_V2
+https://github.com/oomlout/oomlout_OOMP_social_V2
+
+A work in progress where summaries of various companies used parts can be compiled and looked over.
+
+
 
 	

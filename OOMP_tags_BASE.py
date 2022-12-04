@@ -8,15 +8,27 @@ def createTagMDs():
     outFile = "readmeCodes.md"
     mdFile = osb.newReadme(outFile)
     osb.addHeader(mdFile,"OOMP Codes Described",1)
-    line= """A part's ID has five parts
+    line= """# ID
+A part's ID has five parts
 
-    TYPE-SIZE-COLOR-DESCRIPTION-INDEX
+TYPE-SIZE-COLOR-DESCRIPTION-INDEX
 
-	* TYPE - This defines the part type (Ex. HEAD - Header, LEDS - LED)
-	* SIZE - This is the size category or package of a part (Ex.  I01 - 0.1", W04 - 1.4 Watt Resistor, 0603 - 0603 (SMD))
-	* COLOR - This is the parts color or material (Ex. R - Red, M - Metal ) (Default X)
-	* DESCRIPTION - This is a defining charachteristic of the part and is the same across a type (Ex. (HEAD) PI03 - 3 Pins, (RESE) O561 - 560 Ohms) (Default XXXX)
-	* INDEX - This is an additional piece of information that differentiates a part and can change within type (Ex. 67 - 1% tolerance, RA - right angle) (Default 01)
+* TYPE - This defines the part type (Ex. HEAD - Header, LEDS - LED)
+* SIZE - This is the size category or package of a part (Ex.  I01 - 0.1", W04 - 1.4 Watt Resistor, 0603 - 0603 (SMD))
+* COLOR - This is the parts color or material (Ex. R - Red, M - Metal ) (Default X)
+* DESCRIPTION - This is a defining charachteristic of the part and is the same across a type (Ex. (HEAD) PI03 - 3 Pins, (RESE) O561 - 560 Ohms) (Default XXXX)
+* INDEX - This is an additional piece of information that differentiates a part and can change within type (Ex. 67 - 1% tolerance, RA - right angle) (Default 01)
+
+# Name
+
+A part's name is back calculated from its ID.
+    
+SIZE DESCRIPTION COLOR TYPE INDEX
+
+Ex.
+* LEDS-10-R-FROS-01 - 10 mm Frosted Red LED
+* HEAD-I01-X-PI03-RA - 2.54 mm 3 Pin Header Right Angle
+
 """
     osb.addLine(mdFile,line)
     osb.addHeader(mdFile,"OOMP Tag Summary",2)
