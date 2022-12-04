@@ -103,28 +103,6 @@ PROJ-COMPANY CODE-ID-DESCRIPTION-VERSION
 
 
 
-* EDA
-	Not developed yet.
-
-## Notes
-
-### EDA
-
-#### Libraries used
-
-* Footprints
-	* Kicad Footprints - default footprints that ship with kicad (https://gitlab.com/kicad/libraries/kicad-footprints)
-	* Eagle Footprints - default footprints that ship with eagle (https://www.autodesk.co.uk/products/eagle/overview EAGLEINSTALL\cache\lbr)
-	* Sparkfun Footprints (Eagle) - footprints used by Sparkfun (https://github.com/sparkfun/SparkFun-Eagle-Libraries)
-	* OPL Footprints (Eagle) - the SEEED opl footprint library (https://github.com/Seeed-Studio/OPL_Eagle_Library)
-	* OPL Footprints (Kicad) - the SEEED opl footprint library (https://github.com/Seeed-Studio/OPL_Eagle_Library)
-
-* Symbols
-	* Kicad Symbols - default symbols that ship with kicad (https://gitlab.com/kicad/libraries/kicad-symbols)
-##### KIUTILS library notes
-
-https://github.com/mvnmgrx/kiutils
-
 
 
 ## Building from zero
@@ -158,7 +136,17 @@ Each Symbol is defined by:
 	SYMBOL-VENDORFORMAT-COMPANY-LIBRAYR-SYMBOLNAME
 
 	This isn't great as lots of libraries and names have "-"'s in them
-	
+
+* Footprints
+	* Kicad Footprints - default footprints that ship with kicad (https://gitlab.com/kicad/libraries/kicad-footprints)
+	* Eagle Footprints - default footprints that ship with eagle (https://www.autodesk.co.uk/products/eagle/overview EAGLEINSTALL\cache\lbr)
+	* Sparkfun Footprints (Eagle) - footprints used by Sparkfun (https://github.com/sparkfun/SparkFun-Eagle-Libraries)
+	* OPL Footprints (Eagle) - the SEEED opl footprint library (https://github.com/Seeed-Studio/OPL_Eagle_Library)
+	* OPL Footprints (Kicad) - the SEEED opl footprint library (https://github.com/Seeed-Studio/OPL_Eagle_Library)
+
+* Symbols
+	* Kicad Symbols - default symbols that ship with kicad (https://gitlab.com/kicad/libraries/kicad-symbols)
+
 ### oomlout_OOMP_collections_V2
 https://github.com/oomlout/oomlout_OOMP_collections_V2/	
 
@@ -200,4 +188,9 @@ A work in progress where summaries of various companies used parts can be compil
 
 
 
-	
+## Notes
+
+##### KIUTILS library notes
+
+https://github.com/mvnmgrx/kiutils
+
