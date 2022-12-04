@@ -156,14 +156,15 @@ def convertAllEagleToKicad(overwrite=False):
     filter = "eagleSchem.sch"
     print("     Getting glob of files")
     files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
-    
-    skips = ["ADAF\\0000","ADAF\\0014","ADAF\\0073","ADAF\\0089","ADAF\\0091","ADAF\\0194","ADAF\\0789","ADAF\\0795","ADAF\\0801","ADAF\\0802","SPAR\\0716","SPAR\\0717","SPAR\\0747","SPAR\\10406","SPAR\\10507","SPAR\\10547","SPAR\\10618","SPAR\\10701","SPAR\\10930"]
+        
     for file in files:
-        include = True            
+        skips = ["ADAF\\5591"]
+        include = True
         for skip in skips:
             if skip in file:
                 include = False
-        if include:
+
+        if include:        
             convertEagleToKicad(file,style="sch",overwrite=overwrite)    
 
 
@@ -239,10 +240,8 @@ def harvestAllKicad(overwrite=False,eda=False,fpFilter=[""]):
     print("     Getting glob of files")
     files = []
     if eda:
-        pass
         files.extend(glob.glob(OOMP.getDir("eda") + "**\\" + filter,recursive=True)    )        
     else:
-        pass
         files.extend(glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True))
         files.extend(glob.glob(OOMP.getDir("modules") + "**\\" + filter,recursive=True)    )
     skips = ["SOPA\\0010"]
@@ -256,7 +255,6 @@ def harvestAllKicad(overwrite=False,eda=False,fpFilter=[""]):
             if include:                
                 if any(ext in file for ext in fpFilter):
                     #print("Harverting Kicad Board: " + file)
-
                     harvestKicadBoard(file,overwrite=overwrite,eda=eda)    
     print("Harvesting all Kicad Schematics")
     filter = "kicadBoard.kicad_sch"
@@ -264,14 +262,10 @@ def harvestAllKicad(overwrite=False,eda=False,fpFilter=[""]):
     files = []
     files = glob.glob(OOMP.getDir("projects") + "**\\" + filter,recursive=True)
     files.extend(glob.glob(OOMP.getDir("modules") + "**\\" + filter,recursive=True))
-    skips = []
     for file in files:
         fileSize = os.stat(file).st_size
         if fileSize > 2000:
-            include = True            
-            for skip in skips:
-                if skip in file:
-                    include = False
+            include = True
             if include:
                 #print("Harvesting Kicad Schem: " + file)
                 harvestKicadSchem(file,overwrite=overwrite) 
@@ -285,10 +279,6 @@ def harvestKicadBoard(filename="",overwrite=False,eda=False):
     kicadBoard = filename
     ping()
     if os.path.isfile(kicadBoard):
-        ###### add frameless kicad pro
-        inFile = "templates/kicadBoard.kicad_pro"
-        outFile = filename.replace("kicadBoard.kicad_pcb","kicadBoard.kicad_pro")
-        oomCopyFile(inFile,outFile)
         run = False
         if eda:
             fileTest = dirBase + "src/kicadBoardSvg.svg"
@@ -321,47 +311,39 @@ def svgKicadBoard(item,overwrite = False):
     pass
     kicadSVGBoard = OOMP.getFileItem(item,"kicadBoardSvg")
     kicadSVGBoardSimple = OOMP.getFileItem(item,"kicadBoardSvgSimple")
-    if overwrite or not os.path.isfile(kicadSVGBoardSimple):
+    if overwrite or not os.path.isfile(kicadSVGBoard) or not os.path.isfile(kicadSVGBoardSimple):
         pass
         base = OOMP.getFileItem(item,"") + "src/kicadBoard"
         first = "-B_Cu.svg"
         if not os.path.isfile(base + first):
             base = OOMP.getFileItem(item,"") + "src/sourceFiles/kicadBoard"
         if os.path.isfile(base + first):
-            ###### FULL
             start = base+first
-            template = st.fromfile(start)            
-            layers = ["-B_Adhesive.svg","-B_Courtyard.svg","-B_Fab.svg","-B_Mask.svg","-B_Paste.svg","-B_Silkscreen.svg","-Edge_Cuts.svg","-F_Adhesive.svg","-F_Courtyard.svg",
-            "-F_Fab.svg","-F_Mask.svg","-F_Paste.svg","-F_Silkscreen.svg","-Margin.svg","-F_Cu.svg"]
+            template = st.fromfile(start)
+            
+            layers = ["-B_Adhesive.svg","-B_Courtyard.svg","-B_Fab.svg","-B_Mask.svg","-B_Paste.svg","-B_Silkscreen.svg","-Edge_Cuts.svg","-F_Adhesive.svg","-F_Courtyard.svg","-F_Cu.svg","-F_Fab.svg","-F_Mask.svg","-F_Paste.svg","-F_Silkscreen.svg","-Margin.svg","-F_Cu.svg"]
             for layer in layers:
-                try:
-                    layerFile = base + layer
-                    second_svg = st.fromfile(layerFile)
-                    template.append(second_svg.root)                
-                except:
-                    print("Missing Layer in: " + item["oompID"][0] + " " + layer)
+                layerFile = base + layer
+                second_svg = st.fromfile(layerFile)
+                template.append(second_svg.root)                
             template.save(kicadSVGBoard)
             kicadPNGBoard = OOMP.getFileItem(item,"kicadBoardSvg",extension="png")
             kicadPDFBoard = OOMP.getFileItem(item,"kicadBoardSvg",extension="pdf")
             oomMakePNG(kicadSVGBoard,kicadPNGBoard)
             oomMakePDF(kicadSVGBoard,kicadPDFBoard)
-            ###### SIMPLE
+            
             start = base+first
             template = st.fromfile(start)            
             layers = ["-B_Courtyard.svg","-F_Courtyard.svg","-F_Cu.svg"]
             for layer in layers:
-                try:
-                    layerFile = base + layer
-                    second_svg = st.fromfile(layerFile)
-                    template.append(second_svg.root)                
-                except:
-                    print("Missing Layer in: " + item["oompID"][0] + " " + layer)
+                layerFile = base + layer
+                second_svg = st.fromfile(layerFile)
+                template.append(second_svg.root)                
             template.save(kicadSVGBoardSimple)
             kicadPNGBoard = OOMP.getFileItem(item,"kicadBoardSvgSimple",extension="png")
             kicadPDFBoard = OOMP.getFileItem(item,"kicadBoardSvgSimple",extension="pdf")
             oomMakePNG(kicadSVGBoardSimple,kicadPNGBoard)
             oomMakePDF(kicadSVGBoardSimple,kicadPDFBoard)
-
         else:
             pass
             #print("     svgKicadBoard: svg files not found")
@@ -388,12 +370,7 @@ def harvestKicadSchem(file="",directory="",part="",overwrite=False,filter="proje
     ping()
     if os.path.isfile(kicadBoard) and (overwrite or True):
         if overwrite or not os.path.isfile(imageFile):
-
-            ###### add frameless kicad pro
-            inFile = "templates/kicadBoard.kicad_pro"
-            outFile = kicadBoard.replace("kicadBoard.kicad_sch","kicadBoard.kicad_pro")
-            oomCopyFile(inFile,outFile)
-
+            print("Harvesting Kicad Board File: " + kicadBoard)
             oomLaunchPopen("eeschema.exe " + kicadBoard,10)
             oomMouseMove(pos=kicadFootprintMiddle,delay=2)
             oomMouseMove(pos=kicadActive,delay=2)
