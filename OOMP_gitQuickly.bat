@@ -58,4 +58,11 @@ git commit -m %COMMENT%
 git push
 cd ..
 
+cd oomlout_OOMP_flask_V2
+git pull
+git add -A
+git commit -m %COMMENT%
+git push
+cd ..
+
 pause

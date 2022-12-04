@@ -11,11 +11,11 @@ def createSummary(item,overwrite=False):
     #print("    Making Summary")
     generateReadme(item,overwrite)
 
-def generateReadme(item,overwrite=False):  
+def generateReadme(item,overwrite=False,mode=""):  
     oompID = item["oompID"][0]
     ping(1000)
     filename = OOMP.getFileItem(item,"readme")
-    if not os.path.isfile(filename) or overwrite:       
+    if not os.path.isfile(filename) or overwrite or mode != "":       
         rFile = newReadme(filename)
         ## Add main image
         addMainImage(item,rFile)
@@ -39,7 +39,11 @@ def generateReadme(item,overwrite=False):
         addTags(item,rFile)
         addToc(rFile)
         #print("Writing Readme: " + oompID)
-        saveReadme(rFile)
+        if mode == "":
+            saveReadme(rFile)
+        else:
+            return rFile.file_data_text
+
 
 #########################################################################
 ######  Collections
