@@ -131,8 +131,9 @@ def createFootprintBoardFile(item):
 
     
             board.to_file(outFile)
-        except UnicodeDecodeError:
-            print("       Unicode Error: " + str(item["oompID"]))
+        except UnicodeDecodeError as e:
+            print("       Unicode Error OOMP_footprints_BASE (sometmes funky quotes): " + str(item["oompID"][0]))
+            ##### look out for funky quotes being added to cause this
 
 def createFootprintLibrary(directory="oomlout_OOMP_kicad_V2/oomlout_OOMP_parts.pretty/",style=""):
     outDir = directory
