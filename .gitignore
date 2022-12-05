@@ -17,6 +17,7 @@ oomlout_OOMP_kicad_V2/
 oomlout_OOMP_collections_V2/
 oomlout_OOMP_partNumbers_V2/
 oomlout_OOMP_social_V2/
+oomlout_OOMP_flask_V2/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

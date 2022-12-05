@@ -184,10 +184,17 @@ def loadPickle():
     f = open(picklePartsFile,"rb")
     items = pickle.load(f)
     loadItemTypes()    
+    loadItemsHex()
     print(getReport(startTime=start))
     pass
 
 import time
+
+def loadItemsHex():
+    for itemID in items:
+        item = items[itemID]
+        hexID = item["hexID"][0]
+        itemsHex[hexID] = item
 
 def makePickle(exclusions=True):
     print("Making Pickle:")

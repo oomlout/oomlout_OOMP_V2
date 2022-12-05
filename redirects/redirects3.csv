@@ -7970,6 +7970,8 @@ https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-f
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_JAE_DX07S024WJ1R350/,fzkcnuucreceptaclejaedx7s24wj1r35
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_JAE_DX07S024WJ3R400/,footprint-kicad-kicad-footprints-connector_usb-usb_c_receptacle_jae_dx07s024wj3r400
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_JAE_DX07S024WJ3R400/,fzkcnuucreceptaclejaedx7s24wj3r4
+https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_Molex_105450-0101/,footprint-kicad-kicad-footprints-connector_usb-usb_c_receptacle_molex_105450-0101
+https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_Molex_105450-0101/,fzkcnuucreceptaclemx154511
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_Palconn_UTC16-G/,footprint-kicad-kicad-footprints-connector_usb-usb_c_receptacle_palconn_utc16-g
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_Palconn_UTC16-G/,fzkcnuucreceptaclepalcutc16g
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Connector_USB/USB_C_Receptacle_XKB_U262-16XN-4BVC11/,footprint-kicad-kicad-footprints-connector_usb-usb_c_receptacle_xkb_u262-16xn-4bvc11
@@ -12782,6 +12784,8 @@ https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-f
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_BGA/Xilinx_SBG485/,fzkbgaxilinxsbg485
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/Analog_LFCSP-8-1EP_3x3mm_P0.5mm_EP1.53x1.85mm/,footprint-kicad-kicad-footprints-package_csp-analog_lfcsp-8-1ep_3x3mm_p0.5mm_ep1.53x1.85mm
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/Analog_LFCSP-8-1EP_3x3mm_P0.5mm_EP1.53x1.85mm/,fzkcspanaloglfcsp81ep3x3p5ep153x185
+https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm/,footprint-kicad-kicad-footprints-package_csp-analog_lfcsp-uq-10_1.3x1.6mm_p0.4mm
+https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/Analog_LFCSP-UQ-10_1.3x1.6mm_P0.4mm/,fzkcspanaloglfcspuq113x16p4
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm/,footprint-kicad-kicad-footprints-package_csp-lfcsp-16-1ep_3x3mm_p0.5mm_ep1.3x1.3mm
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm/,fzkcsplfcsp161ep3x3p5ep13x13
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm_ThermalVias/,footprint-kicad-kicad-footprints-package_csp-lfcsp-16-1ep_3x3mm_p0.5mm_ep1.3x1.3mm_thermalvias
@@ -12864,8 +12868,6 @@ https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-f
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-8-1EP_3x3mm_P0.5mm_EP1.6x2.34mm_ThermalVias/,fzkcsplfcsp81ep3x3p5ep16x234thv
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-8_2x2mm_P0.5mm/,footprint-kicad-kicad-footprints-package_csp-lfcsp-8_2x2mm_p0.5mm
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-8_2x2mm_P0.5mm/,fzkcsplfcsp82x2p5
-https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-UQ-10_1.3x1.6mm_P0.4mm/,footprint-kicad-kicad-footprints-package_csp-lfcsp-uq-10_1.3x1.6mm_p0.4mm
-https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-UQ-10_1.3x1.6mm_P0.4mm/,fzkcsplfcspuq113x16p4
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-VQ-24-1EP_4x4mm_P0.5mm_EP2.642x2.642mm/,footprint-kicad-kicad-footprints-package_csp-lfcsp-vq-24-1ep_4x4mm_p0.5mm_ep2.642x2.642mm
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-VQ-24-1EP_4x4mm_P0.5mm_EP2.642x2.642mm/,fzkcsplfcspvq241ep4x4p5ep2642x2642
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/FOOTPRINT/kicad/kicad-footprints/Package_CSP/LFCSP-VQ-48-1EP_7x7mm_P0.5mm/,footprint-kicad-kicad-footprints-package_csp-lfcsp-vq-48-1ep_7x7mm_p0.5mm
@@ -19996,5 +19998,3 @@ https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/SYMBOL/kicad/oomlout_OO
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/SYMBOL/kicad/oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic/RESE-0603-X-O221-01-R6O221-C22962/,szoompkjlcrese63xo2211r6o221c22962
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/SYMBOL/kicad/oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic/RESE-0603-X-O222-01-R6O222-C4190/,symbol-kicad-oomlout_oomp_kicad-oomlout_oomp_jlcc_basic-rese-0603-x-o222-01-r6o222-c4190
 https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/SYMBOL/kicad/oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic/RESE-0603-X-O222-01-R6O222-C4190/,szoompkjlcrese63xo2221r6o222c419
-https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/SYMBOL/kicad/oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic/RESE-0603-X-O223-01-R6O223-C31850/,symbol-kicad-oomlout_oomp_kicad-oomlout_oomp_jlcc_basic-rese-0603-x-o223-01-r6o223-c31850
-https://github.com/oomlout/oomlout_OOMP_eda_V2/tree/main/SYMBOL/kicad/oomlout_OOMP_kicad/oomlout_OOMP_JLCC_Basic/RESE-0603-X-O223-01-R6O223-C31850/,szoompkjlcrese63xo2231r6o223c3185
